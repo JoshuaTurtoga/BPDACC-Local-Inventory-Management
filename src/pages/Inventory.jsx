@@ -6,6 +6,16 @@ const Inventory = () => {
   const [showMoreInfo, setShowMoreInfo] = useState(null)
   const [showEditModal, setShowEditModal] = useState(null)
   const [showAddModal, setShowAddModal] = useState(false)
+  const [showTransactionModal, setShowTransactionModal] = useState({ visible: false, isEdit: false, index: null })
+  const [transactionForm, setTransactionForm] = useState({
+    date: '',
+    reference: '',
+    selectedBatch: null,
+    receiptQty: 0,
+    issuanceQty: 0,
+    office: 'Hemodialysis',
+    balance: 0
+  })
   const [expandedItems, setExpandedItems] = useState(new Set())
   const [addFormData, setAddFormData] = useState({
     name: '',
@@ -33,9 +43,17 @@ const Inventory = () => {
       minStock: 100,
       unit: 'pcs',
       batches: [
-        { batchId: 'B-001', brand: 'BD Medical', supplier: 'Medical Supply Co', stockNumber: 'SN-001', expiryDate: null, office: 'Hemodialysis', stock: 250 },
-        { batchId: 'B-002', brand: 'BD Medical', supplier: 'Medical Supply Co', stockNumber: 'SN-002', expiryDate: null, office: 'Clinical Laboratory', stock: 320 },
-        { batchId: 'B-003', brand: 'BD Medical', supplier: 'Medical Supply Co', stockNumber: 'SN-003', expiryDate: null, office: 'Hemodialysis', stock: 200 }
+        { batchId: 'B-001', brand: 'BD Medical', supplier: 'Medical Supply Co', stockNumber: 'SN-001', expiryDate: null, office: 'Hemodialysis', stock: 250, transactionCount: 3 },
+        { batchId: 'B-002', brand: 'BD Medical', supplier: 'Medical Supply Co', stockNumber: 'SN-002', expiryDate: null, office: 'Clinical Laboratory', stock: 320, transactionCount: 1 },
+        { batchId: 'B-003', brand: 'BD Medical', supplier: 'Medical Supply Co', stockNumber: 'SN-003', expiryDate: null, office: 'Hemodialysis', stock: 200, transactionCount: 0 }
+      ],
+      transactions: [
+        { date: '2026-06-01', reference: 'Initial Stock', selectedBatch: null, receiptQty: 770, issuanceQty: 0, office: 'All', balance: 770 },
+        { date: '2026-06-05', reference: 'MED-001B-001-1', selectedBatch: 'B-001', receiptQty: 0, issuanceQty: 50, office: 'Hemodialysis', balance: 720 },
+        { date: '2026-06-06', reference: 'MED-001B-001-2', selectedBatch: 'B-001', receiptQty: 0, issuanceQty: 40, office: 'Hemodialysis', balance: 680 },
+        { date: '2026-06-07', reference: 'MED-001B-001-3', selectedBatch: 'B-001', receiptQty: 0, issuanceQty: 30, office: 'Hemodialysis', balance: 650 },
+        { date: '2026-06-10', reference: 'MED-001B-003-1', selectedBatch: 'B-003', receiptQty: 200, issuanceQty: 0, office: 'Hemodialysis', balance: 850 },
+        { date: '2026-06-15', reference: 'MED-001B-002-1', selectedBatch: 'B-002', receiptQty: 0, issuanceQty: 80, office: 'Clinical Laboratory', balance: 770 }
       ]
     },
     {
@@ -46,8 +64,12 @@ const Inventory = () => {
       minStock: 50,
       unit: 'packs',
       batches: [
-        { batchId: 'B-004', brand: 'Johnson & Johnson', supplier: 'Healthcare Plus', stockNumber: 'SN-004', expiryDate: '2026-07-15', office: 'Radiology', stock: 80 },
-        { batchId: 'B-005', brand: 'Johnson & Johnson', supplier: 'Healthcare Plus', stockNumber: 'SN-005', expiryDate: '2027-03-20', office: 'Radiology', stock: 40 }
+        { batchId: 'B-004', brand: 'Johnson & Johnson', supplier: 'Healthcare Plus', stockNumber: 'SN-004', expiryDate: '2026-07-15', office: 'Radiology', stock: 80, transactionCount: 1 },
+        { batchId: 'B-005', brand: 'Johnson & Johnson', supplier: 'Healthcare Plus', stockNumber: 'SN-005', expiryDate: '2027-03-20', office: 'Radiology', stock: 40, transactionCount: 0 }
+      ],
+      transactions: [
+        { date: '2026-06-02', reference: 'Initial Stock', selectedBatch: null, receiptQty: 120, issuanceQty: 0, office: 'All', balance: 120 },
+        { date: '2026-06-08', reference: 'MED-002B-004-1', selectedBatch: 'B-004', receiptQty: 0, issuanceQty: 40, office: 'Radiology', balance: 80 }
       ]
     }
   ])
@@ -148,7 +170,18 @@ const Inventory = () => {
           stockNumber: addFormData.initialBatch.stockNumber,
           office: addFormData.initialBatch.office,
           stock: addFormData.initialBatch.stock,
-          expiryDate: addFormData.initialBatch.hasExpiry ? addFormData.initialBatch.expiryDate : null
+          expiryDate: addFormData.initialBatch.hasExpiry ? addFormData.initialBatch.expiryDate : null,
+          transactionCount: 0
+        }
+      ],
+      transactions: [
+        {
+          date: new Date().toISOString().split('T')[0],
+          reference: 'Initial Stock',
+          receiptQty: addFormData.initialBatch.stock,
+          issuanceQty: 0,
+          office: addFormData.initialBatch.office,
+          balance: addFormData.initialBatch.stock
         }
       ]
     }
@@ -171,6 +204,110 @@ const Inventory = () => {
         expiryDate: ''
       }
     })
+  }
+
+  const handleOpenTransactionModal = (isEdit = false, index = null) => {
+    if (isEdit && showMoreInfo && showMoreInfo.transactions && showMoreInfo.transactions[index]) {
+      const tx = showMoreInfo.transactions[index]
+      setTransactionForm({
+        date: tx.date,
+        reference: tx.reference,
+        selectedBatch: tx.selectedBatch || null,
+        receiptQty: tx.receiptQty,
+        issuanceQty: tx.issuanceQty,
+        office: tx.office,
+        balance: tx.balance
+      })
+    } else {
+      setTransactionForm({
+        date: new Date().toISOString().split('T')[0],
+        reference: '',
+        selectedBatch: null,
+        receiptQty: 0,
+        issuanceQty: 0,
+        office: 'Hemodialysis',
+        balance: showMoreInfo ? getTotalStock(showMoreInfo) : 0
+      })
+    }
+    setShowTransactionModal({ visible: true, isEdit, index })
+  }
+
+  const handleSaveTransaction = () => {
+    if (!showMoreInfo) return
+
+    const updatedItems = [...inventoryItems]
+    const itemIndex = updatedItems.findIndex(item => item.id === showMoreInfo.id)
+
+    if (itemIndex === -1) return
+
+    const item = { ...updatedItems[itemIndex] }
+    let transactions = [...(item.transactions || [])]
+
+    if (showTransactionModal.isEdit && showTransactionModal.index !== null) {
+      // Update existing transaction
+      transactions[showTransactionModal.index] = { ...transactionForm }
+    } else {
+      // Add new transaction
+      const lastTx = transactions.length > 0 ? transactions[transactions.length - 1] : null
+      const newBalance = lastTx
+        ? lastTx.balance + transactionForm.receiptQty - transactionForm.issuanceQty
+        : transactionForm.receiptQty - transactionForm.issuanceQty
+
+      // Auto-generate reference with incrementing count
+      let reference = transactionForm.reference
+      let newTransactionCount = null
+      if (transactionForm.selectedBatch && showMoreInfo) {
+        const batchIndex = item.batches.findIndex(b => b.batchId === transactionForm.selectedBatch)
+        if (batchIndex !== -1) {
+          const batch = { ...item.batches[batchIndex] }
+          newTransactionCount = (batch.transactionCount || 0) + 1
+          batch.transactionCount = newTransactionCount
+          item.batches = [...item.batches]
+          item.batches[batchIndex] = batch
+
+          if (!reference) {
+            reference = `${showMoreInfo.sku}${transactionForm.selectedBatch}-${newTransactionCount}`
+          }
+        }
+      }
+
+      transactions.push({
+        ...transactionForm,
+        reference,
+        balance: newBalance
+      })
+    }
+
+    item.transactions = transactions
+    updatedItems[itemIndex] = item
+    setInventoryItems(updatedItems)
+    setShowMoreInfo(item)
+    setShowTransactionModal({ visible: false, isEdit: false, index: null })
+  }
+
+  const handleDeleteTransaction = (index) => {
+    if (!showMoreInfo || !window.confirm('Are you sure you want to delete this transaction?')) return
+
+    const updatedItems = [...inventoryItems]
+    const itemIndex = updatedItems.findIndex(item => item.id === showMoreInfo.id)
+
+    if (itemIndex === -1) return
+
+    const item = { ...updatedItems[itemIndex] }
+    let transactions = [...(item.transactions || [])]
+    transactions.splice(index, 1)
+
+    // Recalculate balances
+    let balance = 0
+    transactions = transactions.map((tx, idx) => {
+      balance = balance + tx.receiptQty - tx.issuanceQty
+      return { ...tx, balance }
+    })
+
+    item.transactions = transactions
+    updatedItems[itemIndex] = item
+    setInventoryItems(updatedItems)
+    setShowMoreInfo(item)
   }
 
   return (
@@ -330,87 +467,91 @@ const Inventory = () => {
         </div>
       </div>
 
-      {/* More Info Modal */}
+      {/* Stock Card Modal */}
       {showMoreInfo && (
         <div className="modal-overlay" onClick={() => setShowMoreInfo(null)}>
           <div className="modal modal-large" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-header">
-              <h2 className="modal-title">Item Details: {showMoreInfo.name}</h2>
+            <div className="modal-header no-print">
+              <h2 className="modal-title">Stock Card: {showMoreInfo.name}</h2>
               <button className="close-btn" onClick={() => setShowMoreInfo(null)}>×</button>
             </div>
             <div className="modal-body">
-              <div className="detail-section">
-                <div className="detail-grid">
-                  <div className="detail-item">
-                    <span className="detail-label">SKU:</span>
-                    <span className="detail-value">{showMoreInfo.sku}</span>
+              {/* Stock Card Header */}
+              <div className="stock-card-header">
+                <div className="clinic-info">
+                  <h3>Provincial Health Office</h3>
+                  <p>Bohol, Province of Bohol - Ambulatory Care Center</p>
+                  <p>Tel. No.: (038) 512-3456</p>
+                </div>
+                <div className="stock-card-info">
+                  <div className="stock-card-field">
+                    <span className="field-label">Item:</span>
+                    <span className="field-value">{showMoreInfo.name}</span>
                   </div>
-                  <div className="detail-item">
-                    <span className="detail-label">Location:</span>
-                    <span className="detail-value">{showMoreInfo.location}</span>
+                  <div className="stock-card-field">
+                    <span className="field-label">Stock No.:</span>
+                    <span className="field-value">{showMoreInfo.sku}</span>
                   </div>
-                  <div className="detail-item">
-                    <span className="detail-label">Total Stock:</span>
-                    <span className="detail-value">{getTotalStock(showMoreInfo)} {showMoreInfo.unit}</span>
+                  <div className="stock-card-field">
+                    <span className="field-label">Reorder Point:</span>
+                    <span className="field-value">{showMoreInfo.minStock} {showMoreInfo.unit}</span>
+                  </div>
+                  <div className="stock-card-field">
+                    <span className="field-label">Unit:</span>
+                    <span className="field-value">{showMoreInfo.unit}</span>
                   </div>
                 </div>
               </div>
 
-              <div className="detail-section">
-                <h4 className="detail-subtitle">Batches / Lots</h4>
-                <table className="allocations-table">
+              <div className="stock-card-actions no-print" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                <h4 className="detail-subtitle" style={{ margin: 0 }}>Transaction Log</h4>
+                <button className="btn-primary" onClick={() => handleOpenTransactionModal(false, null)}>
+                  ➕ Add Transaction
+                </button>
+              </div>
+
+              {/* Transaction Table */}
+              <div className="stock-card-table-container">
+                <table className="stock-card-table">
                   <thead>
                     <tr>
-                      <th>Batch ID</th>
-                      <th>Brand</th>
-                      <th>Supplier</th>
-                      <th>Stock #</th>
+                      <th rowSpan={2}>Date</th>
+                      <th rowSpan={2}>Reference</th>
+                      <th rowSpan={2}>Receipt<br/>Qty</th>
+                      <th colSpan={2} className="table-header-group">Issuance</th>
+                      <th rowSpan={2}>Balance<br/>Qty</th>
+                      <th rowSpan={2} className="actions-header no-print">Actions</th>
+                    </tr>
+                    <tr>
+                      <th>Qty</th>
                       <th>Office</th>
-                      <th>Stock</th>
-                      <th>Expiry Date</th>
-                      <th>Status</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {showMoreInfo.batches.map((batch, idx) => {
-                      const batchExpired = isExpired(batch.expiryDate)
-                      const batchNearExpiry = isNearExpiry(batch.expiryDate)
-                      let batchStatus = { label: 'OK', type: 'ok' }
-                      
-                      if (batchExpired) {
-                        batchStatus = { label: 'Expired', type: 'expired' }
-                      } else if (batchNearExpiry) {
-                        batchStatus = { label: 'Near Expiry', type: 'near-expiry' }
-                      }
-                      
-                      return (
-                        <tr key={idx}>
-                          <td>{batch.batchId}</td>
-                          <td>{batch.brand || '-'}</td>
-                          <td>{batch.supplier || '-'}</td>
-                          <td>{batch.stockNumber || '-'}</td>
-                          <td>{batch.office}</td>
-                          <td>{batch.stock} {showMoreInfo.unit}</td>
-                          <td>{formatExpiryDate(batch.expiryDate)}</td>
-                          <td>
-                            <span className={`status-badge ${batchStatus.type}`}>
-                              {batchStatus.label}
-                            </span>
-                          </td>
-                        </tr>
-                      )
-                    })}
+                    {showMoreInfo.transactions && showMoreInfo.transactions.map((tx, idx) => (
+                      <tr key={idx}>
+                        <td>{new Date(tx.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</td>
+                        <td>{tx.reference}</td>
+                        <td className="number-cell">{tx.receiptQty > 0 ? tx.receiptQty : ''}</td>
+                        <td className="number-cell">{tx.issuanceQty > 0 ? tx.issuanceQty : ''}</td>
+                        <td>{tx.issuanceQty > 0 ? tx.office : ''}</td>
+                        <td className="number-cell">{tx.balance}</td>
+                        <td className="transaction-actions no-print">
+                          <button className="btn-icon" onClick={() => handleOpenTransactionModal(true, idx)} title="Edit">
+                            ✏️
+                          </button>
+                          <button className="btn-icon" onClick={() => handleDeleteTransaction(idx)} title="Delete">
+                            🗑️
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
-                  <tfoot>
-                    <tr>
-                      <td colSpan={4}>Total</td>
-                      <td colSpan={4}>{getTotalStock(showMoreInfo)} {showMoreInfo.unit}</td>
-                    </tr>
-                  </tfoot>
                 </table>
               </div>
             </div>
-            <div className="modal-footer">
+            <div className="modal-footer no-print">
+              <button className="btn-primary" onClick={() => window.print()}>🖨️ Print</button>
               <button className="btn-secondary" onClick={() => setShowMoreInfo(null)}>Close</button>
             </div>
           </div>
@@ -502,6 +643,110 @@ const Inventory = () => {
                 <button className="btn-secondary" onClick={() => setShowEditModal(null)}>Cancel</button>
                 <button className="btn-primary" onClick={() => setShowEditModal(null)}>Save Changes</button>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Transaction Edit Modal */}
+      {showTransactionModal.visible && (
+        <div className="modal-overlay" onClick={() => setShowTransactionModal({ visible: false, isEdit: false, index: null })}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2 className="modal-title">
+                {showTransactionModal.isEdit ? 'Edit Transaction' : 'Add Transaction'}
+              </h2>
+              <button className="close-btn" onClick={() => setShowTransactionModal({ visible: false, isEdit: false, index: null })}>×</button>
+            </div>
+            <div className="modal-body">
+              <div className="edit-form">
+                <div className="form-group">
+                  <label className="form-label">Date</label>
+                  <input
+                    type="date"
+                    className="form-input"
+                    value={transactionForm.date}
+                    onChange={(e) => setTransactionForm({ ...transactionForm, date: e.target.value })}
+                  />
+                </div>
+                {showMoreInfo && showMoreInfo.batches && showMoreInfo.batches.length > 0 && (
+                  <div className="form-group">
+                    <label className="form-label">Batch</label>
+                    <select
+                      className="form-input"
+                      value={transactionForm.selectedBatch || ''}
+                      onChange={(e) => {
+                        const selectedBatch = e.target.value || null
+                        let reference = transactionForm.reference
+                        if (selectedBatch) {
+                          const batch = showMoreInfo.batches.find(b => b.batchId === selectedBatch)
+                          const nextCount = (batch?.transactionCount || 0) + 1
+                          reference = `${showMoreInfo.sku}${selectedBatch}-${nextCount}`
+                        }
+                        setTransactionForm({ ...transactionForm, selectedBatch, reference })
+                      }}
+                    >
+                      <option value="">Select a Batch</option>
+                      {showMoreInfo.batches.map((batch, idx) => (
+                        <option key={idx} value={batch.batchId}>
+                          {batch.batchId} - {batch.brand || 'No Brand'} ({batch.stock} {showMoreInfo.unit}) - Issued {batch.transactionCount || 0}x
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+                <div className="form-group">
+                  <label className="form-label">Reference</label>
+                  <input
+                    type="text"
+                    className="form-input"
+                    value={transactionForm.reference}
+                    onChange={(e) => setTransactionForm({ ...transactionForm, reference: e.target.value })}
+                  />
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                  <div className="form-group">
+                    <label className="form-label">Receipt Qty</label>
+                    <input
+                      type="number"
+                      className="form-input"
+                      value={transactionForm.receiptQty}
+                      onChange={(e) => setTransactionForm({ ...transactionForm, receiptQty: parseInt(e.target.value) || 0 })}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label">Issuance Qty</label>
+                    <input
+                      type="number"
+                      className="form-input"
+                      value={transactionForm.issuanceQty}
+                      onChange={(e) => setTransactionForm({ ...transactionForm, issuanceQty: parseInt(e.target.value) || 0 })}
+                    />
+                  </div>
+                </div>
+                <div className="form-group">
+                  <label className="form-label">Office</label>
+                  <select
+                    className="form-input"
+                    value={transactionForm.office}
+                    onChange={(e) => setTransactionForm({ ...transactionForm, office: e.target.value })}
+                  >
+                    <option value="Hemodialysis">Hemodialysis</option>
+                    <option value="Clinical Laboratory">Clinical Laboratory</option>
+                    <option value="Radiology">Radiology</option>
+                    <option value="Admin Office">Admin Office</option>
+                    <option value="All">All</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button className="btn-secondary" onClick={() => setShowTransactionModal({ visible: false, isEdit: false, index: null })}>
+                Cancel
+              </button>
+              <button className="btn-primary" onClick={handleSaveTransaction}>
+                Save
+              </button>
             </div>
           </div>
         </div>
@@ -999,6 +1244,26 @@ const Inventory = () => {
           z-index: 1000;
         }
 
+        /* Print Styles */
+        @media print {
+          .no-print {
+            display: none !important;
+          }
+          .modal {
+            box-shadow: none !important;
+            max-width: 100% !important;
+            max-height: none !important;
+            overflow: visible !important;
+          }
+          .stock-card-table-container {
+            overflow: visible !important;
+          }
+          .modal-body {
+            overflow: visible !important;
+            padding: 0 !important;
+          }
+        }
+
         .modal {
           background: white;
           border-radius: 12px;
@@ -1167,6 +1432,99 @@ const Inventory = () => {
 
         .form-input:focus {
           border-color: #1e40af;
+        }
+
+        /* Stock Card Styles */
+        .stock-card-header {
+          display: flex;
+          flex-direction: column;
+          gap: 24px;
+          margin-bottom: 24px;
+          border: 2px solid #1f2937;
+          padding: 20px;
+          border-radius: 8px;
+        }
+
+        .clinic-info {
+          text-align: center;
+        }
+
+        .clinic-info h3 {
+          margin: 0 0 4px 0;
+          font-size: 18px;
+          font-weight: 700;
+          color: #1f2937;
+        }
+
+        .clinic-info p {
+          margin: 0;
+          font-size: 14px;
+          color: #4b5563;
+        }
+
+        .stock-card-info {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 16px;
+        }
+
+        .stock-card-field {
+          display: flex;
+          justify-content: space-between;
+          gap: 12px;
+        }
+
+        .field-label {
+          font-size: 14px;
+          font-weight: 600;
+          color: #1f2937;
+        }
+
+        .field-value {
+          font-size: 14px;
+          color: #4b5563;
+        }
+
+        .stock-card-table-container {
+          overflow-x: auto;
+        }
+
+        .stock-card-table {
+          width: 100%;
+          border-collapse: collapse;
+        }
+
+        .stock-card-table th,
+        .stock-card-table td {
+          border: 1px solid #000;
+          padding: 10px;
+          text-align: left;
+        }
+
+        .stock-card-table th {
+          background: #f3f4f6;
+          font-weight: 700;
+          font-size: 12px;
+          text-align: center;
+        }
+
+        .table-header-group {
+          border-left: 1px solid #000;
+          background: #e5e7eb;
+        }
+
+        .table-header-space {
+          width: 40px;
+        }
+
+        .transaction-actions {
+          display: flex;
+          gap: 8px;
+          justify-content: center;
+        }
+
+        .actions-header {
+          width: 100px;
         }
 
         .form-input:disabled {
