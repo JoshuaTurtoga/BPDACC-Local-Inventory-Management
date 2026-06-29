@@ -346,10 +346,11 @@ const Reports = () => {
         }
 
         .stats-grid {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
+          display: flex;
           gap: 20px;
           margin-bottom: 24px;
+          overflow-x: auto;
+          padding-bottom: 8px;
         }
 
         .stat-card {
@@ -361,6 +362,8 @@ const Reports = () => {
           gap: 16px;
           box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
           min-height: 100px;
+          min-width: 280px;
+          flex-shrink: 0;
         }
 
         .stat-icon {
