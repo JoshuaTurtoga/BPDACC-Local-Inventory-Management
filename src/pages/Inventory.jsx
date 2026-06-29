@@ -7,6 +7,50 @@ const Inventory = () => {
   const [showEditModal, setShowEditModal] = useState(null)
   const [showAddModal, setShowAddModal] = useState(false)
   const [expandedItems, setExpandedItems] = useState(new Set())
+  const [addFormData, setAddFormData] = useState({
+    name: '',
+    location: '',
+    unit: 'pcs',
+    minStock: 0,
+    hasInitialBatch: false,
+    initialBatch: {
+      batchId: '',
+      brand: '',
+      supplier: '',
+      stockNumber: '',
+      office: 'Hemodialysis',
+      stock: 0,
+      hasExpiry: false,
+      expiryDate: ''
+    }
+  })
+  const [inventoryItems, setInventoryItems] = useState([
+    {
+      id: 1,
+      sku: 'MED-001',
+      name: 'Syringes 5ml',
+      location: 'Shelf A-12',
+      minStock: 100,
+      unit: 'pcs',
+      batches: [
+        { batchId: 'B-001', brand: 'BD Medical', supplier: 'Medical Supply Co', stockNumber: 'SN-001', expiryDate: null, office: 'Hemodialysis', stock: 250 },
+        { batchId: 'B-002', brand: 'BD Medical', supplier: 'Medical Supply Co', stockNumber: 'SN-002', expiryDate: null, office: 'Clinical Laboratory', stock: 320 },
+        { batchId: 'B-003', brand: 'BD Medical', supplier: 'Medical Supply Co', stockNumber: 'SN-003', expiryDate: null, office: 'Hemodialysis', stock: 200 }
+      ]
+    },
+    {
+      id: 2,
+      sku: 'MED-002',
+      name: 'Gauze Pads (4x4)',
+      location: 'Shelf B-05',
+      minStock: 50,
+      unit: 'packs',
+      batches: [
+        { batchId: 'B-004', brand: 'Johnson & Johnson', supplier: 'Healthcare Plus', stockNumber: 'SN-004', expiryDate: '2026-07-15', office: 'Radiology', stock: 80 },
+        { batchId: 'B-005', brand: 'Johnson & Johnson', supplier: 'Healthcare Plus', stockNumber: 'SN-005', expiryDate: '2027-03-20', office: 'Radiology', stock: 40 }
+      ]
+    }
+  ])
 
   // Helper to check if date is near expiry (within 30 days)
   const isNearExpiry = (expiryDate) => {
@@ -26,74 +70,11 @@ const Inventory = () => {
     return expiry < today
   }
 
-  // Updated inventory data model with batches (lots)
-  const inventoryItems = [
-    {
-      id: 1,
-      sku: 'MED-001',
-      name: 'Syringes 5ml',
-      brand: 'BD Medical',
-      location: 'Shelf A-12',
-      minStock: 100,
-      unit: 'pcs',
-      batches: [
-        { batchId: 'B-001', expiryDate: null, office: 'Hemodialysis', stock: 250 },
-        { batchId: 'B-002', expiryDate: null, office: 'Clinical Laboratory', stock: 320 },
-        { batchId: 'B-003', expiryDate: null, office: 'Hemodialysis', stock: 200 }
-      ]
-    },
-    {
-      id: 2,
-      sku: 'MED-002',
-      name: 'Gauze Pads (4x4)',
-      brand: 'Johnson & Johnson',
-      location: 'Shelf B-05',
-      minStock: 50,
-      unit: 'packs',
-      batches: [
-        { batchId: 'B-004', expiryDate: '2026-07-15', office: 'Radiology', stock: 80 },
-        { batchId: 'B-005', expiryDate: '2027-03-20', office: 'Radiology', stock: 40 }
-      ]
-    },
-    {
-      id: 3,
-      sku: 'MED-003',
-      name: 'Alcohol Swabs',
-      brand: 'Kendall',
-      location: 'Shelf C-08',
-      minStock: 100,
-      unit: 'boxes',
-      batches: [
-        { batchId: 'B-006', expiryDate: '2026-06-30', office: 'Admin Office', stock: 35 },
-        { batchId: 'B-007', expiryDate: '2026-08-10', office: 'Hemodialysis', stock: 40 }
-      ]
-    },
-    {
-      id: 4,
-      sku: 'MED-004',
-      name: 'Bandages (Assorted)',
-      brand: '3M',
-      location: 'Shelf B-10',
-      minStock: 150,
-      unit: 'boxes',
-      batches: [
-        { batchId: 'B-008', expiryDate: null, office: 'Hemodialysis', stock: 150 },
-        { batchId: 'B-009', expiryDate: null, office: 'Unallocated', stock: 50 }
-      ]
-    },
-    {
-      id: 5,
-      sku: 'MED-005',
-      name: 'Needles 21G',
-      brand: 'BD Medical',
-      location: 'Shelf A-15',
-      minStock: 200,
-      unit: 'pcs',
-      batches: [
-        { batchId: 'B-010', expiryDate: '2028-12-01', office: 'Clinical Laboratory', stock: 500 }
-      ]
-    }
-  ]
+  // Generate new SKU
+  const generateSKU = () => {
+    const maxId = inventoryItems.reduce((max, item) => Math.max(max, item.id), 0)
+    return `MED-${String(maxId + 1).padStart(3, '0')}`
+  }
 
   // Calculate total stock for an item across batches
   const getTotalStock = (item) => {
@@ -128,8 +109,7 @@ const Inventory = () => {
   const filteredItems = inventoryItems.filter(item => {
     const matchesSearch = 
       item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.sku.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.brand.toLowerCase().includes(searchQuery.toLowerCase())
+      item.sku.toLowerCase().includes(searchQuery.toLowerCase())
 
     const matchesOffice = selectedOffice === 'all' || 
       item.batches.some(batch => batch.office === selectedOffice)
@@ -148,6 +128,51 @@ const Inventory = () => {
     })
   }
 
+  const handleAddItem = () => {
+    if (!addFormData.hasInitialBatch) {
+      alert('Please add an initial batch before saving the item!')
+      return
+    }
+    const newItem = {
+      id: inventoryItems.length + 1,
+      sku: generateSKU(),
+      name: addFormData.name,
+      location: addFormData.location,
+      unit: addFormData.unit,
+      minStock: addFormData.minStock,
+      batches: [
+        {
+          batchId: addFormData.initialBatch.batchId,
+          brand: addFormData.initialBatch.brand,
+          supplier: addFormData.initialBatch.supplier,
+          stockNumber: addFormData.initialBatch.stockNumber,
+          office: addFormData.initialBatch.office,
+          stock: addFormData.initialBatch.stock,
+          expiryDate: addFormData.initialBatch.hasExpiry ? addFormData.initialBatch.expiryDate : null
+        }
+      ]
+    }
+    setInventoryItems([...inventoryItems, newItem])
+    setShowAddModal(false)
+    setAddFormData({
+      name: '',
+      location: '',
+      unit: 'pcs',
+      minStock: 0,
+      hasInitialBatch: false,
+      initialBatch: {
+        batchId: '',
+        brand: '',
+        supplier: '',
+        stockNumber: '',
+        office: 'Hemodialysis',
+        stock: 0,
+        hasExpiry: false,
+        expiryDate: ''
+      }
+    })
+  }
+
   return (
     <div className="inventory">
       <div className="page-header">
@@ -163,7 +188,7 @@ const Inventory = () => {
           <span className="search-icon">🔍</span>
           <input
             type="text"
-            placeholder="Search items by name, SKU, or brand..."
+            placeholder="Search items by name or SKU..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -189,7 +214,6 @@ const Inventory = () => {
                 <th style={{width: '40px'}}></th>
                 <th>SKU</th>
                 <th>Item Name</th>
-                <th>Brand</th>
                 <th>Total Stock</th>
                 <th>Location</th>
                 <th>Status</th>
@@ -214,9 +238,6 @@ const Inventory = () => {
                       <td className="sku">{item.sku}</td>
                       <td>
                         <div className="item-name">{item.name}</div>
-                      </td>
-                      <td>
-                        <span className="brand-tag">{item.brand}</span>
                       </td>
                       <td>
                         <div className={`stock-cell ${isLowStock ? 'low' : ''}`}>
@@ -249,12 +270,15 @@ const Inventory = () => {
 
                     {isExpanded && (
                       <tr className="batches-row">
-                        <td colSpan={8}>
+                        <td colSpan={7}>
                           <div className="batches-container">
                             <table className="batches-table">
                               <thead>
                                 <tr>
                                   <th>Batch ID</th>
+                                  <th>Brand</th>
+                                  <th>Supplier</th>
+                                  <th>Stock #</th>
                                   <th>Office</th>
                                   <th>Stock</th>
                                   <th>Expiry Date</th>
@@ -276,6 +300,9 @@ const Inventory = () => {
                                   return (
                                     <tr key={idx}>
                                       <td className="batch-id">{batch.batchId}</td>
+                                      <td>{batch.brand || '-'}</td>
+                                      <td>{batch.supplier || '-'}</td>
+                                      <td>{batch.stockNumber || '-'}</td>
                                       <td><span className="office-tag">{batch.office}</span></td>
                                       <td>{batch.stock} {item.unit}</td>
                                       <td className={`expiry-cell ${batchNearExpiry ? 'near' : batchExpired ? 'expired' : ''}`}>
@@ -319,10 +346,6 @@ const Inventory = () => {
                     <span className="detail-value">{showMoreInfo.sku}</span>
                   </div>
                   <div className="detail-item">
-                    <span className="detail-label">Brand:</span>
-                    <span className="detail-value">{showMoreInfo.brand}</span>
-                  </div>
-                  <div className="detail-item">
                     <span className="detail-label">Location:</span>
                     <span className="detail-value">{showMoreInfo.location}</span>
                   </div>
@@ -339,6 +362,9 @@ const Inventory = () => {
                   <thead>
                     <tr>
                       <th>Batch ID</th>
+                      <th>Brand</th>
+                      <th>Supplier</th>
+                      <th>Stock #</th>
                       <th>Office</th>
                       <th>Stock</th>
                       <th>Expiry Date</th>
@@ -360,6 +386,9 @@ const Inventory = () => {
                       return (
                         <tr key={idx}>
                           <td>{batch.batchId}</td>
+                          <td>{batch.brand || '-'}</td>
+                          <td>{batch.supplier || '-'}</td>
+                          <td>{batch.stockNumber || '-'}</td>
                           <td>{batch.office}</td>
                           <td>{batch.stock} {showMoreInfo.unit}</td>
                           <td>{formatExpiryDate(batch.expiryDate)}</td>
@@ -374,9 +403,8 @@ const Inventory = () => {
                   </tbody>
                   <tfoot>
                     <tr>
-                      <td colSpan={2}>Total</td>
-                      <td>{getTotalStock(showMoreInfo)} {showMoreInfo.unit}</td>
-                      <td colSpan={2}></td>
+                      <td colSpan={4}>Total</td>
+                      <td colSpan={4}>{getTotalStock(showMoreInfo)} {showMoreInfo.unit}</td>
                     </tr>
                   </tfoot>
                 </table>
@@ -404,12 +432,8 @@ const Inventory = () => {
                   <input type="text" className="form-input" defaultValue={showEditModal.name} />
                 </div>
                 <div className="form-group">
-                  <label className="form-label">SKU</label>
-                  <input type="text" className="form-input" defaultValue={showEditModal.sku} />
-                </div>
-                <div className="form-group">
-                  <label className="form-label">Brand</label>
-                  <input type="text" className="form-input" defaultValue={showEditModal.brand} />
+                  <label className="form-label">SKU (Auto-generated)</label>
+                  <input type="text" className="form-input" defaultValue={showEditModal.sku} disabled />
                 </div>
                 <div className="form-group">
                   <label className="form-label">Location</label>
@@ -428,6 +452,18 @@ const Inventory = () => {
                         <div className="form-group mini">
                           <label className="form-label">Batch ID</label>
                           <input type="text" className="form-input" defaultValue={batch.batchId} />
+                        </div>
+                        <div className="form-group mini">
+                          <label className="form-label">Brand</label>
+                          <input type="text" className="form-input" defaultValue={batch.brand} />
+                        </div>
+                        <div className="form-group mini">
+                          <label className="form-label">Supplier</label>
+                          <input type="text" className="form-input" defaultValue={batch.supplier} />
+                        </div>
+                        <div className="form-group mini">
+                          <label className="form-label">Stock #</label>
+                          <input type="text" className="form-input" defaultValue={batch.stockNumber} />
                         </div>
                         <div className="form-group mini">
                           <label className="form-label">Office</label>
@@ -483,23 +519,35 @@ const Inventory = () => {
               <div className="edit-form">
                 <div className="form-group">
                   <label className="form-label">Item Name</label>
-                  <input type="text" className="form-input" placeholder="e.g., Syringes 5ml" />
+                  <input 
+                    type="text" 
+                    className="form-input" 
+                    placeholder="e.g., Syringes 5ml"
+                    value={addFormData.name}
+                    onChange={(e) => setAddFormData({...addFormData, name: e.target.value})}
+                  />
                 </div>
                 <div className="form-group">
-                  <label className="form-label">SKU</label>
-                  <input type="text" className="form-input" placeholder="e.g., MED-006" />
-                </div>
-                <div className="form-group">
-                  <label className="form-label">Brand</label>
-                  <input type="text" className="form-input" placeholder="e.g., BD Medical" />
+                  <label className="form-label">SKU (Auto-generated)</label>
+                  <input type="text" className="form-input" value={generateSKU()} disabled />
                 </div>
                 <div className="form-group">
                   <label className="form-label">Location</label>
-                  <input type="text" className="form-input" placeholder="e.g., Shelf A-12" />
+                  <input 
+                    type="text" 
+                    className="form-input" 
+                    placeholder="e.g., Shelf A-12"
+                    value={addFormData.location}
+                    onChange={(e) => setAddFormData({...addFormData, location: e.target.value})}
+                  />
                 </div>
                 <div className="form-group">
                   <label className="form-label">Unit</label>
-                  <select className="form-input">
+                  <select 
+                    className="form-input"
+                    value={addFormData.unit}
+                    onChange={(e) => setAddFormData({...addFormData, unit: e.target.value})}
+                  >
                     <option value="pcs">pcs</option>
                     <option value="packs">packs</option>
                     <option value="boxes">boxes</option>
@@ -507,15 +555,147 @@ const Inventory = () => {
                 </div>
                 <div className="form-group">
                   <label className="form-label">Minimum Stock Level</label>
-                  <input type="number" className="form-input" placeholder="e.g., 50" />
+                  <input 
+                    type="number" 
+                    className="form-input" 
+                    placeholder="e.g., 50"
+                    value={addFormData.minStock}
+                    onChange={(e) => setAddFormData({...addFormData, minStock: parseInt(e.target.value) || 0})}
+                  />
+                </div>
+                
+                <div className="form-group">
+                  <label className="form-label">
+                    Initial Batch 
+                    <span style={{color: '#dc2626', marginLeft: '4px'}}>* Required</span>
+                  </label>
+                  <div className="batches-edit-container">
+                    <div className="batch-edit-row">
+                      <div className="form-group mini">
+                        <label className="form-label">Batch ID</label>
+                        <input 
+                          type="text" 
+                          className="form-input" 
+                          placeholder="e.g., B-001"
+                          value={addFormData.initialBatch.batchId}
+                          onChange={(e) => setAddFormData({
+                            ...addFormData, 
+                            initialBatch: {...addFormData.initialBatch, batchId: e.target.value},
+                            hasInitialBatch: true
+                          })}
+                        />
+                      </div>
+                      <div className="form-group mini">
+                        <label className="form-label">Brand</label>
+                        <input 
+                          type="text" 
+                          className="form-input" 
+                          placeholder="e.g., BD Medical"
+                          value={addFormData.initialBatch.brand}
+                          onChange={(e) => setAddFormData({
+                            ...addFormData, 
+                            initialBatch: {...addFormData.initialBatch, brand: e.target.value},
+                            hasInitialBatch: true
+                          })}
+                        />
+                      </div>
+                      <div className="form-group mini">
+                        <label className="form-label">Supplier</label>
+                        <input 
+                          type="text" 
+                          className="form-input" 
+                          placeholder="Supplier name"
+                          value={addFormData.initialBatch.supplier}
+                          onChange={(e) => setAddFormData({
+                            ...addFormData, 
+                            initialBatch: {...addFormData.initialBatch, supplier: e.target.value},
+                            hasInitialBatch: true
+                          })}
+                        />
+                      </div>
+                      <div className="form-group mini">
+                        <label className="form-label">Stock #</label>
+                        <input 
+                          type="text" 
+                          className="form-input" 
+                          placeholder="Stock number"
+                          value={addFormData.initialBatch.stockNumber}
+                          onChange={(e) => setAddFormData({
+                            ...addFormData, 
+                            initialBatch: {...addFormData.initialBatch, stockNumber: e.target.value},
+                            hasInitialBatch: true
+                          })}
+                        />
+                      </div>
+                      <div className="form-group mini">
+                        <label className="form-label">Office</label>
+                        <select 
+                          className="form-input"
+                          value={addFormData.initialBatch.office}
+                          onChange={(e) => setAddFormData({
+                            ...addFormData, 
+                            initialBatch: {...addFormData.initialBatch, office: e.target.value},
+                            hasInitialBatch: true
+                          })}
+                        >
+                          <option value="Hemodialysis">Hemodialysis</option>
+                          <option value="Clinical Laboratory">Clinical Laboratory</option>
+                          <option value="Radiology">Radiology</option>
+                          <option value="Admin Office">Admin Office</option>
+                          <option value="Unallocated">Unallocated</option>
+                        </select>
+                      </div>
+                      <div className="form-group mini">
+                        <label className="form-label">Stock</label>
+                        <input 
+                          type="number" 
+                          className="form-input" 
+                          placeholder="0"
+                          value={addFormData.initialBatch.stock}
+                          onChange={(e) => setAddFormData({
+                            ...addFormData, 
+                            initialBatch: {...addFormData.initialBatch, stock: parseInt(e.target.value) || 0},
+                            hasInitialBatch: true
+                          })}
+                        />
+                      </div>
+                      <div className="form-group mini">
+                        <label className="toggle-label">
+                          <input 
+                            type="checkbox" 
+                            checked={addFormData.initialBatch.hasExpiry}
+                            onChange={(e) => setAddFormData({
+                              ...addFormData, 
+                              initialBatch: {...addFormData.initialBatch, hasExpiry: e.target.checked},
+                              hasInitialBatch: true
+                            })}
+                          />
+                          Has Expiry
+                        </label>
+                      </div>
+                      <div className="form-group mini">
+                        <label className="form-label">Expiry Date</label>
+                        <input 
+                          type="date" 
+                          className="form-input" 
+                          value={addFormData.initialBatch.expiryDate}
+                          onChange={(e) => setAddFormData({
+                            ...addFormData, 
+                            initialBatch: {...addFormData.initialBatch, expiryDate: e.target.value},
+                            hasInitialBatch: true
+                          })}
+                          disabled={!addFormData.initialBatch.hasExpiry}
+                        />
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
             <div className="modal-footer">
-              <button className="btn-secondary">Add Initial Batch</button>
-              <div className="button-group">
+              <div className="button-group" style={{marginLeft: 'auto'}}>
                 <button className="btn-secondary" onClick={() => setShowAddModal(false)}>Cancel</button>
-                <button className="btn-primary" onClick={() => setShowAddModal(false)}>Add Item</button>
+                <button className="btn-primary" onClick={handleAddItem}>Add Item</button>
               </div>
             </div>
           </div>
@@ -665,17 +845,6 @@ const Inventory = () => {
         .item-name {
           font-weight: 600;
           color: #1f2937;
-        }
-
-        .brand-tag {
-          display: inline-block;
-          padding: 4px 12px;
-          background: #e0e7ff;
-          color: #3730a3;
-          border-radius: 12px;
-          font-size: 12px;
-          font-weight: 500;
-          white-space: nowrap;
         }
 
         .office-tag {
@@ -843,7 +1012,7 @@ const Inventory = () => {
         }
 
         .modal-large {
-          max-width: 900px;
+          max-width: 1100px;
         }
 
         .modal-header {
@@ -1018,6 +1187,7 @@ const Inventory = () => {
           background: #f9fafb;
           border-radius: 8px;
           align-items: flex-end;
+          flex-wrap: wrap;
         }
 
         .remove-btn {

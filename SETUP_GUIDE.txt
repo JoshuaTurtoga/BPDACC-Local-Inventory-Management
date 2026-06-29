@@ -1,0 +1,52 @@
+================================================================================
+                   BPDACC INVENTORY MANAGEMENT SYSTEM
+                           Setup & User Guide
+================================================================================
+
+--------------------------------------------------------------------------------
+[1] ONE-TIME SETUP
+--------------------------------------------------------------------------------
+
+1. INSTALL NODE.JS (Windows 7 Compatible)
+   - Download Node.js 14.x from: https://nodejs.org/dist/latest-v14.x/
+   - Choose the .msi installer (e.g., node-v14.21.3-x64.msi)
+   - Run the installer, follow the prompts (use default settings)
+   - Restart your computer
+
+2. INSTALL POSTGRESQL
+   - Download PostgreSQL 12 (Windows 7 compatible) from: 
+     https://www.postgresql.org/download/windows/
+   - Run the installer:
+     * Set a password for the "postgres" user (remember this!)
+     * Use default port (5432)
+     * Complete the installation
+   - Open "pgAdmin" (from Start Menu) to manage your database
+
+3. CREATE DATABASE
+   - Open pgAdmin
+   - Right-click "Databases" → Create → Database
+   - Name it: bpdacc_inventory
+   - Click "Save"
+
+--------------------------------------------------------------------------------
+[2] STARTING THE APPLICATION
+--------------------------------------------------------------------------------
+
+1. Double-click the file "START_SERVER.bat" in this folder
+2. Wait for it to finish (it may take a minute the first time)
+3. When you see "🚀 BPDACC Inventory Server is running!" open your browser
+4. Go to: http://localhost:3000
+
+That's it! The app is now running.
+
+--------------------------------------------------------------------------------
+[3] STOPPING THE APPLICATION
+--------------------------------------------------------------------------------
+
+1. Go to the black command prompt window
+2. Press Ctrl + C
+3. Type Y and press Enter
+
+================================================================================
+For technical questions, contact your system administrator!
+================================================================================
