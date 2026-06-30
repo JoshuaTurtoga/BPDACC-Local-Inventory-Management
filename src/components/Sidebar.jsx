@@ -1,6 +1,17 @@
 import React, { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useUserRole } from '../context/UserRoleContext'
+import Icon from './Icon'
+
+// Import icons
+import bpdaccLogo from '../assets/icons/sidebar/bpdacc-logo.jpg'
+import dashboardIcon from '../assets/icons/sidebar/dashboard-icon.svg'
+import inventoryIcon from '../assets/icons/sidebar/inventory-icon.svg'
+import reportsIcon from '../assets/icons/sidebar/reports-icon.svg'
+import risIcon from '../assets/icons/sidebar/ris-icon.svg'
+import rislistIcon from '../assets/icons/sidebar/rislist-icon.svg'
+import settingsIcon from '../assets/icons/sidebar/settings-icon.svg'
+import usersIcon from '../assets/icons/sidebar/users-icon.svg'
 
 const Sidebar = () => {
   const location = useLocation()
@@ -9,23 +20,23 @@ const Sidebar = () => {
 
   // Menu items based on user role
   const menuItems = [
-    { path: '/', icon: '📊', label: 'Dashboard', visible: true },
-    { path: '/inventory', icon: '📦', label: 'Inventory', visible: true },
+    { path: '/', icon: dashboardIcon, label: 'Dashboard', visible: true },
+    { path: '/inventory', icon: inventoryIcon, label: 'Inventory', visible: true },
     { 
       path: '/requisition', 
-      icon: '📝', 
+      icon: risIcon, 
       label: 'Requisition (RIS)', 
       visible: !isAdmin 
     },
     { 
       path: '/requisition-requests', 
-      icon: '📋', 
+      icon: rislistIcon, 
       label: 'Requisition Requests', 
       visible: isAdmin 
     },
-    { path: '/reports', icon: '📈', label: 'Reports', visible: true },
-    { path: '/users', icon: '👥', label: 'Users', visible: isAdmin },
-    { path: '/settings', icon: '⚙️', label: 'Settings', visible: true },
+    { path: '/reports', icon: reportsIcon, label: 'Reports', visible: true },
+    { path: '/users', icon: usersIcon, label: 'Users', visible: isAdmin },
+    { path: '/settings', icon: settingsIcon, label: 'Settings', visible: true },
   ].filter(item => item.visible)
 
   const toggleMobileMenu = () => {
@@ -53,7 +64,7 @@ const Sidebar = () => {
       <div className={`sidebar no-print ${isMobileMenuOpen ? 'open' : ''}`}>
         <div className="sidebar-header">
           <h1 className="logo">
-            <span className="logo-icon">🏥</span>
+            <Icon src={bpdaccLogo} alt="BPDACC Logo" size={40} className="logo-icon" />
             <span className="logo-text">BPDACC Inv</span>
           </h1>
         </div>
@@ -65,7 +76,7 @@ const Sidebar = () => {
               className={`nav-item ${location.pathname === item.path ? 'active' : ''}`}
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              <span className="nav-icon">{item.icon}</span>
+              <Icon src={item.icon} alt={item.label} size={20} className="nav-icon" />
               <span className="nav-label">{item.label}</span>
             </Link>
           ))}
@@ -124,7 +135,7 @@ const Sidebar = () => {
           .logo {
             font-size: 18px;
             font-weight: 700;
-            color: #1e40af;
+            color: #000000ff;
             display: flex;
             align-items: center;
             gap: 8px;

@@ -1,19 +1,31 @@
 import React from 'react'
+import Icon from '../components/Icon'
+
+// Import dashboard icons
+import totalItemsIcon from '../assets/icons/dashboard/dashboard-totalitems-icon.svg'
+import lowStockIcon from '../assets/icons/dashboard/dashboard-lowstock-icon.svg'
+import pendingIcon from '../assets/icons/dashboard/dashboard-pending-icon.svg'
+import issuedIcon from '../assets/icons/dashboard/dashboard-issued-icon.svg'
+import activityIssuedIcon from '../assets/icons/dashboard/dashboard-activityissued-icon.svg'
+import activityExpiredIcon from '../assets/icons/dashboard/dashboard-activityexpired-icon.svg'
+import activityNearExpiryIcon from '../assets/icons/dashboard/dashboard-activitynearexpiry-icon.svg'
+import activityAllocatedIcon from '../assets/icons/dashboard/dashboard-activityallocated-icon.svg'
+import activityAddedIcon from '../assets/icons/dashboard/dashboard-activityadded-icon.svg'
 
 const Dashboard = () => {
   const stats = [
-    { label: 'Total Items', value: '1,247', icon: '📊', color: '#3b82f6' },
-    { label: 'Low Stock', value: '23', icon: '⚠️', color: '#f59e0b' },
-    { label: 'Pending Requisitions', value: '8', icon: '📝', color: '#ef4444' },
-    { label: 'Issued Today', value: '45', icon: '✅', color: '#10b981' },
+    { label: 'Total Items', value: '1,247', icon: totalItemsIcon, bgColor: '#e8f0fe' },
+    { label: 'Low Stock', value: '23', icon: lowStockIcon, bgColor: '#fcf172ff' },
+    { label: 'Pending Requisitions', value: '8', icon: pendingIcon, bgColor: '#ffde72ff' },
+    { label: 'Issued Today', value: '45', icon: issuedIcon, bgColor: '#e6f9e6' },
   ]
 
   const recentActivity = [
-    { id: 1, item: 'Syringes 5ml', office: 'Hemodialysis', action: 'Issued', time: '2 hours ago' },
-    { id: 2, item: 'Alcohol Swabs', office: 'Admin Office', action: 'Expired', time: '3 hours ago', type: 'expired' },
-    { id: 3, item: 'Gauze Pads (4x4)', office: 'Radiology', action: 'About to Expire', time: '4 hours ago', type: 'warning' },
-    { id: 4, item: 'Bandages (Assorted)', office: 'Hemodialysis', action: 'Allocated', time: '5 hours ago' },
-    { id: 5, item: 'Needles 21G', office: 'Clinical Laboratory', action: 'Added', time: '6 hours ago', type: 'added' },
+    { id: 1, item: 'Syringes 5ml', office: 'Hemodialysis', action: 'Issued', time: '2 hours ago', icon: activityIssuedIcon, bgColor: '#e6fff3ff' },
+    { id: 2, item: 'Alcohol Swabs', office: 'Admin Office', action: 'Expired', time: '3 hours ago', type: 'expired', icon: activityExpiredIcon, bgColor: '#ffe6e6' },
+    { id: 3, item: 'Gauze Pads (4x4)', office: 'Radiology', action: 'About to Expire', time: '4 hours ago', type: 'warning', icon: activityNearExpiryIcon, bgColor: '#fff3cd' },
+    { id: 4, item: 'Bandages (Assorted)', office: 'Hemodialysis', action: 'Allocated', time: '5 hours ago', icon: activityAllocatedIcon, bgColor: '#eac7ffff' },
+    { id: 5, item: 'Needles 21G', office: 'Clinical Laboratory', action: 'Added', time: '6 hours ago', type: 'added', icon: activityAddedIcon, bgColor: '#e6f9e6' },
   ]
 
   // Inventory data for the donut chart
@@ -198,8 +210,8 @@ const Dashboard = () => {
       <div className="stats-grid">
         {stats.map((stat, index) => (
           <div key={index} className="stat-card">
-            <div className="stat-icon" style={{ background: `${stat.color}20`, color: stat.color }}>
-              {stat.icon}
+            <div className="stat-icon" style={{ background: stat.bgColor }}>
+              <Icon src={stat.icon} alt={stat.label} size={32} />
             </div>
             <div>
               <div className="stat-value">{stat.value}</div>
@@ -217,15 +229,9 @@ const Dashboard = () => {
           </div>
           <div className="activity-list">
             {recentActivity.map((activity) => (
-              <div key={activity.id} className={`activity-item ${activity.type ? activity.type : ''}`}>
+              <div key={activity.id} className={`activity-item ${activity.type ? activity.type : ''}`} style={{ background: activity.bgColor }}>
                 <div className="activity-icon">
-                  {activity.action === 'Issued' && '📤'}
-                  {activity.action === 'Requisitioned' && '📥'}
-                  {activity.action === 'Restocked' && '📦'}
-                  {activity.action === 'Allocated' && '📍'}
-                  {activity.action === 'Added' && '✨'}
-                  {activity.action === 'About to Expire' && '⚠️'}
-                  {activity.action === 'Expired' && '⛔'}
+                  <Icon src={activity.icon} alt={activity.action} size={28} />
                 </div>
                 <div className="activity-details">
                   <div className="activity-item-name">{activity.item}</div>
@@ -351,7 +357,6 @@ const Dashboard = () => {
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 24px;
         }
 
         .stat-value {
@@ -409,11 +414,12 @@ const Dashboard = () => {
           gap: 12px;
           padding: 12px;
           border-radius: 8px;
-          background: #f9fafb;
         }
 
         .activity-icon {
-          font-size: 24px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
 
         .activity-details {
@@ -491,17 +497,7 @@ const Dashboard = () => {
           color: #991b1b;
         }
 
-        .activity-item.expired {
-          background: #fef2f2;
-        }
 
-        .activity-item.warning {
-          background: #fffbeb;
-        }
-
-        .activity-item.added {
-          background: #f0fdf4;
-        }
 
         /* Donut Chart Styles */
         .donut-chart-container {
@@ -609,7 +605,6 @@ const Dashboard = () => {
           .stat-icon {
             width: 48px;
             height: 48px;
-            font-size: 20px;
           }
 
           .stat-value {
