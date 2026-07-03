@@ -1,4 +1,17 @@
 import React, { useState } from 'react'
+import Icon from '../components/Icon'
+
+// Import inventory icons
+import searchIcon from '../assets/icons/inventory/search-icon.svg'
+import expandIcon from '../assets/icons/inventory/expand-icon.svg'
+import collapseIcon from '../assets/icons/inventory/collapse-icon.svg'
+import editIcon from '../assets/icons/inventory/edit-icon.svg'
+import stockCardIcon from '../assets/icons/inventory/stockcard-icon.svg'
+import deleteIcon from '../assets/icons/inventory/delete-icon.svg'
+import addItemIcon from '../assets/icons/inventory/additem-icon.svg'
+import addTransactionIcon from '../assets/icons/inventory/addtransaction-icon.svg'
+import closeIcon from '../assets/icons/inventory/close-icon.svg'
+import printIcon from '../assets/icons/inventory/print-icon.svg'
 
 const Inventory = () => {
   const [selectedOffice, setSelectedOffice] = useState('all')
@@ -317,12 +330,17 @@ const Inventory = () => {
           <h1 className="page-title">Inventory Management</h1>
           <p className="page-subtitle">Manage and track your medical supplies by batches</p>
         </div>
-        <button className="btn-primary" onClick={() => setShowAddModal(true)}>+ Add Item</button>
+        <button className="btn-primary" onClick={() => setShowAddModal(true)}>
+          <Icon src={addItemIcon} alt="Add Item" size={20} />
+          Add Item
+        </button>
       </div>
 
       <div className="filters-bar">
         <div className="search-box">
-          <span className="search-icon">🔍</span>
+          <span className="search-icon">
+            <Icon src={searchIcon} alt="Search" size={20} />
+          </span>
           <input
             type="text"
             placeholder="Search items by name or SKU..."
@@ -369,7 +387,7 @@ const Inventory = () => {
                     <tr className="item-row" onClick={() => toggleItemExpansion(item.id)}>
                       <td>
                         <span className="expand-icon">
-                          {isExpanded ? '▼' : '▶'}
+                          <Icon src={isExpanded ? collapseIcon : expandIcon} alt={isExpanded ? "Collapse" : "Expand"} size={20} />
                         </span>
                       </td>
                       <td className="sku">{item.sku}</td>
@@ -392,14 +410,14 @@ const Inventory = () => {
                             title="Edit item"
                             onClick={() => setShowEditModal(item)}
                           >
-                            ✏️
+                            <Icon src={editIcon} alt="Edit" size={20} />
                           </button>
                           <button 
                             className="btn-icon" 
                             title="More info"
                             onClick={() => setShowMoreInfo(item)}
                           >
-                            📋
+                            <Icon src={stockCardIcon} alt="Stock Card" size={20} />
                           </button>
                         </div>
                       </td>
@@ -473,7 +491,9 @@ const Inventory = () => {
           <div className="modal modal-large" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header no-print">
               <h2 className="modal-title">Stock Card: {showMoreInfo.name}</h2>
-              <button className="close-btn" onClick={() => setShowMoreInfo(null)}>×</button>
+              <button className="close-btn" onClick={() => setShowMoreInfo(null)}>
+                <Icon src={closeIcon} alt="Close" size={24} />
+              </button>
             </div>
             <div className="modal-body">
               {/* Stock Card Header */}
@@ -506,8 +526,9 @@ const Inventory = () => {
               <div className="stock-card-actions no-print" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
                 <h4 className="detail-subtitle" style={{ margin: 0 }}>Transaction Log</h4>
                 <button className="btn-primary" onClick={() => handleOpenTransactionModal(false, null)}>
-                  ➕ Add Transaction
-                </button>
+                <Icon src={addTransactionIcon} alt="Add Transaction" size={20} />
+                Add Transaction
+              </button>
               </div>
 
               {/* Transaction Table */}
@@ -538,10 +559,10 @@ const Inventory = () => {
                         <td className="number-cell">{tx.balance}</td>
                         <td className="transaction-actions no-print">
                           <button className="btn-icon" onClick={() => handleOpenTransactionModal(true, idx)} title="Edit">
-                            ✏️
+                            <Icon src={editIcon} alt="Edit" size={20} />
                           </button>
                           <button className="btn-icon" onClick={() => handleDeleteTransaction(idx)} title="Delete">
-                            🗑️
+                            <Icon src={deleteIcon} alt="Delete" size={20} />
                           </button>
                         </td>
                       </tr>
@@ -551,7 +572,10 @@ const Inventory = () => {
               </div>
             </div>
             <div className="modal-footer no-print">
-              <button className="btn-primary" onClick={() => window.print()}>🖨️ Print</button>
+              <button className="btn-primary" onClick={() => window.print()}>
+                <Icon src={printIcon} alt="Print" size={20} />
+                Print
+              </button>
               <button className="btn-secondary" onClick={() => setShowMoreInfo(null)}>Close</button>
             </div>
           </div>
@@ -564,7 +588,9 @@ const Inventory = () => {
           <div className="modal modal-large" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
               <h2 className="modal-title">Edit Item</h2>
-              <button className="close-btn" onClick={() => setShowEditModal(null)}>×</button>
+              <button className="close-btn" onClick={() => setShowEditModal(null)}>
+                <Icon src={closeIcon} alt="Close" size={24} />
+              </button>
             </div>
             <div className="modal-body">
               <div className="edit-form">
@@ -630,7 +656,9 @@ const Inventory = () => {
                           <label className="form-label">Expiry Date</label>
                           <input type="date" className="form-input" defaultValue={batch.expiryDate || ''} disabled={!batch.expiryDate} />
                         </div>
-                        <button className="btn-icon remove-btn" title="Remove Batch">🗑️</button>
+                        <button className="btn-icon remove-btn" title="Remove Batch">
+                          <Icon src={deleteIcon} alt="Remove" size={20} />
+                        </button>
                       </div>
                     ))}
                   </div>
@@ -656,7 +684,9 @@ const Inventory = () => {
               <h2 className="modal-title">
                 {showTransactionModal.isEdit ? 'Edit Transaction' : 'Add Transaction'}
               </h2>
-              <button className="close-btn" onClick={() => setShowTransactionModal({ visible: false, isEdit: false, index: null })}>×</button>
+              <button className="close-btn" onClick={() => setShowTransactionModal({ visible: false, isEdit: false, index: null })}>
+                <Icon src={closeIcon} alt="Close" size={24} />
+              </button>
             </div>
             <div className="modal-body">
               <div className="edit-form">
@@ -758,7 +788,9 @@ const Inventory = () => {
           <div className="modal modal-large" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
               <h2 className="modal-title">Add New Item</h2>
-              <button className="close-btn" onClick={() => setShowAddModal(false)}>×</button>
+              <button className="close-btn" onClick={() => setShowAddModal(false)}>
+                <Icon src={closeIcon} alt="Close" size={24} />
+              </button>
             </div>
             <div className="modal-body">
               <div className="edit-form">
@@ -940,7 +972,10 @@ const Inventory = () => {
             <div className="modal-footer">
               <div className="button-group" style={{marginLeft: 'auto'}}>
                 <button className="btn-secondary" onClick={() => setShowAddModal(false)}>Cancel</button>
-                <button className="btn-primary" onClick={handleAddItem}>Add Item</button>
+                <button className="btn-primary" onClick={handleAddItem}>
+                  <Icon src={addItemIcon} alt="Add" size={20} />
+                  Add Item
+                </button>
               </div>
             </div>
           </div>
@@ -982,6 +1017,10 @@ const Inventory = () => {
           cursor: pointer;
           font-size: 14px;
           white-space: nowrap;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
         }
 
         .btn-secondary {
@@ -994,6 +1033,10 @@ const Inventory = () => {
           cursor: pointer;
           font-size: 14px;
           white-space: nowrap;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
         }
 
         .filters-bar {
