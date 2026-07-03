@@ -10,21 +10,28 @@ import Users from './pages/Users'
 import Settings from './pages/Settings'
 import './App.css'
 
+/**
+ * Main application component for BPDACC Inventory Management System
+ * Sets up:
+ * - User role context for permission management
+ * - React Router for page navigation
+ * - Sidebar navigation + main content area
+ */
 function App() {
   return (
-    <UserRoleProvider>
-      <Router>
+    <UserRoleProvider> {/* Wraps entire app to provide user role context */}
+      <Router> {/* Manages client-side routing */}
         <div className="app">
-          <Sidebar />
+          <Sidebar /> {/* Navigation sidebar, changes based on user role */}
           <main className="main-content">
             <Routes>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/inventory" element={<Inventory />} />
-              <Route path="/requisition" element={<Requisition />} />
-              <Route path="/requisition-requests" element={<RequisitionRequests />} />
-              <Route path="/reports" element={<Reports />} />
-              <Route path="/users" element={<Users />} />
-              <Route path="/settings" element={<Settings />} />
+              <Route path="/" element={<Dashboard />} /> {/* Home page */}
+              <Route path="/inventory" element={<Inventory />} /> {/* Inventory & batch management */}
+              <Route path="/requisition" element={<Requisition />} /> {/* Requisition form creation */}
+              <Route path="/requisition-requests" element={<RequisitionRequests />} /> {/* Admin requisition approvals */}
+              <Route path="/reports" element={<Reports />} /> {/* Reports page */}
+              <Route path="/users" element={<Users />} /> {/* User management */}
+              <Route path="/settings" element={<Settings />} /> {/* System settings */}
             </Routes>
           </main>
         </div>

@@ -1,13 +1,23 @@
+/**
+ * User Management Page
+ * Features:
+ * - View all system users
+ * - Add/Edit/Delete users
+ * - Change passwords
+ * - Role & Office assignments
+ */
+
 import React from 'react'
 import Icon from '../components/Icon'
 
-// Import user icons
+// Import user management icons
 import addUserIcon from '../assets/icons/users/adduser-icon.svg'
 import deleteUserIcon from '../assets/icons/users/deleteuser-icon.svg'
 import changePasswordIcon from '../assets/icons/users/changepassword-icon.svg'
 import editUsersIcon from '../assets/icons/users/editusers-icon.svg'
 
 const Users = () => {
+  // Mock user data (will come from database later)
   const users = [
     { id: 1, name: 'John Doe', email: 'john@clinic.com', role: 'Admin', office: 'All', status: 'Active' },
     { id: 2, name: 'Jane Smith', email: 'jane@clinic.com', role: 'Nurse', office: 'Hemodialysis', status: 'Active' },

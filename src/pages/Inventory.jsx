@@ -1,7 +1,17 @@
+/**
+ * Inventory Management Page
+ * Features:
+ * - Batch-level inventory tracking
+ * - Stock Card generation (printable formal documents)
+ * - Add/Edit/Delete inventory items & batches
+ * - Transaction management (receipts, issuances)
+ * - Search & Office filtering
+ */
+
 import React, { useState } from 'react'
 import Icon from '../components/Icon'
 
-// Import inventory icons
+// Import inventory management icons from assets
 import searchIcon from '../assets/icons/inventory/search-icon.svg'
 import expandIcon from '../assets/icons/inventory/expand-icon.svg'
 import collapseIcon from '../assets/icons/inventory/collapse-icon.svg'
@@ -14,12 +24,21 @@ import closeIcon from '../assets/icons/inventory/close-icon.svg'
 import printIcon from '../assets/icons/inventory/print-icon.svg'
 
 const Inventory = () => {
-  const [selectedOffice, setSelectedOffice] = useState('all')
-  const [searchQuery, setSearchQuery] = useState('')
-  const [showMoreInfo, setShowMoreInfo] = useState(null)
-  const [showEditModal, setShowEditModal] = useState(null)
-  const [showAddModal, setShowAddModal] = useState(false)
-  const [showTransactionModal, setShowTransactionModal] = useState({ visible: false, isEdit: false, index: null })
+  // ==========================================
+  // STATE VARIABLES
+  // ==========================================
+  
+  // Filter states for searching and office filtering
+  const [selectedOffice, setSelectedOffice] = useState('all') // 'all' or specific office name
+  const [searchQuery, setSearchQuery] = useState('') // Search term for item name or SKU
+  
+  // Modal visibility states
+  const [showMoreInfo, setShowMoreInfo] = useState(null) // Stock Card modal (shows full item + transactions)
+  const [showEditModal, setShowEditModal] = useState(null) // Edit Item modal
+  const [showAddModal, setShowAddModal] = useState(false) // Add New Item modal
+  const [showTransactionModal, setShowTransactionModal] = useState({ visible: false, isEdit: false, index: null }) // Transaction add/edit modal
+  
+  // Form data states
   const [transactionForm, setTransactionForm] = useState({
     date: '',
     reference: '',
@@ -29,13 +48,13 @@ const Inventory = () => {
     office: 'Hemodialysis',
     balance: 0
   })
-  const [expandedItems, setExpandedItems] = useState(new Set())
+  const [expandedItems, setExpandedItems] = useState(new Set()) // Tracks which items have their batches expanded in the table
   const [addFormData, setAddFormData] = useState({
     name: '',
     location: '',
     unit: 'pcs',
     minStock: 0,
-    hasInitialBatch: false,
+    hasInitialBatch: false, // Flag to ensure at least one batch is added
     initialBatch: {
       batchId: '',
       brand: '',
@@ -47,6 +66,10 @@ const Inventory = () => {
       expiryDate: ''
     }
   })
+
+  // ==========================================
+  // MOCK DATA (Will be replaced with API calls later)
+  // ==========================================
   const [inventoryItems, setInventoryItems] = useState([
     {
       id: 1,
@@ -87,7 +110,11 @@ const Inventory = () => {
     }
   ])
 
-  // Helper to check if date is near expiry (within 30 days)
+  /**
+   * Check if a date is near expiry (within 30 days)
+   * @param {string} expiryDate - Date string to check
+   * @returns {boolean} True if date is within 30 days from today
+   */
   const isNearExpiry = (expiryDate) => {
     if (!expiryDate) return false
     const today = new Date()
@@ -97,7 +124,11 @@ const Inventory = () => {
     return diffDays <= 30 && diffDays > 0
   }
 
-  // Helper to check if date is expired
+  /**
+   * Check if a date has expired
+   * @param {string} expiryDate - Date string to check
+   * @returns {boolean} True if date is before today
+   */
   const isExpired = (expiryDate) => {
     if (!expiryDate) return false
     const today = new Date()
@@ -105,18 +136,30 @@ const Inventory = () => {
     return expiry < today
   }
 
-  // Generate new SKU
+  /**
+   * Generate a new unique SKU (Stock Keeping Unit)
+   * Format: MED-XXX where XXX is zero-padded number
+   * @returns {string} New SKU
+   */
   const generateSKU = () => {
     const maxId = inventoryItems.reduce((max, item) => Math.max(max, item.id), 0)
     return `MED-${String(maxId + 1).padStart(3, '0')}`
   }
 
-  // Calculate total stock for an item across batches
+  /**
+   * Calculate total stock for an item across all batches
+   * @param {Object} item - Inventory item
+   * @returns {number} Total stock
+   */
   const getTotalStock = (item) => {
     return item.batches.reduce((sum, batch) => sum + batch.stock, 0)
   }
 
-  // Determine the most urgent status for an item based on batches
+  /**
+   * Determine item status based on batches (priority: Expired > Near Expiry > Low Stock > In Stock)
+   * @param {Object} item - Inventory item
+   * @returns {Object} { label: string, type: string }
+   */
   const getItemStatus = (item) => {
     const totalStock = getTotalStock(item)
     const hasExpired = item.batches.some(batch => isExpired(batch.expiryDate))
@@ -129,7 +172,10 @@ const Inventory = () => {
     return { label: 'In Stock', type: 'ok' }
   }
 
-  // Toggle expansion for item batches
+  /**
+   * Toggle expand/collapse for an item's batches
+   * @param {number} itemId - ID of item to toggle
+   */
   const toggleItemExpansion = (itemId) => {
     const newExpanded = new Set(expandedItems)
     if (newExpanded.has(itemId)) {
@@ -140,7 +186,10 @@ const Inventory = () => {
     setExpandedItems(newExpanded)
   }
 
-  // Filter items based on search and office
+  /**
+   * Filter items by search query and selected office
+   * @returns {Array} Filtered items
+   */
   const filteredItems = inventoryItems.filter(item => {
     const matchesSearch = 
       item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -152,7 +201,11 @@ const Inventory = () => {
     return matchesSearch && matchesOffice
   })
 
-  // Format expiry date for display
+  /**
+   * Format expiry date for display
+   * @param {string} dateStr - Date string
+   * @returns {string} Formatted date or 'N/A'
+   */
   const formatExpiryDate = (dateStr) => {
     if (!dateStr) return 'N/A'
     const date = new Date(dateStr)
@@ -163,11 +216,21 @@ const Inventory = () => {
     })
   }
 
+  // ==========================================
+  // HANDLER FUNCTIONS
+  // ==========================================
+
+  /**
+   * Add a new inventory item with initial batch and transaction
+   */
   const handleAddItem = () => {
+    // Validate: Require at least one initial batch
     if (!addFormData.hasInitialBatch) {
       alert('Please add an initial batch before saving the item!')
       return
     }
+
+    // Create new item object
     const newItem = {
       id: inventoryItems.length + 1,
       sku: generateSKU(),
@@ -184,9 +247,10 @@ const Inventory = () => {
           office: addFormData.initialBatch.office,
           stock: addFormData.initialBatch.stock,
           expiryDate: addFormData.initialBatch.hasExpiry ? addFormData.initialBatch.expiryDate : null,
-          transactionCount: 0
+          transactionCount: 0 // Tracks how many times this batch has been used in transactions
         }
       ],
+      // Add initial transaction for "Initial Stock"
       transactions: [
         {
           date: new Date().toISOString().split('T')[0],
@@ -198,8 +262,11 @@ const Inventory = () => {
         }
       ]
     }
+
+    // Update state and close modal
     setInventoryItems([...inventoryItems, newItem])
     setShowAddModal(false)
+    // Reset form
     setAddFormData({
       name: '',
       location: '',
@@ -219,8 +286,14 @@ const Inventory = () => {
     })
   }
 
+  /**
+   * Open transaction modal for adding or editing
+   * @param {boolean} isEdit - True if editing existing transaction
+   * @param {number|null} index - Index of transaction to edit (if isEdit is true)
+   */
   const handleOpenTransactionModal = (isEdit = false, index = null) => {
     if (isEdit && showMoreInfo && showMoreInfo.transactions && showMoreInfo.transactions[index]) {
+      // Editing: Populate form with existing transaction data
       const tx = showMoreInfo.transactions[index]
       setTransactionForm({
         date: tx.date,
@@ -232,6 +305,7 @@ const Inventory = () => {
         balance: tx.balance
       })
     } else {
+      // Adding: Initialize form with defaults
       setTransactionForm({
         date: new Date().toISOString().split('T')[0],
         reference: '',
@@ -245,6 +319,9 @@ const Inventory = () => {
     setShowTransactionModal({ visible: true, isEdit, index })
   }
 
+  /**
+   * Save transaction (add new or update existing)
+   */
   const handleSaveTransaction = () => {
     if (!showMoreInfo) return
 
@@ -257,16 +334,21 @@ const Inventory = () => {
     let transactions = [...(item.transactions || [])]
 
     if (showTransactionModal.isEdit && showTransactionModal.index !== null) {
-      // Update existing transaction
+      // ======================================
+      // UPDATE EXISTING TRANSACTION
+      // ======================================
       transactions[showTransactionModal.index] = { ...transactionForm }
     } else {
-      // Add new transaction
+      // ======================================
+      // ADD NEW TRANSACTION
+      // ======================================
       const lastTx = transactions.length > 0 ? transactions[transactions.length - 1] : null
+      // Calculate new balance based on previous balance
       const newBalance = lastTx
         ? lastTx.balance + transactionForm.receiptQty - transactionForm.issuanceQty
         : transactionForm.receiptQty - transactionForm.issuanceQty
 
-      // Auto-generate reference with incrementing count
+      // Auto-generate reference with incrementing count (format: {SKU}{BatchID}-{Count})
       let reference = transactionForm.reference
       let newTransactionCount = null
       if (transactionForm.selectedBatch && showMoreInfo) {
@@ -278,12 +360,14 @@ const Inventory = () => {
           item.batches = [...item.batches]
           item.batches[batchIndex] = batch
 
+          // Only auto-generate if reference wasn't manually provided
           if (!reference) {
             reference = `${showMoreInfo.sku}${transactionForm.selectedBatch}-${newTransactionCount}`
           }
         }
       }
 
+      // Push new transaction
       transactions.push({
         ...transactionForm,
         reference,
@@ -291,6 +375,7 @@ const Inventory = () => {
       })
     }
 
+    // Update state and close modal
     item.transactions = transactions
     updatedItems[itemIndex] = item
     setInventoryItems(updatedItems)
@@ -298,7 +383,12 @@ const Inventory = () => {
     setShowTransactionModal({ visible: false, isEdit: false, index: null })
   }
 
+  /**
+   * Delete transaction and recalculate all balances
+   * @param {number} index - Index of transaction to delete
+   */
   const handleDeleteTransaction = (index) => {
+    // Confirm deletion
     if (!showMoreInfo || !window.confirm('Are you sure you want to delete this transaction?')) return
 
     const updatedItems = [...inventoryItems]
@@ -308,15 +398,19 @@ const Inventory = () => {
 
     const item = { ...updatedItems[itemIndex] }
     let transactions = [...(item.transactions || [])]
+    // Remove transaction
     transactions.splice(index, 1)
 
-    // Recalculate balances
+    // ======================================
+    // RECALCULATE BALANCES FOR ALL TRANSACTIONS
+    // ======================================
     let balance = 0
     transactions = transactions.map((tx, idx) => {
       balance = balance + tx.receiptQty - tx.issuanceQty
       return { ...tx, balance }
     })
 
+    // Update state
     item.transactions = transactions
     updatedItems[itemIndex] = item
     setInventoryItems(updatedItems)
@@ -325,6 +419,9 @@ const Inventory = () => {
 
   return (
     <div className="inventory">
+      {/* ==========================================
+          PAGE HEADER
+          ========================================== */}
       <div className="page-header">
         <div>
           <h1 className="page-title">Inventory Management</h1>
@@ -336,6 +433,9 @@ const Inventory = () => {
         </button>
       </div>
 
+      {/* ==========================================
+          FILTERS BAR (Search + Office Filter)
+          ========================================== */}
       <div className="filters-bar">
         <div className="search-box">
           <span className="search-icon">
@@ -361,12 +461,15 @@ const Inventory = () => {
         </select>
       </div>
 
+      {/* ==========================================
+          INVENTORY TABLE
+          ========================================== */}
       <div className="card">
         <div className="table-container">
           <table className="inventory-table">
             <thead>
               <tr>
-                <th style={{width: '40px'}}></th>
+                <th style={{width: '40px'}}></th> {/* Expand/Collapse column */}
                 <th>SKU</th>
                 <th>Item Name</th>
                 <th>Total Stock</th>
@@ -384,6 +487,7 @@ const Inventory = () => {
                 
                 return (
                   <React.Fragment key={item.id}>
+                    {/* MAIN ITEM ROW */}
                     <tr className="item-row" onClick={() => toggleItemExpansion(item.id)}>
                       <td>
                         <span className="expand-icon">
@@ -403,7 +507,7 @@ const Inventory = () => {
                       <td>
                         <span className={`status-badge ${status.type}`}>{status.label}</span>
                       </td>
-                      <td onClick={(e) => e.stopPropagation()}>
+                      <td onClick={(e) => e.stopPropagation()}> {/* Prevent row expansion when clicking action buttons */}
                         <div className="actions">
                           <button 
                             className="btn-icon" 
@@ -423,6 +527,7 @@ const Inventory = () => {
                       </td>
                     </tr>
 
+                    {/* BATCHES ROW (Expanded) */}
                     {isExpanded && (
                       <tr className="batches-row">
                         <td colSpan={7}>
@@ -485,18 +590,22 @@ const Inventory = () => {
         </div>
       </div>
 
-      {/* Stock Card Modal */}
+      {/* ==========================================
+          MODALS
+          ========================================== */}
+
+      {/* STOCK CARD MODAL - Shows full item details + transactions */}
       {showMoreInfo && (
         <div className="modal-overlay" onClick={() => setShowMoreInfo(null)}>
           <div className="modal modal-large" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-header no-print">
+            <div className="modal-header no-print"> {/* no-print class hides this when printing */}
               <h2 className="modal-title">Stock Card: {showMoreInfo.name}</h2>
               <button className="close-btn" onClick={() => setShowMoreInfo(null)}>
                 <Icon src={closeIcon} alt="Close" size={24} />
               </button>
             </div>
             <div className="modal-body">
-              {/* Stock Card Header */}
+              {/* Stock Card Header - Clinic info + item details */}
               <div className="stock-card-header">
                 <div className="clinic-info">
                   <h3>Provincial Health Office</h3>
@@ -523,6 +632,7 @@ const Inventory = () => {
                 </div>
               </div>
 
+              {/* Transaction Log Section (with Add Transaction button) */}
               <div className="stock-card-actions no-print" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
                 <h4 className="detail-subtitle" style={{ margin: 0 }}>Transaction Log</h4>
                 <button className="btn-primary" onClick={() => handleOpenTransactionModal(false, null)}>
@@ -531,7 +641,7 @@ const Inventory = () => {
               </button>
               </div>
 
-              {/* Transaction Table */}
+              {/* Stock Card Transaction Table - Formal format for printing */}
               <div className="stock-card-table-container">
                 <table className="stock-card-table">
                   <thead>
@@ -582,7 +692,7 @@ const Inventory = () => {
         </div>
       )}
 
-      {/* Edit Modal */}
+      {/* EDIT ITEM MODAL */}
       {showEditModal && (
         <div className="modal-overlay" onClick={() => setShowEditModal(null)}>
           <div className="modal modal-large" onClick={(e) => e.stopPropagation()}>
@@ -676,7 +786,7 @@ const Inventory = () => {
         </div>
       )}
 
-      {/* Transaction Edit Modal */}
+      {/* TRANSACTION ADD/EDIT MODAL */}
       {showTransactionModal.visible && (
         <div className="modal-overlay" onClick={() => setShowTransactionModal({ visible: false, isEdit: false, index: null })}>
           <div className="modal" onClick={(e) => e.stopPropagation()}>
@@ -699,6 +809,7 @@ const Inventory = () => {
                     onChange={(e) => setTransactionForm({ ...transactionForm, date: e.target.value })}
                   />
                 </div>
+                {/* Batch Selector (auto-generates reference based on batch) */}
                 {showMoreInfo && showMoreInfo.batches && showMoreInfo.batches.length > 0 && (
                   <div className="form-group">
                     <label className="form-label">Batch</label>
@@ -782,7 +893,7 @@ const Inventory = () => {
         </div>
       )}
 
-      {/* Add Item Modal */}
+      {/* ADD ITEM MODAL */}
       {showAddModal && (
         <div className="modal-overlay" onClick={() => setShowAddModal(false)}>
           <div className="modal modal-large" onClick={(e) => e.stopPropagation()}>

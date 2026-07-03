@@ -1,6 +1,16 @@
+/**
+ * Requisition Requests Page (Admin Only)
+ * Features:
+ * - View all requisition requests
+ * - Clean main table without item details
+ * - View modal to see full request details
+ * - Approve/Reject workflow
+ */
+
 import React, { useState } from 'react'
 
 const RequisitionRequests = () => {
+  // Mock requisition request data (will come from database later)
   const [requests, setRequests] = useState([
     {
       id: 1,
@@ -44,6 +54,11 @@ const RequisitionRequests = () => {
 
   const [selectedRequest, setSelectedRequest] = useState(null)
 
+  /**
+   * Update requisition status
+   * @param {number} id - Request ID
+   * @param {string} newStatus - New status (Approved/Rejected)
+   */
   const handleStatusChange = (id, newStatus) => {
     setRequests(requests.map(req => 
       req.id === id ? { ...req, status: newStatus } : req

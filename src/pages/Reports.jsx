@@ -1,7 +1,16 @@
+/**
+ * Reports Page
+ * Features:
+ * - Generate weekly, monthly, yearly inventory reports
+ * - Filter by office
+ * - Visual reports with charts and graphs
+ * - Printable formal reports with signature blocks
+ */
+
 import React, { useState } from 'react'
 
 const Reports = () => {
-  const [timePeriod, setTimePeriod] = useState('monthly')
+  const [timePeriod, setTimePeriod] = useState('monthly') // 'weekly', 'monthly', 'yearly'
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().slice(0, 7))
   const [selectedOffice, setSelectedOffice] = useState('all')
 

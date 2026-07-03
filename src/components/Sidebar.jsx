@@ -1,9 +1,19 @@
+/**
+ * Sidebar Component - Main Navigation
+ * Responsive navigation menu with role-based access control
+ * Features:
+ * - Desktop sidebar (collapsible on tablet)
+ * - Mobile hamburger menu
+ * - User role management (for testing)
+ * - Does not print with no-print class
+ */
+
 import React, { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useUserRole } from '../context/UserRoleContext'
 import Icon from './Icon'
 
-// Import icons
+// Import sidebar icons from assets
 import bpdaccLogo from '../assets/icons/sidebar/bpdacc-logo.jpg'
 import dashboardIcon from '../assets/icons/sidebar/dashboard-icon.svg'
 import inventoryIcon from '../assets/icons/sidebar/inventory-icon.svg'
@@ -14,11 +24,11 @@ import settingsIcon from '../assets/icons/sidebar/settings-icon.svg'
 import usersIcon from '../assets/icons/sidebar/users-icon.svg'
 
 const Sidebar = () => {
-  const location = useLocation()
+  const location = useLocation() // Get current path for active state
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const { userRole, setUserRole, isAdmin } = useUserRole()
 
-  // Menu items based on user role
+  // Navigation menu items - role-based visibility
   const menuItems = [
     { path: '/', icon: dashboardIcon, label: 'Dashboard', visible: true },
     { path: '/inventory', icon: inventoryIcon, label: 'Inventory', visible: true },
@@ -26,26 +36,29 @@ const Sidebar = () => {
       path: '/requisition', 
       icon: risIcon, 
       label: 'Requisition (RIS)', 
-      visible: !isAdmin 
+      visible: !isAdmin // Visible to non-admin users only
     },
     { 
       path: '/requisition-requests', 
       icon: rislistIcon, 
       label: 'Requisition Requests', 
-      visible: isAdmin 
+      visible: isAdmin // Visible to admins only
     },
     { path: '/reports', icon: reportsIcon, label: 'Reports', visible: true },
     { path: '/users', icon: usersIcon, label: 'Users', visible: isAdmin },
     { path: '/settings', icon: settingsIcon, label: 'Settings', visible: true },
-  ].filter(item => item.visible)
+  ].filter(item => item.visible) // Filter out hidden items
 
+  /**
+   * Toggle mobile sidebar open/closed
+   */
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
   }
 
   return (
     <>
-      {/* Mobile Menu Toggle Button */}
+      {/* Mobile Menu Toggle Button - Fixed in top-left on mobile */}
       <button
         className="mobile-menu-toggle no-print"
         onClick={toggleMobileMenu}
@@ -53,7 +66,7 @@ const Sidebar = () => {
         <span className="menu-icon">{isMobileMenuOpen ? '✕' : '☰'}</span>
       </button>
 
-      {/* Sidebar Overlay for Mobile */}
+      {/* Mobile Sidebar Overlay - Closes menu when clicked */}
       {isMobileMenuOpen && (
         <div
           className="sidebar-overlay no-print"
@@ -61,6 +74,7 @@ const Sidebar = () => {
         />
       )}
 
+      {/* Main Sidebar Container */}
       <div className={`sidebar no-print ${isMobileMenuOpen ? 'open' : ''}`}>
         <div className="sidebar-header">
           <h1 className="logo">
@@ -68,19 +82,23 @@ const Sidebar = () => {
             <span className="logo-text">BPDACC Inv</span>
           </h1>
         </div>
+        
+        {/* Navigation Menu */}
         <nav className="sidebar-nav">
           {menuItems.map((item) => (
             <Link
               key={item.path}
               to={item.path}
               className={`nav-item ${location.pathname === item.path ? 'active' : ''}`}
-              onClick={() => setIsMobileMenuOpen(false)}
+              onClick={() => setIsMobileMenuOpen(false)} // Close menu on nav click
             >
               <Icon src={item.icon} alt={item.label} size={20} className="nav-icon" />
               <span className="nav-label">{item.label}</span>
             </Link>
           ))}
         </nav>
+        
+        {/* Sidebar Footer - User Info & Role Switcher */}
         <div className="sidebar-footer">
           <div className="user-info">
             <div className="user-avatar">JD</div>

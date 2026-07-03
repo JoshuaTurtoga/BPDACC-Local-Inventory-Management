@@ -1,3 +1,12 @@
+/**
+ * Settings Page
+ * Features:
+ * - Clinic information (name, address, contact)
+ * - Office management
+ * - Notification preferences
+ * - Database configuration
+ */
+
 import React from 'react'
 
 const Settings = () => {

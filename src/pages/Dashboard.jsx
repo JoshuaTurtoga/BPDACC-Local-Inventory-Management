@@ -1,7 +1,7 @@
 import React from 'react'
 import Icon from '../components/Icon'
 
-// Import dashboard icons
+// Import dashboard icons from assets folder
 import totalItemsIcon from '../assets/icons/dashboard/dashboard-totalitems-icon.svg'
 import lowStockIcon from '../assets/icons/dashboard/dashboard-lowstock-icon.svg'
 import pendingIcon from '../assets/icons/dashboard/dashboard-pending-icon.svg'
@@ -12,7 +12,15 @@ import activityNearExpiryIcon from '../assets/icons/dashboard/dashboard-activity
 import activityAllocatedIcon from '../assets/icons/dashboard/dashboard-activityallocated-icon.svg'
 import activityAddedIcon from '../assets/icons/dashboard/dashboard-activityadded-icon.svg'
 
+/**
+ * Dashboard page - Home page showing overview of inventory system
+ * Displays:
+ * - Key statistics (total items, low stock, pending reqs, issued today)
+ * - Recent activity feed
+ * - Donut chart showing inventory by office
+ */
 const Dashboard = () => {
+  // Statistics cards data
   const stats = [
     { label: 'Total Items', value: '1,247', icon: totalItemsIcon, bgColor: '#e8f0fe' },
     { label: 'Low Stock', value: '23', icon: lowStockIcon, bgColor: '#fff799ff' },
@@ -20,6 +28,7 @@ const Dashboard = () => {
     { label: 'Issued Today', value: '45', icon: issuedIcon, bgColor: '#e6f9e6' },
   ]
 
+  // Recent activity feed data
   const recentActivity = [
     { id: 1, item: 'Syringes 5ml', office: 'Hemodialysis', action: 'Issued', time: '2 hours ago', icon: activityIssuedIcon, bgColor: '#e6fff3ff' },
     { id: 2, item: 'Alcohol Swabs', office: 'Admin Office', action: 'Expired', time: '3 hours ago', type: 'expired', icon: activityExpiredIcon, bgColor: '#ffe6e6' },
@@ -28,7 +37,7 @@ const Dashboard = () => {
     { id: 5, item: 'Needles 21G', office: 'Clinical Laboratory', action: 'Added', time: '6 hours ago', type: 'added', icon: activityAddedIcon, bgColor: '#e6f9e6' },
   ]
 
-  // Inventory data for the donut chart
+  // Mock inventory data (will come from API later)
   const inventoryItems = [
     {
       id: 1,
@@ -97,7 +106,10 @@ const Dashboard = () => {
     },
   ]
 
-  // Calculate office totals
+  /**
+   * Calculate total inventory stock per office
+   * Returns totals object with office names as keys
+   */
   const calculateOfficeTotals = () => {
     const totals = {
       'Hemodialysis': 0,
@@ -107,6 +119,7 @@ const Dashboard = () => {
       'Unallocated': 0,
     }
 
+    // Sum stock from all batches for each office
     inventoryItems.forEach(item => {
       item.batches.forEach(batch => {
         if (totals.hasOwnProperty(batch.office)) {
@@ -118,12 +131,13 @@ const Dashboard = () => {
     return totals
   }
 
+  // Calculate various totals for display
   const officeTotals = calculateOfficeTotals()
   const totalAllocated = Object.values(officeTotals).reduce((sum, val) => sum + val, 0) - officeTotals.Unallocated
   const totalUnallocated = officeTotals.Unallocated
   const totalOverall = Object.values(officeTotals).reduce((sum, val) => sum + val, 0)
 
-  // Chart data
+  // Chart data for donut chart visualization
   const chartData = [
     { name: 'Hemodialysis', value: officeTotals.Hemodialysis, color: '#3b82f6' },
     { name: 'Clinical Laboratory', value: officeTotals['Clinical Laboratory'], color: '#10b981' },
@@ -132,7 +146,9 @@ const Dashboard = () => {
     { name: 'Unallocated', value: officeTotals.Unallocated, color: '#9ca3af' },
   ]
 
-  // Calculate donut chart segments
+  /**
+   * Calculate percentage-based segments for the donut chart
+   */
   const calculateDonutSegments = () => {
     const segments = []
     let cumulativePercent = 0
@@ -152,7 +168,10 @@ const Dashboard = () => {
 
   const segments = calculateDonutSegments()
 
-  // Convert percentage to degrees
+  /**
+   * Convert polar coordinates to Cartesian for SVG arc drawing
+   * Used to draw the donut chart segments
+   */
   const polarToCartesian = (centerX, centerY, radius, angleInDegrees) => {
     const angleInRadians = ((angleInDegrees - 90) * Math.PI) / 180
     return {
@@ -161,7 +180,10 @@ const Dashboard = () => {
     }
   }
 
-  // Create SVG arc path
+  /**
+   * Generate SVG arc path data for donut chart
+   * Creates curved segments for each office's inventory
+   */
   const describeArc = (x, y, radius, startAngle, endAngle) => {
     const start = polarToCartesian(x, y, radius, endAngle)
     const end = polarToCartesian(x, y, radius, startAngle)

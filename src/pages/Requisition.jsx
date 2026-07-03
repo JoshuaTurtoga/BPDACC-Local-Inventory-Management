@@ -1,6 +1,16 @@
+/**
+ * Requisition & Issue Slip (RIS) Page
+ * Features:
+ * - Create formal requisition forms
+ * - 15-line item table
+ * - Signature blocks (Requested, Approved, Issued, Received)
+ * - Printable formal document
+ */
+
 import React, { useState } from 'react'
 
 const Requisition = () => {
+  // Form state with auto-generated date & RIS number
   const [formData, setFormData] = useState({
     office: '',
     purpose: '',
@@ -12,6 +22,9 @@ const Requisition = () => {
     requisitionNo: `RIS-${Date.now().toString().slice(-6)}`,
   })
 
+  /**
+   * Print current RIS form
+   */
   const handlePrint = () => {
     window.print()
   }
