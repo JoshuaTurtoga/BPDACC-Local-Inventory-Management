@@ -36,7 +36,7 @@ const Inventory = () => {
   const [showMoreInfo, setShowMoreInfo] = useState(null) // Stock Card modal (shows full item + transactions)
   const [showEditModal, setShowEditModal] = useState(null) // Edit Item modal
   const [showAddModal, setShowAddModal] = useState(false) // Add New Item modal
-  const [showTransactionModal, setShowTransactionModal] = useState({ visible: false, isEdit: false, index: null }) // Transaction add/edit modal
+  const [showTransactionModal, setShowTransactionModal] = useState({ visible: false, isEdit: false, index: null, isRestock: false }) // Transaction add/edit modal
   
   // Form data states
   const [transactionForm, setTransactionForm] = useState({
@@ -357,6 +357,10 @@ const Inventory = () => {
           const batch = { ...item.batches[batchIndex] }
           newTransactionCount = (batch.transactionCount || 0) + 1
           batch.transactionCount = newTransactionCount
+          
+          // Update the batch stock!
+          batch.stock += transactionForm.receiptQty - transactionForm.issuanceQty
+          
           item.batches = [...item.batches]
           item.batches[batchIndex] = batch
 
@@ -381,6 +385,24 @@ const Inventory = () => {
     setInventoryItems(updatedItems)
     setShowMoreInfo(item)
     setShowTransactionModal({ visible: false, isEdit: false, index: null })
+  }
+
+  /**
+   * Open transaction modal for restocking an item
+   * @param {Object} item - The inventory item to restock
+   */
+  const handleRestock = (item) => {
+    setShowMoreInfo(item)
+    setTransactionForm({
+      date: new Date().toISOString().split('T')[0],
+      reference: '',
+      selectedBatch: item.batches.length > 0 ? item.batches[0].batchId : null,
+      receiptQty: 0,
+      issuanceQty: 0,
+      office: item.batches.length > 0 ? item.batches[0].office : 'Hemodialysis',
+      balance: getTotalStock(item)
+    })
+    setShowTransactionModal({ visible: true, isEdit: false, index: null })
   }
 
   /**
@@ -509,6 +531,13 @@ const Inventory = () => {
                       </td>
                       <td onClick={(e) => e.stopPropagation()}> {/* Prevent row expansion when clicking action buttons */}
                         <div className="actions">
+                          <button 
+                            className="btn-icon" 
+                            title="Restock item"
+                            onClick={() => handleRestock(item)}
+                          >
+                            <Icon src={addTransactionIcon} alt="Restock" size={20} />
+                          </button>
                           <button 
                             className="btn-icon" 
                             title="Edit item"
