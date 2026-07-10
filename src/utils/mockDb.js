@@ -32,17 +32,17 @@ const DEFAULT_ITEMS = [
     minStock: 100,
     unit: 'Pieces',
     batches: [
-      { batchId: 'ABC123DEF4-001', brand: 'BD Medical', supplier: 'Medical Supply Co', stockNumber: 'SN-001', expiryDate: null, office: 'Hemodialysis', stock: 250, transactionCount: 3, ptr: '1.50', remarks: 'Standard syringe supply' },
-      { batchId: 'ABC123DEF4-002', brand: 'BD Medical', supplier: 'Medical Supply Co', stockNumber: 'SN-002', expiryDate: null, office: 'Clinical Laboratory', stock: 320, transactionCount: 1, ptr: '1.50', remarks: 'For clinical laboratory use' },
-      { batchId: 'ABC123DEF4-003', brand: 'BD Medical', supplier: 'Medical Supply Co', stockNumber: 'SN-003', expiryDate: null, office: 'Hemodialysis', stock: 200, transactionCount: 0, ptr: '1.60', remarks: 'Emergency backup batch' }
+      { batchId: 'ABC123DEF4-001', brand: 'BD Medical', supplier: 'Medical Supply Co', stockNumber: 'SN-001', expiryDate: null, office: 'Hemodialysis', stock: 250, transactionCount: 3, ptr: 'PTR-2026-001', costPerUnit: '1.50', remarks: 'Standard syringe supply' },
+      { batchId: 'ABC123DEF4-002', brand: 'BD Medical', supplier: 'Medical Supply Co', stockNumber: 'SN-002', expiryDate: null, office: 'Clinical Laboratory', stock: 320, transactionCount: 1, ptr: 'PTR-2026-002', costPerUnit: '1.50', remarks: 'For clinical laboratory use' },
+      { batchId: 'ABC123DEF4-003', brand: 'BD Medical', supplier: 'Medical Supply Co', stockNumber: 'SN-003', expiryDate: null, office: 'Hemodialysis', stock: 200, transactionCount: 0, ptr: 'PTR-2026-003', costPerUnit: '1.60', remarks: 'Emergency backup batch' }
     ],
     transactions: [
-      { date: '2026-06-01', reference: 'ABC123DEF4-001-001', selectedBatch: 'ABC123DEF4-001', receiptQty: 770, issuanceQty: 0, office: 'All', balance: 770, ptr: '1.50', remarks: 'Opening inventory' },
-      { date: '2026-06-05', reference: 'ABC123DEF4-001-002', selectedBatch: 'ABC123DEF4-001', receiptQty: 0, issuanceQty: 50, office: 'Hemodialysis', balance: 720, ptr: '1.50', remarks: '' },
-      { date: '2026-06-06', reference: 'ABC123DEF4-001-003', selectedBatch: 'ABC123DEF4-001', receiptQty: 0, issuanceQty: 40, office: 'Hemodialysis', balance: 680, ptr: '1.50', remarks: '' },
-      { date: '2026-06-07', reference: 'ABC123DEF4-001-004', selectedBatch: 'ABC123DEF4-001', receiptQty: 0, issuanceQty: 30, office: 'Hemodialysis', balance: 650, ptr: '1.50', remarks: '' },
-      { date: '2026-06-10', reference: 'ABC123DEF4-003-001', selectedBatch: 'ABC123DEF4-003', receiptQty: 200, issuanceQty: 0, office: 'Hemodialysis', balance: 850, ptr: '1.60', remarks: 'Added restock' },
-      { date: '2026-06-15', reference: 'ABC123DEF4-002-001', selectedBatch: 'ABC123DEF4-002', receiptQty: 0, issuanceQty: 80, office: 'Clinical Laboratory', balance: 770, ptr: '1.50', remarks: '' }
+      { date: '2026-06-01', reference: 'ABC123DEF4-001-001', selectedBatch: 'ABC123DEF4-001', receiptQty: 770, issuanceQty: 0, office: 'All', balance: 770, ptr: 'PTR-2026-001', costPerUnit: '1.50', remarks: 'Opening inventory' },
+      { date: '2026-06-05', reference: 'ABC123DEF4-001-002', selectedBatch: 'ABC123DEF4-001', receiptQty: 0, issuanceQty: 50, office: 'Hemodialysis', balance: 720, ptr: 'PTR-2026-001', costPerUnit: '1.50', remarks: '' },
+      { date: '2026-06-06', reference: 'ABC123DEF4-001-003', selectedBatch: 'ABC123DEF4-001', receiptQty: 0, issuanceQty: 40, office: 'Hemodialysis', balance: 680, ptr: 'PTR-2026-001', costPerUnit: '1.50', remarks: '' },
+      { date: '2026-06-07', reference: 'ABC123DEF4-001-004', selectedBatch: 'ABC123DEF4-001', receiptQty: 0, issuanceQty: 30, office: 'Hemodialysis', balance: 650, ptr: 'PTR-2026-001', costPerUnit: '1.50', remarks: '' },
+      { date: '2026-06-10', reference: 'ABC123DEF4-003-001', selectedBatch: 'ABC123DEF4-003', receiptQty: 200, issuanceQty: 0, office: 'Hemodialysis', balance: 850, ptr: 'PTR-2026-003', costPerUnit: '1.60', remarks: 'Added restock' },
+      { date: '2026-06-15', reference: 'ABC123DEF4-002-001', selectedBatch: 'ABC123DEF4-002', receiptQty: 0, issuanceQty: 80, office: 'Clinical Laboratory', balance: 770, ptr: 'PTR-2026-002', costPerUnit: '1.50', remarks: '' }
     ]
   },
   {
@@ -53,12 +53,12 @@ const DEFAULT_ITEMS = [
     minStock: 50,
     unit: 'Packs',
     batches: [
-      { batchId: 'GHI456JKL7-001', brand: 'Johnson & Johnson', supplier: 'Healthcare Plus', stockNumber: 'SN-004', expiryDate: '2026-07-15', office: 'Radiology', stock: 80, transactionCount: 1, ptr: '3.20', remarks: 'Keep in dry place' },
-      { batchId: 'GHI456JKL7-002', brand: 'Johnson & Johnson', supplier: 'Healthcare Plus', stockNumber: 'SN-005', expiryDate: '2027-03-20', office: 'Radiology', stock: 40, transactionCount: 0, ptr: '3.20', remarks: 'Backup packs' }
+      { batchId: 'GHI456JKL7-001', brand: 'Johnson & Johnson', supplier: 'Healthcare Plus', stockNumber: 'SN-004', expiryDate: '2026-07-15', office: 'Radiology', stock: 80, transactionCount: 1, ptr: 'PTR-2026-004', costPerUnit: '3.20', remarks: 'Keep in dry place' },
+      { batchId: 'GHI456JKL7-002', brand: 'Johnson & Johnson', supplier: 'Healthcare Plus', stockNumber: 'SN-005', expiryDate: '2027-03-20', office: 'Radiology', stock: 40, transactionCount: 0, ptr: 'PTR-2026-005', costPerUnit: '3.20', remarks: 'Backup packs' }
     ],
     transactions: [
-      { date: '2026-06-02', reference: 'GHI456JKL7-001-001', selectedBatch: 'GHI456JKL7-001', receiptQty: 120, issuanceQty: 0, office: 'All', balance: 120, ptr: '3.20', remarks: 'Opening inventory' },
-      { date: '2026-06-08', reference: 'GHI456JKL7-001-002', selectedBatch: 'GHI456JKL7-001', receiptQty: 0, issuanceQty: 40, office: 'Radiology', balance: 80, ptr: '3.20', remarks: '' }
+      { date: '2026-06-02', reference: 'GHI456JKL7-001-001', selectedBatch: 'GHI456JKL7-001', receiptQty: 120, issuanceQty: 0, office: 'All', balance: 120, ptr: 'PTR-2026-004', costPerUnit: '3.20', remarks: 'Opening inventory' },
+      { date: '2026-06-08', reference: 'GHI456JKL7-001-002', selectedBatch: 'GHI456JKL7-001', receiptQty: 0, issuanceQty: 40, office: 'Radiology', balance: 80, ptr: 'PTR-2026-004', costPerUnit: '3.20', remarks: '' }
     ]
   },
   {
@@ -69,11 +69,11 @@ const DEFAULT_ITEMS = [
     minStock: 100,
     unit: 'Boxes',
     batches: [
-      { batchId: 'MNO789PQR0-001', brand: 'Kendall', supplier: 'Pharmacy Supply Co', stockNumber: 'SN-006', expiryDate: '2026-06-30', office: 'Admin Office', stock: 35, transactionCount: 1, ptr: '4.50', remarks: 'Standard brand' },
-      { batchId: 'MNO789PQR0-002', brand: 'Kendall', supplier: 'Pharmacy Supply Co', stockNumber: 'SN-007', expiryDate: '2026-08-10', office: 'Hemodialysis', stock: 40, transactionCount: 0, ptr: '4.50', remarks: 'Near expiry warnings' }
+      { batchId: 'MNO789PQR0-001', brand: 'Kendall', supplier: 'Pharmacy Supply Co', stockNumber: 'SN-006', expiryDate: '2026-06-30', office: 'Admin Office', stock: 35, transactionCount: 1, ptr: 'PTR-2026-006', costPerUnit: '4.50', remarks: 'Standard brand' },
+      { batchId: 'MNO789PQR0-002', brand: 'Kendall', supplier: 'Pharmacy Supply Co', stockNumber: 'SN-007', expiryDate: '2026-08-10', office: 'Hemodialysis', stock: 40, transactionCount: 0, ptr: 'PTR-2026-007', costPerUnit: '4.50', remarks: 'Near expiry warnings' }
     ],
     transactions: [
-      { date: '2026-06-03', reference: 'MNO789PQR0-001-001', selectedBatch: 'MNO789PQR0-001', receiptQty: 75, issuanceQty: 0, office: 'All', balance: 75, ptr: '4.50', remarks: 'Initial setup' }
+      { date: '2026-06-03', reference: 'MNO789PQR0-001-001', selectedBatch: 'MNO789PQR0-001', receiptQty: 75, issuanceQty: 0, office: 'All', balance: 75, ptr: 'PTR-2026-006', costPerUnit: '4.50', remarks: 'Initial setup' }
     ]
   },
   {
@@ -84,11 +84,11 @@ const DEFAULT_ITEMS = [
     minStock: 150,
     unit: 'Boxes',
     batches: [
-      { batchId: 'STU012VWX3-001', brand: '3M', supplier: 'Healthcare Plus', stockNumber: 'SN-008', expiryDate: null, office: 'Hemodialysis', stock: 150, transactionCount: 0, ptr: '5.00', remarks: '' },
-      { batchId: 'STU012VWX3-002', brand: '3M', supplier: 'Healthcare Plus', stockNumber: 'SN-009', expiryDate: null, office: 'Unallocated', stock: 50, transactionCount: 0, ptr: '5.00', remarks: '' }
+      { batchId: 'STU012VWX3-001', brand: '3M', supplier: 'Healthcare Plus', stockNumber: 'SN-008', expiryDate: null, office: 'Hemodialysis', stock: 150, transactionCount: 0, ptr: 'PTR-2026-008', costPerUnit: '5.00', remarks: '' },
+      { batchId: 'STU012VWX3-002', brand: '3M', supplier: 'Healthcare Plus', stockNumber: 'SN-009', expiryDate: null, office: 'Unallocated', stock: 50, transactionCount: 0, ptr: 'PTR-2026-009', costPerUnit: '5.00', remarks: '' }
     ],
     transactions: [
-      { date: '2026-06-03', reference: 'STU012VWX3-001-001', selectedBatch: 'STU012VWX3-001', receiptQty: 200, issuanceQty: 0, office: 'All', balance: 200, ptr: '5.00', remarks: 'Initial setup' }
+      { date: '2026-06-03', reference: 'STU012VWX3-001-001', selectedBatch: 'STU012VWX3-001', receiptQty: 200, issuanceQty: 0, office: 'All', balance: 200, ptr: 'PTR-2026-008', costPerUnit: '5.00', remarks: 'Initial setup' }
     ]
   },
   {
@@ -99,10 +99,10 @@ const DEFAULT_ITEMS = [
     minStock: 100,
     unit: 'Pieces',
     batches: [
-      { batchId: 'YZA456BCD7-001', brand: 'BD Medical', supplier: 'Medical Supply Co', stockNumber: 'SN-010', expiryDate: '2026-08-01', office: 'Clinical Laboratory', stock: 45, transactionCount: 0, ptr: '0.80', remarks: '' }
+      { batchId: 'YZA456BCD7-001', brand: 'BD Medical', supplier: 'Medical Supply Co', stockNumber: 'SN-010', expiryDate: '2026-08-01', office: 'Clinical Laboratory', stock: 45, transactionCount: 0, ptr: 'PTR-2026-010', costPerUnit: '0.80', remarks: '' }
     ],
     transactions: [
-      { date: '2026-06-04', reference: 'YZA456BCD7-001-001', selectedBatch: 'YZA456BCD7-001', receiptQty: 45, issuanceQty: 0, office: 'All', balance: 45, ptr: '0.80', remarks: 'Initial setup' }
+      { date: '2026-06-04', reference: 'YZA456BCD7-001-001', selectedBatch: 'YZA456BCD7-001', receiptQty: 45, issuanceQty: 0, office: 'All', balance: 45, ptr: 'PTR-2026-010', costPerUnit: '0.80', remarks: 'Initial setup' }
     ]
   }
 ];
@@ -160,6 +160,12 @@ const DEFAULT_ACTIVITIES = [
 
 // Helper functions to interact with LocalStorage
 const getFromStorage = (key, defaultValue) => {
+  // Temporarily force reset to load new sample data (we can remove this later)
+  if (key === DB_KEYS.ITEMS) {
+    localStorage.setItem(key, JSON.stringify(defaultValue));
+    return defaultValue;
+  }
+
   const value = localStorage.getItem(key);
   if (!value) {
     localStorage.setItem(key, JSON.stringify(defaultValue));
@@ -167,11 +173,6 @@ const getFromStorage = (key, defaultValue) => {
   }
   try {
     const data = JSON.parse(value);
-    // Reset items if using old 'MED-' SKU format
-    if (key === DB_KEYS.ITEMS && data.length > 0 && data[0].sku.startsWith('MED-')) {
-      localStorage.setItem(key, JSON.stringify(defaultValue));
-      return defaultValue;
-    }
     return data;
   } catch (e) {
     console.error(`Error parsing key: ${key}`, e);

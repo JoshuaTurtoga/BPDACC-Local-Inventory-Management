@@ -15,6 +15,7 @@ const Icon = ({ src, alt = '', size = 24, className = '', style = {} }) => {
     <img
       src={src}
       alt={alt}
+      draggable={false}
       style={{
         width: size,
         height: size,

@@ -64,6 +64,7 @@ const Inventory = () => {
       brand: '',
       supplier: '',
       ptr: '',
+      costPerUnit: '',
       remarks: ''
     }
   })
@@ -285,6 +286,7 @@ const Inventory = () => {
           stock: qtyVal,
           transactionCount: 0,
           ptr: addFormData.initialBatch.ptr,
+          costPerUnit: addFormData.initialBatch.costPerUnit,
           remarks: addFormData.initialBatch.remarks
         }
       ],
@@ -298,6 +300,7 @@ const Inventory = () => {
           office: addFormData.initialBatch.assignedFor,
           balance: qtyVal,
           ptr: addFormData.initialBatch.ptr,
+          costPerUnit: addFormData.initialBatch.costPerUnit,
           remarks: addFormData.initialBatch.remarks || `${addFormData.initialBatch.assignedFor} - Opening Stock`
         }
       ]
@@ -356,7 +359,8 @@ const Inventory = () => {
       stock: 0,
       expiryDate: null,
       transactionCount: 0,
-      ptr: '0.00',
+      ptr: '',
+      costPerUnit: '',
       remarks: ''
     }
     setEditFormData({
@@ -630,6 +634,13 @@ const Inventory = () => {
                           >
                             <Icon src={stockCardIcon} alt="Stock Card" size={20} />
                           </button>
+                          <button 
+                            className="btn-icon" 
+                            title="Edit Item"
+                            onClick={() => handleOpenEditModal(item)}
+                          >
+                            <Icon src={editIcon} alt="Edit" size={20} />
+                          </button>
                         </div>
                       </td>
                     </tr>
@@ -771,10 +782,10 @@ const Inventory = () => {
                           {tx.balance}
                         </td>
                         <td style={{ border: '1px solid #d1d5db', padding: '12px', textAlign: 'center' }}>
-                          {tx.ptr || '-'}
+                          {tx.costPerUnit || '-'}
                         </td>
                         <td style={{ border: '1px solid #d1d5db', padding: '12px', textAlign: 'center' }}>
-                          {tx.reference || '-'}
+                          {tx.ptr || tx.reference || '-'}
                         </td>
                         <td style={{ border: '1px solid #d1d5db', padding: '12px', textAlign: 'left' }}>
                           {tx.remarks || tx.office || '-'}
@@ -929,33 +940,59 @@ const Inventory = () => {
                           />
                         </div>
                         <div className="form-group mini">
-                          <label className="toggle-label">
-                            <input 
-                              type="checkbox" 
-                              checked={!!batch.expiryDate} 
-                              onChange={(e) => {
-                                const updatedBatches = [...editFormData.batches]
-                                updatedBatches[idx] = { ...batch, expiryDate: e.target.checked ? new Date().toISOString().split('T')[0] : null }
-                                setEditFormData({ ...editFormData, batches: updatedBatches })
-                              }}
-                            />
-                            Has Expiry
-                          </label>
-                        </div>
-                        <div className="form-group mini">
-                          <label className="form-label">Expiry Date</label>
+                        <label className="toggle-label">
                           <input 
-                            type="date" 
-                            className="form-input" 
-                            value={batch.expiryDate || ''} 
-                            disabled={!batch.expiryDate}
+                            type="checkbox" 
+                            checked={!!batch.expiryDate} 
                             onChange={(e) => {
                               const updatedBatches = [...editFormData.batches]
-                              updatedBatches[idx] = { ...batch, expiryDate: e.target.value }
+                              updatedBatches[idx] = { ...batch, expiryDate: e.target.checked ? new Date().toISOString().split('T')[0] : null }
                               setEditFormData({ ...editFormData, batches: updatedBatches })
                             }}
                           />
-                        </div>
+                          Has Expiry
+                        </label>
+                      </div>
+                      <div className="form-group mini">
+                        <label className="form-label">Expiry Date</label>
+                        <input 
+                          type="date" 
+                          className="form-input" 
+                          value={batch.expiryDate || ''} 
+                          disabled={!batch.expiryDate}
+                          onChange={(e) => {
+                            const updatedBatches = [...editFormData.batches]
+                            updatedBatches[idx] = { ...batch, expiryDate: e.target.value }
+                            setEditFormData({ ...editFormData, batches: updatedBatches })
+                          }}
+                        />
+                      </div>
+                      <div className="form-group mini">
+                        <label className="form-label">PTR (Document Serial)</label>
+                        <input 
+                          type="text" 
+                          className="form-input" 
+                          value={batch.ptr || ''} 
+                          onChange={(e) => {
+                            const updatedBatches = [...editFormData.batches]
+                            updatedBatches[idx] = { ...batch, ptr: e.target.value }
+                            setEditFormData({ ...editFormData, batches: updatedBatches })
+                          }}
+                        />
+                      </div>
+                      <div className="form-group mini">
+                        <label className="form-label">Cost per Unit</label>
+                        <input 
+                          type="text" 
+                          className="form-input" 
+                          value={batch.costPerUnit || ''} 
+                          onChange={(e) => {
+                            const updatedBatches = [...editFormData.batches]
+                            updatedBatches[idx] = { ...batch, costPerUnit: e.target.value }
+                            setEditFormData({ ...editFormData, batches: updatedBatches })
+                          }}
+                        />
+                      </div>
                         <button className="btn-icon remove-btn" title="Remove Batch" onClick={() => handleRemoveBatchInEdit(idx)}>
                           <Icon src={deleteIcon} alt="Remove" size={20} />
                         </button>
@@ -1227,7 +1264,7 @@ const Inventory = () => {
                     />
                   </div>
                   <div className="form-group">
-                    <label className="form-label">PTR</label>
+                    <label className="form-label">PTR (Document Serial)</label>
                     <input 
                       type="text" 
                       className="form-input" 
@@ -1236,6 +1273,19 @@ const Inventory = () => {
                       onChange={(e) => setAddFormData({
                         ...addFormData, 
                         initialBatch: {...addFormData.initialBatch, ptr: e.target.value}
+                      })}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label">Cost per Unit</label>
+                    <input 
+                      type="text" 
+                      className="form-input" 
+                      placeholder="Enter Cost"
+                      value={addFormData.initialBatch.costPerUnit}
+                      onChange={(e) => setAddFormData({
+                        ...addFormData, 
+                        initialBatch: {...addFormData.initialBatch, costPerUnit: e.target.value}
                       })}
                     />
                   </div>
