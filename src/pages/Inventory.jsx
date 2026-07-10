@@ -20,7 +20,8 @@ import editIcon from '../assets/icons/inventory/edit-icon.svg'
 import stockCardIcon from '../assets/icons/inventory/stockcard-icon.svg'
 import deleteIcon from '../assets/icons/inventory/delete-icon.svg'
 import addItemIcon from '../assets/icons/inventory/additem-icon.svg'
-import addTransactionIcon from '../assets/icons/inventory/addtransaction-icon.svg'
+import restockIcon from '../assets/icons/inventory/restock-icon.svg'
+
 import closeIcon from '../assets/icons/inventory/close-icon.svg'
 import printIcon from '../assets/icons/inventory/print-icon.svg'
 
@@ -38,6 +39,15 @@ const Inventory = () => {
   const [showEditModal, setShowEditModal] = useState(null) // Edit Item modal
   const [showAddModal, setShowAddModal] = useState(false) // Add New Item modal
   const [showTransactionModal, setShowTransactionModal] = useState({ visible: false, isEdit: false, index: null, isRestock: false }) // Transaction add/edit modal
+  const [showRestockModal, setShowRestockModal] = useState(null) // Restock modal item
+  const [restockForm, setRestockForm] = useState({
+    date: '',
+    restockQty: '',
+    ptrNo: '',
+    remarks: '',
+    costPerUnit: '',
+    selectedBatch: null
+  })
   
   // Form data states
   const [transactionForm, setTransactionForm] = useState({
@@ -502,6 +512,91 @@ const Inventory = () => {
   }
 
   /**
+   * Open restock modal with prepopulated data
+   */
+  const handleOpenRestockModal = (item) => {
+    setShowRestockModal(item)
+    setRestockForm({
+      date: new Date().toISOString().split('T')[0],
+      restockQty: '',
+      ptrNo: '',
+      remarks: '',
+      costPerUnit: item.batches.length > 0 ? item.batches[0].costPerUnit || '' : '',
+      selectedBatch: item.batches.length > 0 ? item.batches[0].batchId : null
+    })
+  }
+
+  /**
+   * Handle restock form submission
+   */
+  const handleSaveRestock = () => {
+    if (!showRestockModal) return
+    const qty = Number(restockForm.restockQty)
+    if (!restockForm.restockQty.trim() || isNaN(qty) || qty <= 0) {
+      alert('Restock quantity must be a number greater than 0!')
+      return
+    }
+
+    const updatedItems = [...inventoryItems]
+    const itemIndex = updatedItems.findIndex(item => item.id === showRestockModal.id)
+
+    if (itemIndex === -1) return
+
+    const item = { ...updatedItems[itemIndex] }
+    let transactions = [...(item.transactions || [])]
+
+    // Calculate new balance
+    const lastTx = transactions.length > 0 ? transactions[transactions.length - 1] : null
+    const newBalance = lastTx ? lastTx.balance + qty : qty
+
+    // Auto-generate reference with incrementing count
+    let reference = ''
+    if (restockForm.selectedBatch) {
+      const batchIndex = item.batches.findIndex(b => b.batchId === restockForm.selectedBatch)
+      if (batchIndex !== -1) {
+        const batch = { ...item.batches[batchIndex] }
+        const newTransactionCount = (batch.transactionCount || 0) + 1
+        batch.transactionCount = newTransactionCount
+        // Update batch stock
+        batch.stock += qty
+        // Update cost and ptr on batch if provided
+        if (restockForm.costPerUnit) {
+          batch.costPerUnit = restockForm.costPerUnit
+        }
+        if (restockForm.ptrNo) {
+          batch.ptr = restockForm.ptrNo
+        }
+        item.batches = [...item.batches]
+        item.batches[batchIndex] = batch
+        reference = `${restockForm.selectedBatch}-${String(newTransactionCount).padStart(3, '0')}`
+      }
+    }
+
+    // Add new transaction
+    transactions.push({
+      date: restockForm.date,
+      reference,
+      selectedBatch: restockForm.selectedBatch,
+      receiptQty: qty,
+      issuanceQty: 0,
+      office: restockForm.selectedBatch 
+        ? item.batches.find(b => b.batchId === restockForm.selectedBatch)?.office 
+        : 'Hemodialysis',
+      balance: newBalance,
+      ptr: restockForm.ptrNo,
+      costPerUnit: restockForm.costPerUnit,
+      remarks: restockForm.remarks || 'Restock'
+    })
+
+    // Update state
+    item.transactions = transactions
+    updatedItems[itemIndex] = item
+    setInventoryItems(updatedItems)
+    setShowMoreInfo(item)
+    setShowRestockModal(null)
+  }
+
+  /**
    * Delete transaction and recalculate all balances
    * @param {number} index - Index of transaction to delete
    */
@@ -627,6 +722,13 @@ const Inventory = () => {
                       </td>
                       <td onClick={(e) => e.stopPropagation()}> {/* Prevent row expansion when clicking action buttons */}
                         <div className="actions">
+                          <button 
+                            className="btn-icon" 
+                            title="Restock Item"
+                            onClick={() => handleOpenRestockModal(item)}
+                          >
+                            <Icon src={restockIcon} alt="Restock" size={20} />
+                          </button>
                           <button 
                             className="btn-icon" 
                             title="View Stock Card"
@@ -1115,6 +1217,121 @@ const Inventory = () => {
               <button className="btn-primary" onClick={handleSaveTransaction}>
                 Save
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* RESTOCK MODAL */}
+      {showRestockModal && (
+        <div className="modal-overlay" onClick={() => setShowRestockModal(null)}>
+          <div className="modal modal-large" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2 className="modal-title">Restock Item: {showRestockModal.name}</h2>
+              <button className="close-btn" onClick={() => setShowRestockModal(null)}>
+                <Icon src={closeIcon} alt="Close" size={24} />
+              </button>
+            </div>
+            <div className="modal-body">
+              <div className="edit-form">
+                {/* Uneditable Item Info */}
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '24px', padding: '16px', backgroundColor: '#f9fafb', borderRadius: '8px' }}>
+                  <div className="form-group">
+                    <label className="form-label">Item Name</label>
+                    <input type="text" className="form-input" value={showRestockModal.name} disabled />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label">SKU</label>
+                    <input type="text" className="form-input" value={showRestockModal.sku} disabled />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label">Current Stock</label>
+                    <input type="text" className="form-input" value={`${getTotalStock(showRestockModal)} ${showRestockModal.unit}`} disabled />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label">Current PTR No.</label>
+                    <input type="text" className="form-input" value={restockForm.ptrNo || showRestockModal.batches[0]?.ptr || '-'} disabled />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label">Current Department</label>
+                    <input type="text" className="form-input" value={showRestockModal.batches[0]?.office || 'Hemodialysis'} disabled />
+                  </div>
+                </div>
+
+                {/* Editable Fields */}
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                  <div className="form-group">
+                    <label className="form-label">Date of Restock</label>
+                    <input
+                      type="date"
+                      className="form-input"
+                      value={restockForm.date}
+                      onChange={(e) => setRestockForm({ ...restockForm, date: e.target.value })}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label">Quantity to Add</label>
+                    <input
+                      type="number"
+                      className="form-input"
+                      placeholder="Enter quantity"
+                      value={restockForm.restockQty}
+                      onChange={(e) => setRestockForm({ ...restockForm, restockQty: e.target.value })}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label">PTR No.</label>
+                    <input
+                      type="text"
+                      className="form-input"
+                      placeholder="Enter PTR No."
+                      value={restockForm.ptrNo}
+                      onChange={(e) => setRestockForm({ ...restockForm, ptrNo: e.target.value })}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label className="form-label">Cost per Unit</label>
+                    <input
+                      type="text"
+                      className="form-input"
+                      placeholder="Enter cost per unit"
+                      value={restockForm.costPerUnit}
+                      onChange={(e) => setRestockForm({ ...restockForm, costPerUnit: e.target.value })}
+                    />
+                  </div>
+                  <div className="form-group" style={{ gridColumn: 'span 2' }}>
+                    <label className="form-label">Remarks</label>
+                    <input
+                      type="text"
+                      className="form-input"
+                      placeholder="Enter remarks"
+                      value={restockForm.remarks}
+                      onChange={(e) => setRestockForm({ ...restockForm, remarks: e.target.value })}
+                    />
+                  </div>
+                  {/* Batch Selector */}
+                  {showRestockModal.batches && showRestockModal.batches.length > 0 && (
+                    <div className="form-group" style={{ gridColumn: 'span 2' }}>
+                      <label className="form-label">Select Batch</label>
+                      <select
+                        className="form-input"
+                        value={restockForm.selectedBatch || ''}
+                        onChange={(e) => setRestockForm({ ...restockForm, selectedBatch: e.target.value })}
+                      >
+                        {showRestockModal.batches.map((batch, idx) => (
+                          <option key={idx} value={batch.batchId}>
+                            {batch.batchId} - {batch.brand || 'No Brand'} ({batch.stock} {showRestockModal.unit})
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button className="btn-secondary" onClick={() => setShowRestockModal(null)}>Cancel</button>
+              <button className="btn-primary" onClick={handleSaveRestock}>Save Restock</button>
             </div>
           </div>
         </div>
