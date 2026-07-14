@@ -116,7 +116,8 @@ async function POST(req) {
                         name: user.name,
                         email: user.email,
                         isAdmin: user.isAdmin,
-                        office: user.office ? user.office.name : 'N/A'
+                        office: user.office ? user.office.name : 'N/A',
+                        officeId: user.officeId
                     };
                     break;
                 }
@@ -230,11 +231,47 @@ async function POST(req) {
                 }
             case 'getItems':
                 {
-                    const [office] = args;
+                    const [office, isAdmin, userOfficeId] = args;
+                    console.log('[API getItems] args:', {
+                        office,
+                        isAdmin,
+                        userOfficeId
+                    });
                     let officeCondition = undefined;
                     let batchCondition = undefined;
                     let txCondition = undefined;
-                    if (office && office !== 'All') {
+                    // If user is not admin, filter to show only items with batches in their office
+                    if (!isAdmin && userOfficeId) {
+                        officeCondition = {
+                            batches: {
+                                some: {
+                                    officeId: userOfficeId
+                                }
+                            }
+                        };
+                        batchCondition = {
+                            where: {
+                                officeId: userOfficeId
+                            },
+                            orderBy: {
+                                id: 'asc'
+                            },
+                            include: {
+                                office: true
+                            }
+                        };
+                        txCondition = {
+                            where: {
+                                officeId: userOfficeId
+                            },
+                            orderBy: {
+                                id: 'asc'
+                            },
+                            include: {
+                                office: true
+                            }
+                        };
+                    } else if (office && office !== 'All') {
                         if (office === 'Unallocated') {
                             officeCondition = {
                                 batches: {
@@ -303,6 +340,7 @@ async function POST(req) {
                             };
                         }
                     } else {
+                        // No office condition - show everything!
                         batchCondition = {
                             orderBy: {
                                 id: 'asc'
@@ -320,6 +358,13 @@ async function POST(req) {
                             }
                         };
                     }
+                    console.log('[API getItems] Query params:', {
+                        where: officeCondition,
+                        include: {
+                            batches: batchCondition,
+                            transactions: txCondition
+                        }
+                    });
                     const items = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$db$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].inventoryItem.findMany({
                         where: officeCondition,
                         include: {
@@ -330,6 +375,7 @@ async function POST(req) {
                             id: 'asc'
                         }
                     });
+                    console.log('[API getItems] Found items count:', items.length, 'items:', items);
                     // The frontend expects `batch.office` and `tx.office` to be strings.
                     result = items.map((item)=>({
                             ...item,
