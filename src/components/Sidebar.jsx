@@ -25,6 +25,7 @@ import usersIcon from '../assets/icons/sidebar/users-icon.svg'
 const Sidebar = () => {
   const location = useLocation() // Get current path for active state
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [confirmDialog, setConfirmDialog] = useState(null)
   const { currentUser, isAdmin, logout } = useUserRole()
 
   // Navigation menu items - role-based visibility
@@ -56,6 +57,23 @@ const Sidebar = () => {
 
   return (
     <>
+      {/* Confirm Dialog */}
+      {confirmDialog && (
+        <div className="sidebar-modal-overlay no-print" style={{ zIndex: 12000 }}>
+          <div className="card confirm-modal" style={{ maxWidth: '400px', width: '100%', margin: '0 20px', padding: '24px', background: '#ffffff', borderRadius: '8px' }}>
+            <h3 style={{ marginBottom: '15px', color: '#1e293b', fontSize: '1.25rem' }}>{confirmDialog.title}</h3>
+            <p style={{ color: '#475569', marginBottom: '24px', lineHeight: '1.5', fontSize: '1rem' }}>{confirmDialog.message}</p>
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', borderTop: 'none', padding: 0, background: 'transparent' }}>
+              <button onClick={() => setConfirmDialog(null)} style={{ padding: '8px 16px', background: '#f1f5f9', color: '#475569', borderRadius: '6px', border: 'none', cursor: 'pointer', fontWeight: 600 }}>Cancel</button>
+              <button onClick={() => {
+                confirmDialog.onConfirm();
+                setConfirmDialog(null);
+              }} style={{ padding: '8px 16px', background: '#dc2626', color: 'white', borderRadius: '6px', border: 'none', cursor: 'pointer', fontWeight: 600 }}>Log out</button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Mobile Menu Toggle Button - Fixed in top-left on mobile */}
       <button
         className="mobile-menu-toggle no-print"
@@ -106,7 +124,11 @@ const Sidebar = () => {
             </div>
           </div>
           <button 
-            onClick={logout}
+            onClick={() => setConfirmDialog({
+              title: 'Confirm Logout',
+              message: 'Are you sure you want to log out?',
+              onConfirm: logout
+            })}
             style={{
               width: '100%',
               marginTop: '15px',
@@ -124,6 +146,16 @@ const Sidebar = () => {
           </button>
         </div>
         <style>{`
+          .sidebar-modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 12000;
+          }
+
           .sidebar {
             width: 220px;
             background: white;

@@ -25,6 +25,7 @@ const RequisitionRequests = () => {
 
   // Alerts
   const [notification, setNotification] = useState(null)
+  const [confirmDialog, setConfirmDialog] = useState(null)
 
   const showNotification = (type, message) => {
     setNotification({ type, message })
@@ -69,21 +70,27 @@ const RequisitionRequests = () => {
 
   // Handle Approve only
   const handleApprove = async (id) => {
-    try {
-      const itemReleaseArray = Object.entries(releaseData).map(([itemId, data]) => ({
-        requisitionItemId: parseInt(itemId),
-        quantityReleased: parseInt(data.quantityReleased) || 0,
-        sourceOfficeId: data.sourceOfficeId ? parseInt(data.sourceOfficeId) : null,
-        remarks: data.remarks || ''
-      }))
-      await supabaseDb.updateRequisitionStatus(id, 'Approved', itemReleaseArray)
-      showNotification('success', 'Request approved successfully')
-      setSelectedRequest(null)
-      loadData()
-    } catch (err) {
-      console.error('Error approving:', err)
-      showNotification('error', err.message || 'Failed to approve request')
-    }
+    setConfirmDialog({
+      title: 'Approve Request',
+      message: 'Are you sure you want to approve this request?',
+      onConfirm: async () => {
+        try {
+          const itemReleaseArray = Object.entries(releaseData).map(([itemId, data]) => ({
+            requisitionItemId: parseInt(itemId),
+            quantityReleased: parseInt(data.quantityReleased) || 0,
+            sourceOfficeId: data.sourceOfficeId ? parseInt(data.sourceOfficeId) : null,
+            remarks: data.remarks || ''
+          }))
+          await supabaseDb.updateRequisitionStatus(id, 'Approved', itemReleaseArray)
+          showNotification('success', 'Request approved successfully')
+          setSelectedRequest(null)
+          loadData()
+        } catch (err) {
+          console.error('Error approving:', err)
+          showNotification('error', err.message || 'Failed to approve request')
+        }
+      }
+    })
   }
 
   // Handle Print Action
@@ -141,6 +148,23 @@ const RequisitionRequests = () => {
 
   return (
     <div className="page">
+      {/* Confirm Dialog */}
+      {confirmDialog && (
+        <div className="modal-overlay no-print" style={{ zIndex: 12000 }}>
+          <div className="card confirm-modal" style={{ maxWidth: '400px', width: '100%', margin: '0 20px', padding: '24px', background: '#ffffff', borderRadius: '8px' }}>
+            <h3 style={{ marginBottom: '15px', color: '#1e293b' }}>{confirmDialog.title}</h3>
+            <p style={{ color: '#475569', marginBottom: '24px', lineHeight: '1.5' }}>{confirmDialog.message}</p>
+            <div className="modal-footer" style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', borderTop: 'none', padding: 0, background: 'transparent' }}>
+              <button className="btn-modal-cancel" onClick={() => setConfirmDialog(null)}>Cancel</button>
+              <button className="btn-modal-confirm" onClick={() => {
+                confirmDialog.onConfirm();
+                setConfirmDialog(null);
+              }}>Confirm</button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Alerts Notification */}
       {notification && (
         <div className={`toast toast-${notification.type}`} style={{ position: 'fixed', top: '20px', right: '20px', zIndex: 10000 }}>
@@ -566,6 +590,11 @@ const RequisitionRequests = () => {
         .font-sm { font-size: 12.5px; }
 
         .loading-state, .empty-state { padding: 40px; text-align: center; color: #6b7280; font-size: 15px; }
+
+        .btn-modal-cancel { background: white; color: #475569; border: 1px solid #cbd5e1; padding: 8px 16px; border-radius: 6px; font-weight: 600; cursor: pointer; }
+        .btn-modal-cancel:hover { background: #f1f5f9; }
+        .btn-modal-confirm { background: #2563eb; color: white; border: none; padding: 8px 20px; border-radius: 6px; font-weight: 600; cursor: pointer; }
+        .btn-modal-confirm:hover { background: #1d4ed8; }
 
         .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; z-index: 1000; animation: fadeIn 0.2s ease; }
         .modal { background: white; border-radius: 10px; max-width: 850px; width: 90%; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); animation: scaleUp 0.2s ease; }

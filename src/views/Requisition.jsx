@@ -56,6 +56,7 @@ const Requisition = () => {
   
   // Alerts
   const [notification, setNotification] = useState(null)
+  const [confirmDialog, setConfirmDialog] = useState(null)
   
   const showNotification = (type, message) => {
     setNotification({ type, message })
@@ -264,30 +265,36 @@ const Requisition = () => {
       return
     }
 
-    try {
-      const payload = {
-        risNo: risNo.trim(),
-        requestedByPrintedName: requestedByPrintedName.trim(),
-        purpose: purpose.trim(),
-        requestedById: currentUser.id,
-        officeId: userOfficeId,
-        items: addedItems.map(i => ({
-          inventoryItemId: i.inventoryItemId || null,
-          itemName: i.itemName,
-          quantity: i.quantity,
-          unit: i.unit || '',
-          stockNumber: i.stockNumber || null,
-          isUnlisted: i.isUnlisted || false
-        }))
-      }
+    setConfirmDialog({
+      title: 'Submit Requisition',
+      message: 'Are you sure you want to submit this requisition?',
+      onConfirm: async () => {
+        try {
+          const payload = {
+            risNo: risNo.trim(),
+            requestedByPrintedName: requestedByPrintedName.trim(),
+            purpose: purpose.trim(),
+            requestedById: currentUser.id,
+            officeId: userOfficeId,
+            items: addedItems.map(i => ({
+              inventoryItemId: i.inventoryItemId || null,
+              itemName: i.itemName,
+              quantity: i.quantity,
+              unit: i.unit || '',
+              stockNumber: i.stockNumber || null,
+              isUnlisted: i.isUnlisted || false
+            }))
+          }
 
-      await supabaseDb.addRequisition(payload)
-      showNotification('success', 'Requisition request submitted successfully!')
-      handleFormReset()
-      setActiveTab('history')
-    } catch (err) {
-      showNotification('error', err.message || 'Failed to submit requisition')
-    }
+          await supabaseDb.addRequisition(payload)
+          showNotification('success', 'Requisition request submitted successfully!')
+          handleFormReset()
+          setActiveTab('history')
+        } catch (err) {
+          showNotification('error', err.message || 'Failed to submit requisition')
+        }
+      }
+    })
   }
 
   // Print function — only for Pending
@@ -301,14 +308,19 @@ const Requisition = () => {
 
   // Cancel a pending requisition
   const handleCancel = async (req) => {
-    if (!window.confirm(`Cancel requisition ${req.risNo}? This cannot be undone.`)) return
-    try {
-      await supabaseDb.cancelRequisition(req.id)
-      showNotification('success', 'Requisition cancelled successfully')
-      fetchHistory()
-    } catch (err) {
-      showNotification('error', err.message || 'Failed to cancel requisition')
-    }
+    setConfirmDialog({
+      title: 'Cancel Requisition',
+      message: `Are you sure you want to cancel requisition ${req.risNo}? This cannot be undone.`,
+      onConfirm: async () => {
+        try {
+          await supabaseDb.cancelRequisition(req.id)
+          showNotification('success', 'Requisition cancelled successfully')
+          fetchHistory()
+        } catch (err) {
+          showNotification('error', err.message || 'Failed to cancel requisition')
+        }
+      }
+    })
   }
 
   // Open edit modal
@@ -368,19 +380,26 @@ const Requisition = () => {
     if (!editPrintedName.trim()) { showNotification('error', 'Printed name is required'); return }
     if (!editPurpose.trim()) { showNotification('error', 'Purpose is required'); return }
     if (editItems.length === 0) { showNotification('error', 'At least one item is required'); return }
-    try {
-      await supabaseDb.updateRequisition(editingRequisition.id, {
-        requestedByPrintedName: editPrintedName.trim(),
-        purpose: editPurpose.trim(),
-        items: editItems
-      })
-      showNotification('success', 'Requisition updated successfully')
-      setShowEditModal(false)
-      setEditingRequisition(null)
-      fetchHistory()
-    } catch (err) {
-      showNotification('error', err.message || 'Failed to update requisition')
-    }
+
+    setConfirmDialog({
+      title: 'Save Changes',
+      message: 'Are you sure you want to save the changes to this requisition?',
+      onConfirm: async () => {
+        try {
+          await supabaseDb.updateRequisition(editingRequisition.id, {
+            requestedByPrintedName: editPrintedName.trim(),
+            purpose: editPurpose.trim(),
+            items: editItems
+          })
+          showNotification('success', 'Requisition updated successfully')
+          setShowEditModal(false)
+          setEditingRequisition(null)
+          fetchHistory()
+        } catch (err) {
+          showNotification('error', err.message || 'Failed to update requisition')
+        }
+      }
+    })
   }
 
   // Filter history — no Rejected option since admin can't reject
@@ -394,6 +413,23 @@ const Requisition = () => {
 
   return (
     <div className="requisition-page">
+      {/* Confirm Dialog */}
+      {confirmDialog && (
+        <div className="modal-overlay no-print" style={{ zIndex: 12000 }}>
+          <div className="card confirm-modal" style={{ maxWidth: '400px', width: '100%', margin: '0 20px', padding: '24px', background: '#ffffff', borderRadius: '8px' }}>
+            <h3 style={{ marginBottom: '15px', color: '#1e293b' }}>{confirmDialog.title}</h3>
+            <p style={{ color: '#475569', marginBottom: '24px', lineHeight: '1.5' }}>{confirmDialog.message}</p>
+            <div className="modal-footer" style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end', borderTop: 'none', padding: 0, background: 'transparent' }}>
+              <button className="btn-modal-cancel" onClick={() => setConfirmDialog(null)}>Cancel</button>
+              <button className="btn-modal-confirm" onClick={() => {
+                confirmDialog.onConfirm();
+                setConfirmDialog(null);
+              }}>Confirm</button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Toast Alert Notification */}
       {notification && (
         <div className={`toast toast-${notification.type}`} style={{ position: 'fixed', top: '20px', right: '20px', zIndex: 10000 }}>
