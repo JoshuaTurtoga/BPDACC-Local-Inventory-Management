@@ -191,9 +191,9 @@ exports.Prisma.InventoryTransactionScalarFieldEnum = {
 exports.Prisma.RequisitionScalarFieldEnum = {
   id: 'id',
   risNo: 'risNo',
-  responsibilityCenterCode: 'responsibilityCenterCode',
   requestDate: 'requestDate',
   requestedById: 'requestedById',
+  requestedByPrintedName: 'requestedByPrintedName',
   role: 'role',
   officeId: 'officeId',
   purpose: 'purpose',
@@ -210,8 +210,25 @@ exports.Prisma.RequisitionItemScalarFieldEnum = {
   quantity: 'quantity',
   unit: 'unit',
   stockNumber: 'stockNumber',
+  isUnlisted: 'isUnlisted',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
+};
+
+exports.Prisma.RequisitionItemReleaseScalarFieldEnum = {
+  id: 'id',
+  requisitionItemId: 'requisitionItemId',
+  sourceOfficeId: 'sourceOfficeId',
+  quantityReleased: 'quantityReleased',
+  remarks: 'remarks',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.RisCounterScalarFieldEnum = {
+  id: 'id',
+  yearMonth: 'yearMonth',
+  counter: 'counter'
 };
 
 exports.Prisma.ActivityScalarFieldEnum = {
@@ -243,6 +260,8 @@ exports.Prisma.ModelName = {
   InventoryTransaction: 'InventoryTransaction',
   Requisition: 'Requisition',
   RequisitionItem: 'RequisitionItem',
+  RequisitionItemRelease: 'RequisitionItemRelease',
+  RisCounter: 'RisCounter',
   Activity: 'Activity'
 };
 

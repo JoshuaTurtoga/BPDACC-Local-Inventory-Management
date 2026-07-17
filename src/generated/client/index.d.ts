@@ -49,6 +49,16 @@ export type Requisition = $Result.DefaultSelection<Prisma.$RequisitionPayload>
  */
 export type RequisitionItem = $Result.DefaultSelection<Prisma.$RequisitionItemPayload>
 /**
+ * Model RequisitionItemRelease
+ * 
+ */
+export type RequisitionItemRelease = $Result.DefaultSelection<Prisma.$RequisitionItemReleasePayload>
+/**
+ * Model RisCounter
+ * 
+ */
+export type RisCounter = $Result.DefaultSelection<Prisma.$RisCounterPayload>
+/**
  * Model Activity
  * 
  */
@@ -246,6 +256,26 @@ export class PrismaClient<
     * ```
     */
   get requisitionItem(): Prisma.RequisitionItemDelegate<ExtArgs>;
+
+  /**
+   * `prisma.requisitionItemRelease`: Exposes CRUD operations for the **RequisitionItemRelease** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more RequisitionItemReleases
+    * const requisitionItemReleases = await prisma.requisitionItemRelease.findMany()
+    * ```
+    */
+  get requisitionItemRelease(): Prisma.RequisitionItemReleaseDelegate<ExtArgs>;
+
+  /**
+   * `prisma.risCounter`: Exposes CRUD operations for the **RisCounter** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more RisCounters
+    * const risCounters = await prisma.risCounter.findMany()
+    * ```
+    */
+  get risCounter(): Prisma.RisCounterDelegate<ExtArgs>;
 
   /**
    * `prisma.activity`: Exposes CRUD operations for the **Activity** model.
@@ -704,6 +734,8 @@ export namespace Prisma {
     InventoryTransaction: 'InventoryTransaction',
     Requisition: 'Requisition',
     RequisitionItem: 'RequisitionItem',
+    RequisitionItemRelease: 'RequisitionItemRelease',
+    RisCounter: 'RisCounter',
     Activity: 'Activity'
   };
 
@@ -720,7 +752,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "office" | "user" | "inventoryItem" | "inventoryBatch" | "inventoryTransaction" | "requisition" | "requisitionItem" | "activity"
+      modelProps: "office" | "user" | "inventoryItem" | "inventoryBatch" | "inventoryTransaction" | "requisition" | "requisitionItem" | "requisitionItemRelease" | "risCounter" | "activity"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1186,6 +1218,138 @@ export namespace Prisma {
           }
         }
       }
+      RequisitionItemRelease: {
+        payload: Prisma.$RequisitionItemReleasePayload<ExtArgs>
+        fields: Prisma.RequisitionItemReleaseFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RequisitionItemReleaseFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RequisitionItemReleasePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RequisitionItemReleaseFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RequisitionItemReleasePayload>
+          }
+          findFirst: {
+            args: Prisma.RequisitionItemReleaseFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RequisitionItemReleasePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RequisitionItemReleaseFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RequisitionItemReleasePayload>
+          }
+          findMany: {
+            args: Prisma.RequisitionItemReleaseFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RequisitionItemReleasePayload>[]
+          }
+          create: {
+            args: Prisma.RequisitionItemReleaseCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RequisitionItemReleasePayload>
+          }
+          createMany: {
+            args: Prisma.RequisitionItemReleaseCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.RequisitionItemReleaseDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RequisitionItemReleasePayload>
+          }
+          update: {
+            args: Prisma.RequisitionItemReleaseUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RequisitionItemReleasePayload>
+          }
+          deleteMany: {
+            args: Prisma.RequisitionItemReleaseDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RequisitionItemReleaseUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.RequisitionItemReleaseUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RequisitionItemReleasePayload>
+          }
+          aggregate: {
+            args: Prisma.RequisitionItemReleaseAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRequisitionItemRelease>
+          }
+          groupBy: {
+            args: Prisma.RequisitionItemReleaseGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RequisitionItemReleaseGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RequisitionItemReleaseCountArgs<ExtArgs>
+            result: $Utils.Optional<RequisitionItemReleaseCountAggregateOutputType> | number
+          }
+        }
+      }
+      RisCounter: {
+        payload: Prisma.$RisCounterPayload<ExtArgs>
+        fields: Prisma.RisCounterFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RisCounterFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RisCounterPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RisCounterFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RisCounterPayload>
+          }
+          findFirst: {
+            args: Prisma.RisCounterFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RisCounterPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RisCounterFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RisCounterPayload>
+          }
+          findMany: {
+            args: Prisma.RisCounterFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RisCounterPayload>[]
+          }
+          create: {
+            args: Prisma.RisCounterCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RisCounterPayload>
+          }
+          createMany: {
+            args: Prisma.RisCounterCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.RisCounterDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RisCounterPayload>
+          }
+          update: {
+            args: Prisma.RisCounterUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RisCounterPayload>
+          }
+          deleteMany: {
+            args: Prisma.RisCounterDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RisCounterUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.RisCounterUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RisCounterPayload>
+          }
+          aggregate: {
+            args: Prisma.RisCounterAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRisCounter>
+          }
+          groupBy: {
+            args: Prisma.RisCounterGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RisCounterGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RisCounterCountArgs<ExtArgs>
+            result: $Utils.Optional<RisCounterCountAggregateOutputType> | number
+          }
+        }
+      }
       Activity: {
         payload: Prisma.$ActivityPayload<ExtArgs>
         fields: Prisma.ActivityFieldRefs
@@ -1417,6 +1581,7 @@ export namespace Prisma {
     inventoryBatches: number
     inventoryTransactions: number
     requisitions: number
+    requisitionItemReleases: number
   }
 
   export type OfficeCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1424,6 +1589,7 @@ export namespace Prisma {
     inventoryBatches?: boolean | OfficeCountOutputTypeCountInventoryBatchesArgs
     inventoryTransactions?: boolean | OfficeCountOutputTypeCountInventoryTransactionsArgs
     requisitions?: boolean | OfficeCountOutputTypeCountRequisitionsArgs
+    requisitionItemReleases?: boolean | OfficeCountOutputTypeCountRequisitionItemReleasesArgs
   }
 
   // Custom InputTypes
@@ -1463,6 +1629,13 @@ export namespace Prisma {
    */
   export type OfficeCountOutputTypeCountRequisitionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: RequisitionWhereInput
+  }
+
+  /**
+   * OfficeCountOutputType without action
+   */
+  export type OfficeCountOutputTypeCountRequisitionItemReleasesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RequisitionItemReleaseWhereInput
   }
 
 
@@ -1814,6 +1987,7 @@ export namespace Prisma {
     inventoryBatches?: boolean | Office$inventoryBatchesArgs<ExtArgs>
     inventoryTransactions?: boolean | Office$inventoryTransactionsArgs<ExtArgs>
     requisitions?: boolean | Office$requisitionsArgs<ExtArgs>
+    requisitionItemReleases?: boolean | Office$requisitionItemReleasesArgs<ExtArgs>
     _count?: boolean | OfficeCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["office"]>
 
@@ -1831,6 +2005,7 @@ export namespace Prisma {
     inventoryBatches?: boolean | Office$inventoryBatchesArgs<ExtArgs>
     inventoryTransactions?: boolean | Office$inventoryTransactionsArgs<ExtArgs>
     requisitions?: boolean | Office$requisitionsArgs<ExtArgs>
+    requisitionItemReleases?: boolean | Office$requisitionItemReleasesArgs<ExtArgs>
     _count?: boolean | OfficeCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -1841,6 +2016,7 @@ export namespace Prisma {
       inventoryBatches: Prisma.$InventoryBatchPayload<ExtArgs>[]
       inventoryTransactions: Prisma.$InventoryTransactionPayload<ExtArgs>[]
       requisitions: Prisma.$RequisitionPayload<ExtArgs>[]
+      requisitionItemReleases: Prisma.$RequisitionItemReleasePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -2192,6 +2368,7 @@ export namespace Prisma {
     inventoryBatches<T extends Office$inventoryBatchesArgs<ExtArgs> = {}>(args?: Subset<T, Office$inventoryBatchesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InventoryBatchPayload<ExtArgs>, T, "findMany"> | Null>
     inventoryTransactions<T extends Office$inventoryTransactionsArgs<ExtArgs> = {}>(args?: Subset<T, Office$inventoryTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InventoryTransactionPayload<ExtArgs>, T, "findMany"> | Null>
     requisitions<T extends Office$requisitionsArgs<ExtArgs> = {}>(args?: Subset<T, Office$requisitionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RequisitionPayload<ExtArgs>, T, "findMany"> | Null>
+    requisitionItemReleases<T extends Office$requisitionItemReleasesArgs<ExtArgs> = {}>(args?: Subset<T, Office$requisitionItemReleasesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RequisitionItemReleasePayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2602,6 +2779,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: RequisitionScalarFieldEnum | RequisitionScalarFieldEnum[]
+  }
+
+  /**
+   * Office.requisitionItemReleases
+   */
+  export type Office$requisitionItemReleasesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RequisitionItemRelease
+     */
+    select?: RequisitionItemReleaseSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RequisitionItemReleaseInclude<ExtArgs> | null
+    where?: RequisitionItemReleaseWhereInput
+    orderBy?: RequisitionItemReleaseOrderByWithRelationInput | RequisitionItemReleaseOrderByWithRelationInput[]
+    cursor?: RequisitionItemReleaseWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RequisitionItemReleaseScalarFieldEnum | RequisitionItemReleaseScalarFieldEnum[]
   }
 
   /**
@@ -6834,9 +7031,9 @@ export namespace Prisma {
   export type RequisitionMinAggregateOutputType = {
     id: number | null
     risNo: string | null
-    responsibilityCenterCode: string | null
     requestDate: Date | null
     requestedById: number | null
+    requestedByPrintedName: string | null
     role: string | null
     officeId: number | null
     purpose: string | null
@@ -6848,9 +7045,9 @@ export namespace Prisma {
   export type RequisitionMaxAggregateOutputType = {
     id: number | null
     risNo: string | null
-    responsibilityCenterCode: string | null
     requestDate: Date | null
     requestedById: number | null
+    requestedByPrintedName: string | null
     role: string | null
     officeId: number | null
     purpose: string | null
@@ -6862,9 +7059,9 @@ export namespace Prisma {
   export type RequisitionCountAggregateOutputType = {
     id: number
     risNo: number
-    responsibilityCenterCode: number
     requestDate: number
     requestedById: number
+    requestedByPrintedName: number
     role: number
     officeId: number
     purpose: number
@@ -6890,9 +7087,9 @@ export namespace Prisma {
   export type RequisitionMinAggregateInputType = {
     id?: true
     risNo?: true
-    responsibilityCenterCode?: true
     requestDate?: true
     requestedById?: true
+    requestedByPrintedName?: true
     role?: true
     officeId?: true
     purpose?: true
@@ -6904,9 +7101,9 @@ export namespace Prisma {
   export type RequisitionMaxAggregateInputType = {
     id?: true
     risNo?: true
-    responsibilityCenterCode?: true
     requestDate?: true
     requestedById?: true
+    requestedByPrintedName?: true
     role?: true
     officeId?: true
     purpose?: true
@@ -6918,9 +7115,9 @@ export namespace Prisma {
   export type RequisitionCountAggregateInputType = {
     id?: true
     risNo?: true
-    responsibilityCenterCode?: true
     requestDate?: true
     requestedById?: true
+    requestedByPrintedName?: true
     role?: true
     officeId?: true
     purpose?: true
@@ -7019,9 +7216,9 @@ export namespace Prisma {
   export type RequisitionGroupByOutputType = {
     id: number
     risNo: string
-    responsibilityCenterCode: string | null
     requestDate: Date
     requestedById: number | null
+    requestedByPrintedName: string | null
     role: string | null
     officeId: number | null
     purpose: string | null
@@ -7052,9 +7249,9 @@ export namespace Prisma {
   export type RequisitionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     risNo?: boolean
-    responsibilityCenterCode?: boolean
     requestDate?: boolean
     requestedById?: boolean
+    requestedByPrintedName?: boolean
     role?: boolean
     officeId?: boolean
     purpose?: boolean
@@ -7071,9 +7268,9 @@ export namespace Prisma {
   export type RequisitionSelectScalar = {
     id?: boolean
     risNo?: boolean
-    responsibilityCenterCode?: boolean
     requestDate?: boolean
     requestedById?: boolean
+    requestedByPrintedName?: boolean
     role?: boolean
     officeId?: boolean
     purpose?: boolean
@@ -7099,9 +7296,9 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: number
       risNo: string
-      responsibilityCenterCode: string | null
       requestDate: Date
       requestedById: number | null
+      requestedByPrintedName: string | null
       role: string | null
       officeId: number | null
       purpose: string | null
@@ -7482,9 +7679,9 @@ export namespace Prisma {
   interface RequisitionFieldRefs {
     readonly id: FieldRef<"Requisition", 'Int'>
     readonly risNo: FieldRef<"Requisition", 'String'>
-    readonly responsibilityCenterCode: FieldRef<"Requisition", 'String'>
     readonly requestDate: FieldRef<"Requisition", 'DateTime'>
     readonly requestedById: FieldRef<"Requisition", 'Int'>
+    readonly requestedByPrintedName: FieldRef<"Requisition", 'String'>
     readonly role: FieldRef<"Requisition", 'String'>
     readonly officeId: FieldRef<"Requisition", 'Int'>
     readonly purpose: FieldRef<"Requisition", 'String'>
@@ -7888,6 +8085,7 @@ export namespace Prisma {
     quantity: number | null
     unit: string | null
     stockNumber: string | null
+    isUnlisted: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -7900,6 +8098,7 @@ export namespace Prisma {
     quantity: number | null
     unit: string | null
     stockNumber: string | null
+    isUnlisted: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -7912,6 +8111,7 @@ export namespace Prisma {
     quantity: number
     unit: number
     stockNumber: number
+    isUnlisted: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -7940,6 +8140,7 @@ export namespace Prisma {
     quantity?: true
     unit?: true
     stockNumber?: true
+    isUnlisted?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -7952,6 +8153,7 @@ export namespace Prisma {
     quantity?: true
     unit?: true
     stockNumber?: true
+    isUnlisted?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -7964,6 +8166,7 @@ export namespace Prisma {
     quantity?: true
     unit?: true
     stockNumber?: true
+    isUnlisted?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -8063,6 +8266,7 @@ export namespace Prisma {
     quantity: number
     unit: string
     stockNumber: string | null
+    isUnlisted: boolean
     createdAt: Date
     updatedAt: Date
     _count: RequisitionItemCountAggregateOutputType | null
@@ -8094,10 +8298,12 @@ export namespace Prisma {
     quantity?: boolean
     unit?: boolean
     stockNumber?: boolean
+    isUnlisted?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     requisition?: boolean | RequisitionDefaultArgs<ExtArgs>
     inventoryItem?: boolean | RequisitionItem$inventoryItemArgs<ExtArgs>
+    release?: boolean | RequisitionItem$releaseArgs<ExtArgs>
   }, ExtArgs["result"]["requisitionItem"]>
 
 
@@ -8109,6 +8315,7 @@ export namespace Prisma {
     quantity?: boolean
     unit?: boolean
     stockNumber?: boolean
+    isUnlisted?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
@@ -8116,6 +8323,7 @@ export namespace Prisma {
   export type RequisitionItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     requisition?: boolean | RequisitionDefaultArgs<ExtArgs>
     inventoryItem?: boolean | RequisitionItem$inventoryItemArgs<ExtArgs>
+    release?: boolean | RequisitionItem$releaseArgs<ExtArgs>
   }
 
   export type $RequisitionItemPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8123,6 +8331,7 @@ export namespace Prisma {
     objects: {
       requisition: Prisma.$RequisitionPayload<ExtArgs>
       inventoryItem: Prisma.$InventoryItemPayload<ExtArgs> | null
+      release: Prisma.$RequisitionItemReleasePayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -8132,6 +8341,7 @@ export namespace Prisma {
       quantity: number
       unit: string
       stockNumber: string | null
+      isUnlisted: boolean
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["requisitionItem"]>
@@ -8476,6 +8686,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     requisition<T extends RequisitionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RequisitionDefaultArgs<ExtArgs>>): Prisma__RequisitionClient<$Result.GetResult<Prisma.$RequisitionPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     inventoryItem<T extends RequisitionItem$inventoryItemArgs<ExtArgs> = {}>(args?: Subset<T, RequisitionItem$inventoryItemArgs<ExtArgs>>): Prisma__InventoryItemClient<$Result.GetResult<Prisma.$InventoryItemPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    release<T extends RequisitionItem$releaseArgs<ExtArgs> = {}>(args?: Subset<T, RequisitionItem$releaseArgs<ExtArgs>>): Prisma__RequisitionItemReleaseClient<$Result.GetResult<Prisma.$RequisitionItemReleasePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8512,6 +8723,7 @@ export namespace Prisma {
     readonly quantity: FieldRef<"RequisitionItem", 'Int'>
     readonly unit: FieldRef<"RequisitionItem", 'String'>
     readonly stockNumber: FieldRef<"RequisitionItem", 'String'>
+    readonly isUnlisted: FieldRef<"RequisitionItem", 'Boolean'>
     readonly createdAt: FieldRef<"RequisitionItem", 'DateTime'>
     readonly updatedAt: FieldRef<"RequisitionItem", 'DateTime'>
   }
@@ -8828,6 +9040,21 @@ export namespace Prisma {
   }
 
   /**
+   * RequisitionItem.release
+   */
+  export type RequisitionItem$releaseArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RequisitionItemRelease
+     */
+    select?: RequisitionItemReleaseSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RequisitionItemReleaseInclude<ExtArgs> | null
+    where?: RequisitionItemReleaseWhereInput
+  }
+
+  /**
    * RequisitionItem without action
    */
   export type RequisitionItemDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8839,6 +9066,1820 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: RequisitionItemInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model RequisitionItemRelease
+   */
+
+  export type AggregateRequisitionItemRelease = {
+    _count: RequisitionItemReleaseCountAggregateOutputType | null
+    _avg: RequisitionItemReleaseAvgAggregateOutputType | null
+    _sum: RequisitionItemReleaseSumAggregateOutputType | null
+    _min: RequisitionItemReleaseMinAggregateOutputType | null
+    _max: RequisitionItemReleaseMaxAggregateOutputType | null
+  }
+
+  export type RequisitionItemReleaseAvgAggregateOutputType = {
+    id: number | null
+    requisitionItemId: number | null
+    sourceOfficeId: number | null
+    quantityReleased: number | null
+  }
+
+  export type RequisitionItemReleaseSumAggregateOutputType = {
+    id: number | null
+    requisitionItemId: number | null
+    sourceOfficeId: number | null
+    quantityReleased: number | null
+  }
+
+  export type RequisitionItemReleaseMinAggregateOutputType = {
+    id: number | null
+    requisitionItemId: number | null
+    sourceOfficeId: number | null
+    quantityReleased: number | null
+    remarks: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type RequisitionItemReleaseMaxAggregateOutputType = {
+    id: number | null
+    requisitionItemId: number | null
+    sourceOfficeId: number | null
+    quantityReleased: number | null
+    remarks: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type RequisitionItemReleaseCountAggregateOutputType = {
+    id: number
+    requisitionItemId: number
+    sourceOfficeId: number
+    quantityReleased: number
+    remarks: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type RequisitionItemReleaseAvgAggregateInputType = {
+    id?: true
+    requisitionItemId?: true
+    sourceOfficeId?: true
+    quantityReleased?: true
+  }
+
+  export type RequisitionItemReleaseSumAggregateInputType = {
+    id?: true
+    requisitionItemId?: true
+    sourceOfficeId?: true
+    quantityReleased?: true
+  }
+
+  export type RequisitionItemReleaseMinAggregateInputType = {
+    id?: true
+    requisitionItemId?: true
+    sourceOfficeId?: true
+    quantityReleased?: true
+    remarks?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type RequisitionItemReleaseMaxAggregateInputType = {
+    id?: true
+    requisitionItemId?: true
+    sourceOfficeId?: true
+    quantityReleased?: true
+    remarks?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type RequisitionItemReleaseCountAggregateInputType = {
+    id?: true
+    requisitionItemId?: true
+    sourceOfficeId?: true
+    quantityReleased?: true
+    remarks?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type RequisitionItemReleaseAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RequisitionItemRelease to aggregate.
+     */
+    where?: RequisitionItemReleaseWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RequisitionItemReleases to fetch.
+     */
+    orderBy?: RequisitionItemReleaseOrderByWithRelationInput | RequisitionItemReleaseOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RequisitionItemReleaseWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RequisitionItemReleases from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RequisitionItemReleases.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned RequisitionItemReleases
+    **/
+    _count?: true | RequisitionItemReleaseCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: RequisitionItemReleaseAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: RequisitionItemReleaseSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RequisitionItemReleaseMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RequisitionItemReleaseMaxAggregateInputType
+  }
+
+  export type GetRequisitionItemReleaseAggregateType<T extends RequisitionItemReleaseAggregateArgs> = {
+        [P in keyof T & keyof AggregateRequisitionItemRelease]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRequisitionItemRelease[P]>
+      : GetScalarType<T[P], AggregateRequisitionItemRelease[P]>
+  }
+
+
+
+
+  export type RequisitionItemReleaseGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RequisitionItemReleaseWhereInput
+    orderBy?: RequisitionItemReleaseOrderByWithAggregationInput | RequisitionItemReleaseOrderByWithAggregationInput[]
+    by: RequisitionItemReleaseScalarFieldEnum[] | RequisitionItemReleaseScalarFieldEnum
+    having?: RequisitionItemReleaseScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RequisitionItemReleaseCountAggregateInputType | true
+    _avg?: RequisitionItemReleaseAvgAggregateInputType
+    _sum?: RequisitionItemReleaseSumAggregateInputType
+    _min?: RequisitionItemReleaseMinAggregateInputType
+    _max?: RequisitionItemReleaseMaxAggregateInputType
+  }
+
+  export type RequisitionItemReleaseGroupByOutputType = {
+    id: number
+    requisitionItemId: number
+    sourceOfficeId: number | null
+    quantityReleased: number
+    remarks: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: RequisitionItemReleaseCountAggregateOutputType | null
+    _avg: RequisitionItemReleaseAvgAggregateOutputType | null
+    _sum: RequisitionItemReleaseSumAggregateOutputType | null
+    _min: RequisitionItemReleaseMinAggregateOutputType | null
+    _max: RequisitionItemReleaseMaxAggregateOutputType | null
+  }
+
+  type GetRequisitionItemReleaseGroupByPayload<T extends RequisitionItemReleaseGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RequisitionItemReleaseGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RequisitionItemReleaseGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RequisitionItemReleaseGroupByOutputType[P]>
+            : GetScalarType<T[P], RequisitionItemReleaseGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RequisitionItemReleaseSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    requisitionItemId?: boolean
+    sourceOfficeId?: boolean
+    quantityReleased?: boolean
+    remarks?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    requisitionItem?: boolean | RequisitionItemDefaultArgs<ExtArgs>
+    sourceOffice?: boolean | RequisitionItemRelease$sourceOfficeArgs<ExtArgs>
+  }, ExtArgs["result"]["requisitionItemRelease"]>
+
+
+  export type RequisitionItemReleaseSelectScalar = {
+    id?: boolean
+    requisitionItemId?: boolean
+    sourceOfficeId?: boolean
+    quantityReleased?: boolean
+    remarks?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type RequisitionItemReleaseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    requisitionItem?: boolean | RequisitionItemDefaultArgs<ExtArgs>
+    sourceOffice?: boolean | RequisitionItemRelease$sourceOfficeArgs<ExtArgs>
+  }
+
+  export type $RequisitionItemReleasePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "RequisitionItemRelease"
+    objects: {
+      requisitionItem: Prisma.$RequisitionItemPayload<ExtArgs>
+      sourceOffice: Prisma.$OfficePayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      requisitionItemId: number
+      sourceOfficeId: number | null
+      quantityReleased: number
+      remarks: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["requisitionItemRelease"]>
+    composites: {}
+  }
+
+  type RequisitionItemReleaseGetPayload<S extends boolean | null | undefined | RequisitionItemReleaseDefaultArgs> = $Result.GetResult<Prisma.$RequisitionItemReleasePayload, S>
+
+  type RequisitionItemReleaseCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<RequisitionItemReleaseFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: RequisitionItemReleaseCountAggregateInputType | true
+    }
+
+  export interface RequisitionItemReleaseDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['RequisitionItemRelease'], meta: { name: 'RequisitionItemRelease' } }
+    /**
+     * Find zero or one RequisitionItemRelease that matches the filter.
+     * @param {RequisitionItemReleaseFindUniqueArgs} args - Arguments to find a RequisitionItemRelease
+     * @example
+     * // Get one RequisitionItemRelease
+     * const requisitionItemRelease = await prisma.requisitionItemRelease.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RequisitionItemReleaseFindUniqueArgs>(args: SelectSubset<T, RequisitionItemReleaseFindUniqueArgs<ExtArgs>>): Prisma__RequisitionItemReleaseClient<$Result.GetResult<Prisma.$RequisitionItemReleasePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one RequisitionItemRelease that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {RequisitionItemReleaseFindUniqueOrThrowArgs} args - Arguments to find a RequisitionItemRelease
+     * @example
+     * // Get one RequisitionItemRelease
+     * const requisitionItemRelease = await prisma.requisitionItemRelease.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RequisitionItemReleaseFindUniqueOrThrowArgs>(args: SelectSubset<T, RequisitionItemReleaseFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RequisitionItemReleaseClient<$Result.GetResult<Prisma.$RequisitionItemReleasePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first RequisitionItemRelease that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RequisitionItemReleaseFindFirstArgs} args - Arguments to find a RequisitionItemRelease
+     * @example
+     * // Get one RequisitionItemRelease
+     * const requisitionItemRelease = await prisma.requisitionItemRelease.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RequisitionItemReleaseFindFirstArgs>(args?: SelectSubset<T, RequisitionItemReleaseFindFirstArgs<ExtArgs>>): Prisma__RequisitionItemReleaseClient<$Result.GetResult<Prisma.$RequisitionItemReleasePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first RequisitionItemRelease that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RequisitionItemReleaseFindFirstOrThrowArgs} args - Arguments to find a RequisitionItemRelease
+     * @example
+     * // Get one RequisitionItemRelease
+     * const requisitionItemRelease = await prisma.requisitionItemRelease.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RequisitionItemReleaseFindFirstOrThrowArgs>(args?: SelectSubset<T, RequisitionItemReleaseFindFirstOrThrowArgs<ExtArgs>>): Prisma__RequisitionItemReleaseClient<$Result.GetResult<Prisma.$RequisitionItemReleasePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more RequisitionItemReleases that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RequisitionItemReleaseFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all RequisitionItemReleases
+     * const requisitionItemReleases = await prisma.requisitionItemRelease.findMany()
+     * 
+     * // Get first 10 RequisitionItemReleases
+     * const requisitionItemReleases = await prisma.requisitionItemRelease.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const requisitionItemReleaseWithIdOnly = await prisma.requisitionItemRelease.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RequisitionItemReleaseFindManyArgs>(args?: SelectSubset<T, RequisitionItemReleaseFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RequisitionItemReleasePayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a RequisitionItemRelease.
+     * @param {RequisitionItemReleaseCreateArgs} args - Arguments to create a RequisitionItemRelease.
+     * @example
+     * // Create one RequisitionItemRelease
+     * const RequisitionItemRelease = await prisma.requisitionItemRelease.create({
+     *   data: {
+     *     // ... data to create a RequisitionItemRelease
+     *   }
+     * })
+     * 
+     */
+    create<T extends RequisitionItemReleaseCreateArgs>(args: SelectSubset<T, RequisitionItemReleaseCreateArgs<ExtArgs>>): Prisma__RequisitionItemReleaseClient<$Result.GetResult<Prisma.$RequisitionItemReleasePayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many RequisitionItemReleases.
+     * @param {RequisitionItemReleaseCreateManyArgs} args - Arguments to create many RequisitionItemReleases.
+     * @example
+     * // Create many RequisitionItemReleases
+     * const requisitionItemRelease = await prisma.requisitionItemRelease.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RequisitionItemReleaseCreateManyArgs>(args?: SelectSubset<T, RequisitionItemReleaseCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a RequisitionItemRelease.
+     * @param {RequisitionItemReleaseDeleteArgs} args - Arguments to delete one RequisitionItemRelease.
+     * @example
+     * // Delete one RequisitionItemRelease
+     * const RequisitionItemRelease = await prisma.requisitionItemRelease.delete({
+     *   where: {
+     *     // ... filter to delete one RequisitionItemRelease
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RequisitionItemReleaseDeleteArgs>(args: SelectSubset<T, RequisitionItemReleaseDeleteArgs<ExtArgs>>): Prisma__RequisitionItemReleaseClient<$Result.GetResult<Prisma.$RequisitionItemReleasePayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one RequisitionItemRelease.
+     * @param {RequisitionItemReleaseUpdateArgs} args - Arguments to update one RequisitionItemRelease.
+     * @example
+     * // Update one RequisitionItemRelease
+     * const requisitionItemRelease = await prisma.requisitionItemRelease.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RequisitionItemReleaseUpdateArgs>(args: SelectSubset<T, RequisitionItemReleaseUpdateArgs<ExtArgs>>): Prisma__RequisitionItemReleaseClient<$Result.GetResult<Prisma.$RequisitionItemReleasePayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more RequisitionItemReleases.
+     * @param {RequisitionItemReleaseDeleteManyArgs} args - Arguments to filter RequisitionItemReleases to delete.
+     * @example
+     * // Delete a few RequisitionItemReleases
+     * const { count } = await prisma.requisitionItemRelease.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RequisitionItemReleaseDeleteManyArgs>(args?: SelectSubset<T, RequisitionItemReleaseDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RequisitionItemReleases.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RequisitionItemReleaseUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many RequisitionItemReleases
+     * const requisitionItemRelease = await prisma.requisitionItemRelease.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RequisitionItemReleaseUpdateManyArgs>(args: SelectSubset<T, RequisitionItemReleaseUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one RequisitionItemRelease.
+     * @param {RequisitionItemReleaseUpsertArgs} args - Arguments to update or create a RequisitionItemRelease.
+     * @example
+     * // Update or create a RequisitionItemRelease
+     * const requisitionItemRelease = await prisma.requisitionItemRelease.upsert({
+     *   create: {
+     *     // ... data to create a RequisitionItemRelease
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the RequisitionItemRelease we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RequisitionItemReleaseUpsertArgs>(args: SelectSubset<T, RequisitionItemReleaseUpsertArgs<ExtArgs>>): Prisma__RequisitionItemReleaseClient<$Result.GetResult<Prisma.$RequisitionItemReleasePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of RequisitionItemReleases.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RequisitionItemReleaseCountArgs} args - Arguments to filter RequisitionItemReleases to count.
+     * @example
+     * // Count the number of RequisitionItemReleases
+     * const count = await prisma.requisitionItemRelease.count({
+     *   where: {
+     *     // ... the filter for the RequisitionItemReleases we want to count
+     *   }
+     * })
+    **/
+    count<T extends RequisitionItemReleaseCountArgs>(
+      args?: Subset<T, RequisitionItemReleaseCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RequisitionItemReleaseCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a RequisitionItemRelease.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RequisitionItemReleaseAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RequisitionItemReleaseAggregateArgs>(args: Subset<T, RequisitionItemReleaseAggregateArgs>): Prisma.PrismaPromise<GetRequisitionItemReleaseAggregateType<T>>
+
+    /**
+     * Group by RequisitionItemRelease.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RequisitionItemReleaseGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RequisitionItemReleaseGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RequisitionItemReleaseGroupByArgs['orderBy'] }
+        : { orderBy?: RequisitionItemReleaseGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RequisitionItemReleaseGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRequisitionItemReleaseGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the RequisitionItemRelease model
+   */
+  readonly fields: RequisitionItemReleaseFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for RequisitionItemRelease.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RequisitionItemReleaseClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    requisitionItem<T extends RequisitionItemDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RequisitionItemDefaultArgs<ExtArgs>>): Prisma__RequisitionItemClient<$Result.GetResult<Prisma.$RequisitionItemPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    sourceOffice<T extends RequisitionItemRelease$sourceOfficeArgs<ExtArgs> = {}>(args?: Subset<T, RequisitionItemRelease$sourceOfficeArgs<ExtArgs>>): Prisma__OfficeClient<$Result.GetResult<Prisma.$OfficePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the RequisitionItemRelease model
+   */ 
+  interface RequisitionItemReleaseFieldRefs {
+    readonly id: FieldRef<"RequisitionItemRelease", 'Int'>
+    readonly requisitionItemId: FieldRef<"RequisitionItemRelease", 'Int'>
+    readonly sourceOfficeId: FieldRef<"RequisitionItemRelease", 'Int'>
+    readonly quantityReleased: FieldRef<"RequisitionItemRelease", 'Int'>
+    readonly remarks: FieldRef<"RequisitionItemRelease", 'String'>
+    readonly createdAt: FieldRef<"RequisitionItemRelease", 'DateTime'>
+    readonly updatedAt: FieldRef<"RequisitionItemRelease", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * RequisitionItemRelease findUnique
+   */
+  export type RequisitionItemReleaseFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RequisitionItemRelease
+     */
+    select?: RequisitionItemReleaseSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RequisitionItemReleaseInclude<ExtArgs> | null
+    /**
+     * Filter, which RequisitionItemRelease to fetch.
+     */
+    where: RequisitionItemReleaseWhereUniqueInput
+  }
+
+  /**
+   * RequisitionItemRelease findUniqueOrThrow
+   */
+  export type RequisitionItemReleaseFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RequisitionItemRelease
+     */
+    select?: RequisitionItemReleaseSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RequisitionItemReleaseInclude<ExtArgs> | null
+    /**
+     * Filter, which RequisitionItemRelease to fetch.
+     */
+    where: RequisitionItemReleaseWhereUniqueInput
+  }
+
+  /**
+   * RequisitionItemRelease findFirst
+   */
+  export type RequisitionItemReleaseFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RequisitionItemRelease
+     */
+    select?: RequisitionItemReleaseSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RequisitionItemReleaseInclude<ExtArgs> | null
+    /**
+     * Filter, which RequisitionItemRelease to fetch.
+     */
+    where?: RequisitionItemReleaseWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RequisitionItemReleases to fetch.
+     */
+    orderBy?: RequisitionItemReleaseOrderByWithRelationInput | RequisitionItemReleaseOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RequisitionItemReleases.
+     */
+    cursor?: RequisitionItemReleaseWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RequisitionItemReleases from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RequisitionItemReleases.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RequisitionItemReleases.
+     */
+    distinct?: RequisitionItemReleaseScalarFieldEnum | RequisitionItemReleaseScalarFieldEnum[]
+  }
+
+  /**
+   * RequisitionItemRelease findFirstOrThrow
+   */
+  export type RequisitionItemReleaseFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RequisitionItemRelease
+     */
+    select?: RequisitionItemReleaseSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RequisitionItemReleaseInclude<ExtArgs> | null
+    /**
+     * Filter, which RequisitionItemRelease to fetch.
+     */
+    where?: RequisitionItemReleaseWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RequisitionItemReleases to fetch.
+     */
+    orderBy?: RequisitionItemReleaseOrderByWithRelationInput | RequisitionItemReleaseOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RequisitionItemReleases.
+     */
+    cursor?: RequisitionItemReleaseWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RequisitionItemReleases from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RequisitionItemReleases.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RequisitionItemReleases.
+     */
+    distinct?: RequisitionItemReleaseScalarFieldEnum | RequisitionItemReleaseScalarFieldEnum[]
+  }
+
+  /**
+   * RequisitionItemRelease findMany
+   */
+  export type RequisitionItemReleaseFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RequisitionItemRelease
+     */
+    select?: RequisitionItemReleaseSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RequisitionItemReleaseInclude<ExtArgs> | null
+    /**
+     * Filter, which RequisitionItemReleases to fetch.
+     */
+    where?: RequisitionItemReleaseWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RequisitionItemReleases to fetch.
+     */
+    orderBy?: RequisitionItemReleaseOrderByWithRelationInput | RequisitionItemReleaseOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing RequisitionItemReleases.
+     */
+    cursor?: RequisitionItemReleaseWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RequisitionItemReleases from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RequisitionItemReleases.
+     */
+    skip?: number
+    distinct?: RequisitionItemReleaseScalarFieldEnum | RequisitionItemReleaseScalarFieldEnum[]
+  }
+
+  /**
+   * RequisitionItemRelease create
+   */
+  export type RequisitionItemReleaseCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RequisitionItemRelease
+     */
+    select?: RequisitionItemReleaseSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RequisitionItemReleaseInclude<ExtArgs> | null
+    /**
+     * The data needed to create a RequisitionItemRelease.
+     */
+    data: XOR<RequisitionItemReleaseCreateInput, RequisitionItemReleaseUncheckedCreateInput>
+  }
+
+  /**
+   * RequisitionItemRelease createMany
+   */
+  export type RequisitionItemReleaseCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many RequisitionItemReleases.
+     */
+    data: RequisitionItemReleaseCreateManyInput | RequisitionItemReleaseCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * RequisitionItemRelease update
+   */
+  export type RequisitionItemReleaseUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RequisitionItemRelease
+     */
+    select?: RequisitionItemReleaseSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RequisitionItemReleaseInclude<ExtArgs> | null
+    /**
+     * The data needed to update a RequisitionItemRelease.
+     */
+    data: XOR<RequisitionItemReleaseUpdateInput, RequisitionItemReleaseUncheckedUpdateInput>
+    /**
+     * Choose, which RequisitionItemRelease to update.
+     */
+    where: RequisitionItemReleaseWhereUniqueInput
+  }
+
+  /**
+   * RequisitionItemRelease updateMany
+   */
+  export type RequisitionItemReleaseUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update RequisitionItemReleases.
+     */
+    data: XOR<RequisitionItemReleaseUpdateManyMutationInput, RequisitionItemReleaseUncheckedUpdateManyInput>
+    /**
+     * Filter which RequisitionItemReleases to update
+     */
+    where?: RequisitionItemReleaseWhereInput
+  }
+
+  /**
+   * RequisitionItemRelease upsert
+   */
+  export type RequisitionItemReleaseUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RequisitionItemRelease
+     */
+    select?: RequisitionItemReleaseSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RequisitionItemReleaseInclude<ExtArgs> | null
+    /**
+     * The filter to search for the RequisitionItemRelease to update in case it exists.
+     */
+    where: RequisitionItemReleaseWhereUniqueInput
+    /**
+     * In case the RequisitionItemRelease found by the `where` argument doesn't exist, create a new RequisitionItemRelease with this data.
+     */
+    create: XOR<RequisitionItemReleaseCreateInput, RequisitionItemReleaseUncheckedCreateInput>
+    /**
+     * In case the RequisitionItemRelease was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RequisitionItemReleaseUpdateInput, RequisitionItemReleaseUncheckedUpdateInput>
+  }
+
+  /**
+   * RequisitionItemRelease delete
+   */
+  export type RequisitionItemReleaseDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RequisitionItemRelease
+     */
+    select?: RequisitionItemReleaseSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RequisitionItemReleaseInclude<ExtArgs> | null
+    /**
+     * Filter which RequisitionItemRelease to delete.
+     */
+    where: RequisitionItemReleaseWhereUniqueInput
+  }
+
+  /**
+   * RequisitionItemRelease deleteMany
+   */
+  export type RequisitionItemReleaseDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RequisitionItemReleases to delete
+     */
+    where?: RequisitionItemReleaseWhereInput
+  }
+
+  /**
+   * RequisitionItemRelease.sourceOffice
+   */
+  export type RequisitionItemRelease$sourceOfficeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Office
+     */
+    select?: OfficeSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OfficeInclude<ExtArgs> | null
+    where?: OfficeWhereInput
+  }
+
+  /**
+   * RequisitionItemRelease without action
+   */
+  export type RequisitionItemReleaseDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RequisitionItemRelease
+     */
+    select?: RequisitionItemReleaseSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RequisitionItemReleaseInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model RisCounter
+   */
+
+  export type AggregateRisCounter = {
+    _count: RisCounterCountAggregateOutputType | null
+    _avg: RisCounterAvgAggregateOutputType | null
+    _sum: RisCounterSumAggregateOutputType | null
+    _min: RisCounterMinAggregateOutputType | null
+    _max: RisCounterMaxAggregateOutputType | null
+  }
+
+  export type RisCounterAvgAggregateOutputType = {
+    id: number | null
+    counter: number | null
+  }
+
+  export type RisCounterSumAggregateOutputType = {
+    id: number | null
+    counter: number | null
+  }
+
+  export type RisCounterMinAggregateOutputType = {
+    id: number | null
+    yearMonth: string | null
+    counter: number | null
+  }
+
+  export type RisCounterMaxAggregateOutputType = {
+    id: number | null
+    yearMonth: string | null
+    counter: number | null
+  }
+
+  export type RisCounterCountAggregateOutputType = {
+    id: number
+    yearMonth: number
+    counter: number
+    _all: number
+  }
+
+
+  export type RisCounterAvgAggregateInputType = {
+    id?: true
+    counter?: true
+  }
+
+  export type RisCounterSumAggregateInputType = {
+    id?: true
+    counter?: true
+  }
+
+  export type RisCounterMinAggregateInputType = {
+    id?: true
+    yearMonth?: true
+    counter?: true
+  }
+
+  export type RisCounterMaxAggregateInputType = {
+    id?: true
+    yearMonth?: true
+    counter?: true
+  }
+
+  export type RisCounterCountAggregateInputType = {
+    id?: true
+    yearMonth?: true
+    counter?: true
+    _all?: true
+  }
+
+  export type RisCounterAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RisCounter to aggregate.
+     */
+    where?: RisCounterWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RisCounters to fetch.
+     */
+    orderBy?: RisCounterOrderByWithRelationInput | RisCounterOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RisCounterWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RisCounters from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RisCounters.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned RisCounters
+    **/
+    _count?: true | RisCounterCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: RisCounterAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: RisCounterSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RisCounterMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RisCounterMaxAggregateInputType
+  }
+
+  export type GetRisCounterAggregateType<T extends RisCounterAggregateArgs> = {
+        [P in keyof T & keyof AggregateRisCounter]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRisCounter[P]>
+      : GetScalarType<T[P], AggregateRisCounter[P]>
+  }
+
+
+
+
+  export type RisCounterGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RisCounterWhereInput
+    orderBy?: RisCounterOrderByWithAggregationInput | RisCounterOrderByWithAggregationInput[]
+    by: RisCounterScalarFieldEnum[] | RisCounterScalarFieldEnum
+    having?: RisCounterScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RisCounterCountAggregateInputType | true
+    _avg?: RisCounterAvgAggregateInputType
+    _sum?: RisCounterSumAggregateInputType
+    _min?: RisCounterMinAggregateInputType
+    _max?: RisCounterMaxAggregateInputType
+  }
+
+  export type RisCounterGroupByOutputType = {
+    id: number
+    yearMonth: string
+    counter: number
+    _count: RisCounterCountAggregateOutputType | null
+    _avg: RisCounterAvgAggregateOutputType | null
+    _sum: RisCounterSumAggregateOutputType | null
+    _min: RisCounterMinAggregateOutputType | null
+    _max: RisCounterMaxAggregateOutputType | null
+  }
+
+  type GetRisCounterGroupByPayload<T extends RisCounterGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RisCounterGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RisCounterGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RisCounterGroupByOutputType[P]>
+            : GetScalarType<T[P], RisCounterGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RisCounterSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    yearMonth?: boolean
+    counter?: boolean
+  }, ExtArgs["result"]["risCounter"]>
+
+
+  export type RisCounterSelectScalar = {
+    id?: boolean
+    yearMonth?: boolean
+    counter?: boolean
+  }
+
+
+  export type $RisCounterPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "RisCounter"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      yearMonth: string
+      counter: number
+    }, ExtArgs["result"]["risCounter"]>
+    composites: {}
+  }
+
+  type RisCounterGetPayload<S extends boolean | null | undefined | RisCounterDefaultArgs> = $Result.GetResult<Prisma.$RisCounterPayload, S>
+
+  type RisCounterCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<RisCounterFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: RisCounterCountAggregateInputType | true
+    }
+
+  export interface RisCounterDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['RisCounter'], meta: { name: 'RisCounter' } }
+    /**
+     * Find zero or one RisCounter that matches the filter.
+     * @param {RisCounterFindUniqueArgs} args - Arguments to find a RisCounter
+     * @example
+     * // Get one RisCounter
+     * const risCounter = await prisma.risCounter.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RisCounterFindUniqueArgs>(args: SelectSubset<T, RisCounterFindUniqueArgs<ExtArgs>>): Prisma__RisCounterClient<$Result.GetResult<Prisma.$RisCounterPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one RisCounter that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {RisCounterFindUniqueOrThrowArgs} args - Arguments to find a RisCounter
+     * @example
+     * // Get one RisCounter
+     * const risCounter = await prisma.risCounter.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RisCounterFindUniqueOrThrowArgs>(args: SelectSubset<T, RisCounterFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RisCounterClient<$Result.GetResult<Prisma.$RisCounterPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first RisCounter that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RisCounterFindFirstArgs} args - Arguments to find a RisCounter
+     * @example
+     * // Get one RisCounter
+     * const risCounter = await prisma.risCounter.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RisCounterFindFirstArgs>(args?: SelectSubset<T, RisCounterFindFirstArgs<ExtArgs>>): Prisma__RisCounterClient<$Result.GetResult<Prisma.$RisCounterPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first RisCounter that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RisCounterFindFirstOrThrowArgs} args - Arguments to find a RisCounter
+     * @example
+     * // Get one RisCounter
+     * const risCounter = await prisma.risCounter.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RisCounterFindFirstOrThrowArgs>(args?: SelectSubset<T, RisCounterFindFirstOrThrowArgs<ExtArgs>>): Prisma__RisCounterClient<$Result.GetResult<Prisma.$RisCounterPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more RisCounters that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RisCounterFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all RisCounters
+     * const risCounters = await prisma.risCounter.findMany()
+     * 
+     * // Get first 10 RisCounters
+     * const risCounters = await prisma.risCounter.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const risCounterWithIdOnly = await prisma.risCounter.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RisCounterFindManyArgs>(args?: SelectSubset<T, RisCounterFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RisCounterPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a RisCounter.
+     * @param {RisCounterCreateArgs} args - Arguments to create a RisCounter.
+     * @example
+     * // Create one RisCounter
+     * const RisCounter = await prisma.risCounter.create({
+     *   data: {
+     *     // ... data to create a RisCounter
+     *   }
+     * })
+     * 
+     */
+    create<T extends RisCounterCreateArgs>(args: SelectSubset<T, RisCounterCreateArgs<ExtArgs>>): Prisma__RisCounterClient<$Result.GetResult<Prisma.$RisCounterPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many RisCounters.
+     * @param {RisCounterCreateManyArgs} args - Arguments to create many RisCounters.
+     * @example
+     * // Create many RisCounters
+     * const risCounter = await prisma.risCounter.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RisCounterCreateManyArgs>(args?: SelectSubset<T, RisCounterCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a RisCounter.
+     * @param {RisCounterDeleteArgs} args - Arguments to delete one RisCounter.
+     * @example
+     * // Delete one RisCounter
+     * const RisCounter = await prisma.risCounter.delete({
+     *   where: {
+     *     // ... filter to delete one RisCounter
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RisCounterDeleteArgs>(args: SelectSubset<T, RisCounterDeleteArgs<ExtArgs>>): Prisma__RisCounterClient<$Result.GetResult<Prisma.$RisCounterPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one RisCounter.
+     * @param {RisCounterUpdateArgs} args - Arguments to update one RisCounter.
+     * @example
+     * // Update one RisCounter
+     * const risCounter = await prisma.risCounter.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RisCounterUpdateArgs>(args: SelectSubset<T, RisCounterUpdateArgs<ExtArgs>>): Prisma__RisCounterClient<$Result.GetResult<Prisma.$RisCounterPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more RisCounters.
+     * @param {RisCounterDeleteManyArgs} args - Arguments to filter RisCounters to delete.
+     * @example
+     * // Delete a few RisCounters
+     * const { count } = await prisma.risCounter.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RisCounterDeleteManyArgs>(args?: SelectSubset<T, RisCounterDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RisCounters.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RisCounterUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many RisCounters
+     * const risCounter = await prisma.risCounter.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RisCounterUpdateManyArgs>(args: SelectSubset<T, RisCounterUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one RisCounter.
+     * @param {RisCounterUpsertArgs} args - Arguments to update or create a RisCounter.
+     * @example
+     * // Update or create a RisCounter
+     * const risCounter = await prisma.risCounter.upsert({
+     *   create: {
+     *     // ... data to create a RisCounter
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the RisCounter we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RisCounterUpsertArgs>(args: SelectSubset<T, RisCounterUpsertArgs<ExtArgs>>): Prisma__RisCounterClient<$Result.GetResult<Prisma.$RisCounterPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of RisCounters.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RisCounterCountArgs} args - Arguments to filter RisCounters to count.
+     * @example
+     * // Count the number of RisCounters
+     * const count = await prisma.risCounter.count({
+     *   where: {
+     *     // ... the filter for the RisCounters we want to count
+     *   }
+     * })
+    **/
+    count<T extends RisCounterCountArgs>(
+      args?: Subset<T, RisCounterCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RisCounterCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a RisCounter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RisCounterAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RisCounterAggregateArgs>(args: Subset<T, RisCounterAggregateArgs>): Prisma.PrismaPromise<GetRisCounterAggregateType<T>>
+
+    /**
+     * Group by RisCounter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RisCounterGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RisCounterGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RisCounterGroupByArgs['orderBy'] }
+        : { orderBy?: RisCounterGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RisCounterGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRisCounterGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the RisCounter model
+   */
+  readonly fields: RisCounterFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for RisCounter.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RisCounterClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the RisCounter model
+   */ 
+  interface RisCounterFieldRefs {
+    readonly id: FieldRef<"RisCounter", 'Int'>
+    readonly yearMonth: FieldRef<"RisCounter", 'String'>
+    readonly counter: FieldRef<"RisCounter", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * RisCounter findUnique
+   */
+  export type RisCounterFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RisCounter
+     */
+    select?: RisCounterSelect<ExtArgs> | null
+    /**
+     * Filter, which RisCounter to fetch.
+     */
+    where: RisCounterWhereUniqueInput
+  }
+
+  /**
+   * RisCounter findUniqueOrThrow
+   */
+  export type RisCounterFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RisCounter
+     */
+    select?: RisCounterSelect<ExtArgs> | null
+    /**
+     * Filter, which RisCounter to fetch.
+     */
+    where: RisCounterWhereUniqueInput
+  }
+
+  /**
+   * RisCounter findFirst
+   */
+  export type RisCounterFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RisCounter
+     */
+    select?: RisCounterSelect<ExtArgs> | null
+    /**
+     * Filter, which RisCounter to fetch.
+     */
+    where?: RisCounterWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RisCounters to fetch.
+     */
+    orderBy?: RisCounterOrderByWithRelationInput | RisCounterOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RisCounters.
+     */
+    cursor?: RisCounterWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RisCounters from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RisCounters.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RisCounters.
+     */
+    distinct?: RisCounterScalarFieldEnum | RisCounterScalarFieldEnum[]
+  }
+
+  /**
+   * RisCounter findFirstOrThrow
+   */
+  export type RisCounterFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RisCounter
+     */
+    select?: RisCounterSelect<ExtArgs> | null
+    /**
+     * Filter, which RisCounter to fetch.
+     */
+    where?: RisCounterWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RisCounters to fetch.
+     */
+    orderBy?: RisCounterOrderByWithRelationInput | RisCounterOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RisCounters.
+     */
+    cursor?: RisCounterWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RisCounters from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RisCounters.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RisCounters.
+     */
+    distinct?: RisCounterScalarFieldEnum | RisCounterScalarFieldEnum[]
+  }
+
+  /**
+   * RisCounter findMany
+   */
+  export type RisCounterFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RisCounter
+     */
+    select?: RisCounterSelect<ExtArgs> | null
+    /**
+     * Filter, which RisCounters to fetch.
+     */
+    where?: RisCounterWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RisCounters to fetch.
+     */
+    orderBy?: RisCounterOrderByWithRelationInput | RisCounterOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing RisCounters.
+     */
+    cursor?: RisCounterWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RisCounters from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RisCounters.
+     */
+    skip?: number
+    distinct?: RisCounterScalarFieldEnum | RisCounterScalarFieldEnum[]
+  }
+
+  /**
+   * RisCounter create
+   */
+  export type RisCounterCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RisCounter
+     */
+    select?: RisCounterSelect<ExtArgs> | null
+    /**
+     * The data needed to create a RisCounter.
+     */
+    data: XOR<RisCounterCreateInput, RisCounterUncheckedCreateInput>
+  }
+
+  /**
+   * RisCounter createMany
+   */
+  export type RisCounterCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many RisCounters.
+     */
+    data: RisCounterCreateManyInput | RisCounterCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * RisCounter update
+   */
+  export type RisCounterUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RisCounter
+     */
+    select?: RisCounterSelect<ExtArgs> | null
+    /**
+     * The data needed to update a RisCounter.
+     */
+    data: XOR<RisCounterUpdateInput, RisCounterUncheckedUpdateInput>
+    /**
+     * Choose, which RisCounter to update.
+     */
+    where: RisCounterWhereUniqueInput
+  }
+
+  /**
+   * RisCounter updateMany
+   */
+  export type RisCounterUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update RisCounters.
+     */
+    data: XOR<RisCounterUpdateManyMutationInput, RisCounterUncheckedUpdateManyInput>
+    /**
+     * Filter which RisCounters to update
+     */
+    where?: RisCounterWhereInput
+  }
+
+  /**
+   * RisCounter upsert
+   */
+  export type RisCounterUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RisCounter
+     */
+    select?: RisCounterSelect<ExtArgs> | null
+    /**
+     * The filter to search for the RisCounter to update in case it exists.
+     */
+    where: RisCounterWhereUniqueInput
+    /**
+     * In case the RisCounter found by the `where` argument doesn't exist, create a new RisCounter with this data.
+     */
+    create: XOR<RisCounterCreateInput, RisCounterUncheckedCreateInput>
+    /**
+     * In case the RisCounter was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RisCounterUpdateInput, RisCounterUncheckedUpdateInput>
+  }
+
+  /**
+   * RisCounter delete
+   */
+  export type RisCounterDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RisCounter
+     */
+    select?: RisCounterSelect<ExtArgs> | null
+    /**
+     * Filter which RisCounter to delete.
+     */
+    where: RisCounterWhereUniqueInput
+  }
+
+  /**
+   * RisCounter deleteMany
+   */
+  export type RisCounterDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RisCounters to delete
+     */
+    where?: RisCounterWhereInput
+  }
+
+  /**
+   * RisCounter without action
+   */
+  export type RisCounterDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RisCounter
+     */
+    select?: RisCounterSelect<ExtArgs> | null
   }
 
 
@@ -9828,9 +11869,9 @@ export namespace Prisma {
   export const RequisitionScalarFieldEnum: {
     id: 'id',
     risNo: 'risNo',
-    responsibilityCenterCode: 'responsibilityCenterCode',
     requestDate: 'requestDate',
     requestedById: 'requestedById',
+    requestedByPrintedName: 'requestedByPrintedName',
     role: 'role',
     officeId: 'officeId',
     purpose: 'purpose',
@@ -9850,11 +11891,34 @@ export namespace Prisma {
     quantity: 'quantity',
     unit: 'unit',
     stockNumber: 'stockNumber',
+    isUnlisted: 'isUnlisted',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
 
   export type RequisitionItemScalarFieldEnum = (typeof RequisitionItemScalarFieldEnum)[keyof typeof RequisitionItemScalarFieldEnum]
+
+
+  export const RequisitionItemReleaseScalarFieldEnum: {
+    id: 'id',
+    requisitionItemId: 'requisitionItemId',
+    sourceOfficeId: 'sourceOfficeId',
+    quantityReleased: 'quantityReleased',
+    remarks: 'remarks',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type RequisitionItemReleaseScalarFieldEnum = (typeof RequisitionItemReleaseScalarFieldEnum)[keyof typeof RequisitionItemReleaseScalarFieldEnum]
+
+
+  export const RisCounterScalarFieldEnum: {
+    id: 'id',
+    yearMonth: 'yearMonth',
+    counter: 'counter'
+  };
+
+  export type RisCounterScalarFieldEnum = (typeof RisCounterScalarFieldEnum)[keyof typeof RisCounterScalarFieldEnum]
 
 
   export const ActivityScalarFieldEnum: {
@@ -9949,6 +12013,7 @@ export namespace Prisma {
     inventoryBatches?: InventoryBatchListRelationFilter
     inventoryTransactions?: InventoryTransactionListRelationFilter
     requisitions?: RequisitionListRelationFilter
+    requisitionItemReleases?: RequisitionItemReleaseListRelationFilter
   }
 
   export type OfficeOrderByWithRelationInput = {
@@ -9961,6 +12026,7 @@ export namespace Prisma {
     inventoryBatches?: InventoryBatchOrderByRelationAggregateInput
     inventoryTransactions?: InventoryTransactionOrderByRelationAggregateInput
     requisitions?: RequisitionOrderByRelationAggregateInput
+    requisitionItemReleases?: RequisitionItemReleaseOrderByRelationAggregateInput
   }
 
   export type OfficeWhereUniqueInput = Prisma.AtLeast<{
@@ -9976,6 +12042,7 @@ export namespace Prisma {
     inventoryBatches?: InventoryBatchListRelationFilter
     inventoryTransactions?: InventoryTransactionListRelationFilter
     requisitions?: RequisitionListRelationFilter
+    requisitionItemReleases?: RequisitionItemReleaseListRelationFilter
   }, "id" | "name">
 
   export type OfficeOrderByWithAggregationInput = {
@@ -10388,9 +12455,9 @@ export namespace Prisma {
     NOT?: RequisitionWhereInput | RequisitionWhereInput[]
     id?: IntFilter<"Requisition"> | number
     risNo?: StringFilter<"Requisition"> | string
-    responsibilityCenterCode?: StringNullableFilter<"Requisition"> | string | null
     requestDate?: DateTimeFilter<"Requisition"> | Date | string
     requestedById?: IntNullableFilter<"Requisition"> | number | null
+    requestedByPrintedName?: StringNullableFilter<"Requisition"> | string | null
     role?: StringNullableFilter<"Requisition"> | string | null
     officeId?: IntNullableFilter<"Requisition"> | number | null
     purpose?: StringNullableFilter<"Requisition"> | string | null
@@ -10405,9 +12472,9 @@ export namespace Prisma {
   export type RequisitionOrderByWithRelationInput = {
     id?: SortOrder
     risNo?: SortOrder
-    responsibilityCenterCode?: SortOrderInput | SortOrder
     requestDate?: SortOrder
     requestedById?: SortOrderInput | SortOrder
+    requestedByPrintedName?: SortOrderInput | SortOrder
     role?: SortOrderInput | SortOrder
     officeId?: SortOrderInput | SortOrder
     purpose?: SortOrderInput | SortOrder
@@ -10425,9 +12492,9 @@ export namespace Prisma {
     AND?: RequisitionWhereInput | RequisitionWhereInput[]
     OR?: RequisitionWhereInput[]
     NOT?: RequisitionWhereInput | RequisitionWhereInput[]
-    responsibilityCenterCode?: StringNullableFilter<"Requisition"> | string | null
     requestDate?: DateTimeFilter<"Requisition"> | Date | string
     requestedById?: IntNullableFilter<"Requisition"> | number | null
+    requestedByPrintedName?: StringNullableFilter<"Requisition"> | string | null
     role?: StringNullableFilter<"Requisition"> | string | null
     officeId?: IntNullableFilter<"Requisition"> | number | null
     purpose?: StringNullableFilter<"Requisition"> | string | null
@@ -10442,9 +12509,9 @@ export namespace Prisma {
   export type RequisitionOrderByWithAggregationInput = {
     id?: SortOrder
     risNo?: SortOrder
-    responsibilityCenterCode?: SortOrderInput | SortOrder
     requestDate?: SortOrder
     requestedById?: SortOrderInput | SortOrder
+    requestedByPrintedName?: SortOrderInput | SortOrder
     role?: SortOrderInput | SortOrder
     officeId?: SortOrderInput | SortOrder
     purpose?: SortOrderInput | SortOrder
@@ -10464,9 +12531,9 @@ export namespace Prisma {
     NOT?: RequisitionScalarWhereWithAggregatesInput | RequisitionScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Requisition"> | number
     risNo?: StringWithAggregatesFilter<"Requisition"> | string
-    responsibilityCenterCode?: StringNullableWithAggregatesFilter<"Requisition"> | string | null
     requestDate?: DateTimeWithAggregatesFilter<"Requisition"> | Date | string
     requestedById?: IntNullableWithAggregatesFilter<"Requisition"> | number | null
+    requestedByPrintedName?: StringNullableWithAggregatesFilter<"Requisition"> | string | null
     role?: StringNullableWithAggregatesFilter<"Requisition"> | string | null
     officeId?: IntNullableWithAggregatesFilter<"Requisition"> | number | null
     purpose?: StringNullableWithAggregatesFilter<"Requisition"> | string | null
@@ -10486,10 +12553,12 @@ export namespace Prisma {
     quantity?: IntFilter<"RequisitionItem"> | number
     unit?: StringFilter<"RequisitionItem"> | string
     stockNumber?: StringNullableFilter<"RequisitionItem"> | string | null
+    isUnlisted?: BoolFilter<"RequisitionItem"> | boolean
     createdAt?: DateTimeFilter<"RequisitionItem"> | Date | string
     updatedAt?: DateTimeFilter<"RequisitionItem"> | Date | string
     requisition?: XOR<RequisitionRelationFilter, RequisitionWhereInput>
     inventoryItem?: XOR<InventoryItemNullableRelationFilter, InventoryItemWhereInput> | null
+    release?: XOR<RequisitionItemReleaseNullableRelationFilter, RequisitionItemReleaseWhereInput> | null
   }
 
   export type RequisitionItemOrderByWithRelationInput = {
@@ -10500,10 +12569,12 @@ export namespace Prisma {
     quantity?: SortOrder
     unit?: SortOrder
     stockNumber?: SortOrderInput | SortOrder
+    isUnlisted?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     requisition?: RequisitionOrderByWithRelationInput
     inventoryItem?: InventoryItemOrderByWithRelationInput
+    release?: RequisitionItemReleaseOrderByWithRelationInput
   }
 
   export type RequisitionItemWhereUniqueInput = Prisma.AtLeast<{
@@ -10517,10 +12588,12 @@ export namespace Prisma {
     quantity?: IntFilter<"RequisitionItem"> | number
     unit?: StringFilter<"RequisitionItem"> | string
     stockNumber?: StringNullableFilter<"RequisitionItem"> | string | null
+    isUnlisted?: BoolFilter<"RequisitionItem"> | boolean
     createdAt?: DateTimeFilter<"RequisitionItem"> | Date | string
     updatedAt?: DateTimeFilter<"RequisitionItem"> | Date | string
     requisition?: XOR<RequisitionRelationFilter, RequisitionWhereInput>
     inventoryItem?: XOR<InventoryItemNullableRelationFilter, InventoryItemWhereInput> | null
+    release?: XOR<RequisitionItemReleaseNullableRelationFilter, RequisitionItemReleaseWhereInput> | null
   }, "id">
 
   export type RequisitionItemOrderByWithAggregationInput = {
@@ -10531,6 +12604,7 @@ export namespace Prisma {
     quantity?: SortOrder
     unit?: SortOrder
     stockNumber?: SortOrderInput | SortOrder
+    isUnlisted?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: RequisitionItemCountOrderByAggregateInput
@@ -10551,8 +12625,123 @@ export namespace Prisma {
     quantity?: IntWithAggregatesFilter<"RequisitionItem"> | number
     unit?: StringWithAggregatesFilter<"RequisitionItem"> | string
     stockNumber?: StringNullableWithAggregatesFilter<"RequisitionItem"> | string | null
+    isUnlisted?: BoolWithAggregatesFilter<"RequisitionItem"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"RequisitionItem"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"RequisitionItem"> | Date | string
+  }
+
+  export type RequisitionItemReleaseWhereInput = {
+    AND?: RequisitionItemReleaseWhereInput | RequisitionItemReleaseWhereInput[]
+    OR?: RequisitionItemReleaseWhereInput[]
+    NOT?: RequisitionItemReleaseWhereInput | RequisitionItemReleaseWhereInput[]
+    id?: IntFilter<"RequisitionItemRelease"> | number
+    requisitionItemId?: IntFilter<"RequisitionItemRelease"> | number
+    sourceOfficeId?: IntNullableFilter<"RequisitionItemRelease"> | number | null
+    quantityReleased?: IntFilter<"RequisitionItemRelease"> | number
+    remarks?: StringNullableFilter<"RequisitionItemRelease"> | string | null
+    createdAt?: DateTimeFilter<"RequisitionItemRelease"> | Date | string
+    updatedAt?: DateTimeFilter<"RequisitionItemRelease"> | Date | string
+    requisitionItem?: XOR<RequisitionItemRelationFilter, RequisitionItemWhereInput>
+    sourceOffice?: XOR<OfficeNullableRelationFilter, OfficeWhereInput> | null
+  }
+
+  export type RequisitionItemReleaseOrderByWithRelationInput = {
+    id?: SortOrder
+    requisitionItemId?: SortOrder
+    sourceOfficeId?: SortOrderInput | SortOrder
+    quantityReleased?: SortOrder
+    remarks?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    requisitionItem?: RequisitionItemOrderByWithRelationInput
+    sourceOffice?: OfficeOrderByWithRelationInput
+  }
+
+  export type RequisitionItemReleaseWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    requisitionItemId?: number
+    AND?: RequisitionItemReleaseWhereInput | RequisitionItemReleaseWhereInput[]
+    OR?: RequisitionItemReleaseWhereInput[]
+    NOT?: RequisitionItemReleaseWhereInput | RequisitionItemReleaseWhereInput[]
+    sourceOfficeId?: IntNullableFilter<"RequisitionItemRelease"> | number | null
+    quantityReleased?: IntFilter<"RequisitionItemRelease"> | number
+    remarks?: StringNullableFilter<"RequisitionItemRelease"> | string | null
+    createdAt?: DateTimeFilter<"RequisitionItemRelease"> | Date | string
+    updatedAt?: DateTimeFilter<"RequisitionItemRelease"> | Date | string
+    requisitionItem?: XOR<RequisitionItemRelationFilter, RequisitionItemWhereInput>
+    sourceOffice?: XOR<OfficeNullableRelationFilter, OfficeWhereInput> | null
+  }, "id" | "requisitionItemId">
+
+  export type RequisitionItemReleaseOrderByWithAggregationInput = {
+    id?: SortOrder
+    requisitionItemId?: SortOrder
+    sourceOfficeId?: SortOrderInput | SortOrder
+    quantityReleased?: SortOrder
+    remarks?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: RequisitionItemReleaseCountOrderByAggregateInput
+    _avg?: RequisitionItemReleaseAvgOrderByAggregateInput
+    _max?: RequisitionItemReleaseMaxOrderByAggregateInput
+    _min?: RequisitionItemReleaseMinOrderByAggregateInput
+    _sum?: RequisitionItemReleaseSumOrderByAggregateInput
+  }
+
+  export type RequisitionItemReleaseScalarWhereWithAggregatesInput = {
+    AND?: RequisitionItemReleaseScalarWhereWithAggregatesInput | RequisitionItemReleaseScalarWhereWithAggregatesInput[]
+    OR?: RequisitionItemReleaseScalarWhereWithAggregatesInput[]
+    NOT?: RequisitionItemReleaseScalarWhereWithAggregatesInput | RequisitionItemReleaseScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"RequisitionItemRelease"> | number
+    requisitionItemId?: IntWithAggregatesFilter<"RequisitionItemRelease"> | number
+    sourceOfficeId?: IntNullableWithAggregatesFilter<"RequisitionItemRelease"> | number | null
+    quantityReleased?: IntWithAggregatesFilter<"RequisitionItemRelease"> | number
+    remarks?: StringNullableWithAggregatesFilter<"RequisitionItemRelease"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"RequisitionItemRelease"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"RequisitionItemRelease"> | Date | string
+  }
+
+  export type RisCounterWhereInput = {
+    AND?: RisCounterWhereInput | RisCounterWhereInput[]
+    OR?: RisCounterWhereInput[]
+    NOT?: RisCounterWhereInput | RisCounterWhereInput[]
+    id?: IntFilter<"RisCounter"> | number
+    yearMonth?: StringFilter<"RisCounter"> | string
+    counter?: IntFilter<"RisCounter"> | number
+  }
+
+  export type RisCounterOrderByWithRelationInput = {
+    id?: SortOrder
+    yearMonth?: SortOrder
+    counter?: SortOrder
+  }
+
+  export type RisCounterWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    yearMonth?: string
+    AND?: RisCounterWhereInput | RisCounterWhereInput[]
+    OR?: RisCounterWhereInput[]
+    NOT?: RisCounterWhereInput | RisCounterWhereInput[]
+    counter?: IntFilter<"RisCounter"> | number
+  }, "id" | "yearMonth">
+
+  export type RisCounterOrderByWithAggregationInput = {
+    id?: SortOrder
+    yearMonth?: SortOrder
+    counter?: SortOrder
+    _count?: RisCounterCountOrderByAggregateInput
+    _avg?: RisCounterAvgOrderByAggregateInput
+    _max?: RisCounterMaxOrderByAggregateInput
+    _min?: RisCounterMinOrderByAggregateInput
+    _sum?: RisCounterSumOrderByAggregateInput
+  }
+
+  export type RisCounterScalarWhereWithAggregatesInput = {
+    AND?: RisCounterScalarWhereWithAggregatesInput | RisCounterScalarWhereWithAggregatesInput[]
+    OR?: RisCounterScalarWhereWithAggregatesInput[]
+    NOT?: RisCounterScalarWhereWithAggregatesInput | RisCounterScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"RisCounter"> | number
+    yearMonth?: StringWithAggregatesFilter<"RisCounter"> | string
+    counter?: IntWithAggregatesFilter<"RisCounter"> | number
   }
 
   export type ActivityWhereInput = {
@@ -10628,6 +12817,7 @@ export namespace Prisma {
     inventoryBatches?: InventoryBatchCreateNestedManyWithoutOfficeInput
     inventoryTransactions?: InventoryTransactionCreateNestedManyWithoutOfficeInput
     requisitions?: RequisitionCreateNestedManyWithoutOfficeInput
+    requisitionItemReleases?: RequisitionItemReleaseCreateNestedManyWithoutSourceOfficeInput
   }
 
   export type OfficeUncheckedCreateInput = {
@@ -10640,6 +12830,7 @@ export namespace Prisma {
     inventoryBatches?: InventoryBatchUncheckedCreateNestedManyWithoutOfficeInput
     inventoryTransactions?: InventoryTransactionUncheckedCreateNestedManyWithoutOfficeInput
     requisitions?: RequisitionUncheckedCreateNestedManyWithoutOfficeInput
+    requisitionItemReleases?: RequisitionItemReleaseUncheckedCreateNestedManyWithoutSourceOfficeInput
   }
 
   export type OfficeUpdateInput = {
@@ -10651,6 +12842,7 @@ export namespace Prisma {
     inventoryBatches?: InventoryBatchUpdateManyWithoutOfficeNestedInput
     inventoryTransactions?: InventoryTransactionUpdateManyWithoutOfficeNestedInput
     requisitions?: RequisitionUpdateManyWithoutOfficeNestedInput
+    requisitionItemReleases?: RequisitionItemReleaseUpdateManyWithoutSourceOfficeNestedInput
   }
 
   export type OfficeUncheckedUpdateInput = {
@@ -10663,6 +12855,7 @@ export namespace Prisma {
     inventoryBatches?: InventoryBatchUncheckedUpdateManyWithoutOfficeNestedInput
     inventoryTransactions?: InventoryTransactionUncheckedUpdateManyWithoutOfficeNestedInput
     requisitions?: RequisitionUncheckedUpdateManyWithoutOfficeNestedInput
+    requisitionItemReleases?: RequisitionItemReleaseUncheckedUpdateManyWithoutSourceOfficeNestedInput
   }
 
   export type OfficeCreateManyInput = {
@@ -11098,8 +13291,8 @@ export namespace Prisma {
 
   export type RequisitionCreateInput = {
     risNo: string
-    responsibilityCenterCode?: string | null
     requestDate?: Date | string
+    requestedByPrintedName?: string | null
     role?: string | null
     purpose?: string | null
     status?: string
@@ -11113,9 +13306,9 @@ export namespace Prisma {
   export type RequisitionUncheckedCreateInput = {
     id?: number
     risNo: string
-    responsibilityCenterCode?: string | null
     requestDate?: Date | string
     requestedById?: number | null
+    requestedByPrintedName?: string | null
     role?: string | null
     officeId?: number | null
     purpose?: string | null
@@ -11127,8 +13320,8 @@ export namespace Prisma {
 
   export type RequisitionUpdateInput = {
     risNo?: StringFieldUpdateOperationsInput | string
-    responsibilityCenterCode?: NullableStringFieldUpdateOperationsInput | string | null
     requestDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    requestedByPrintedName?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableStringFieldUpdateOperationsInput | string | null
     purpose?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
@@ -11142,9 +13335,9 @@ export namespace Prisma {
   export type RequisitionUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     risNo?: StringFieldUpdateOperationsInput | string
-    responsibilityCenterCode?: NullableStringFieldUpdateOperationsInput | string | null
     requestDate?: DateTimeFieldUpdateOperationsInput | Date | string
     requestedById?: NullableIntFieldUpdateOperationsInput | number | null
+    requestedByPrintedName?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableStringFieldUpdateOperationsInput | string | null
     officeId?: NullableIntFieldUpdateOperationsInput | number | null
     purpose?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11157,9 +13350,9 @@ export namespace Prisma {
   export type RequisitionCreateManyInput = {
     id?: number
     risNo: string
-    responsibilityCenterCode?: string | null
     requestDate?: Date | string
     requestedById?: number | null
+    requestedByPrintedName?: string | null
     role?: string | null
     officeId?: number | null
     purpose?: string | null
@@ -11170,8 +13363,8 @@ export namespace Prisma {
 
   export type RequisitionUpdateManyMutationInput = {
     risNo?: StringFieldUpdateOperationsInput | string
-    responsibilityCenterCode?: NullableStringFieldUpdateOperationsInput | string | null
     requestDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    requestedByPrintedName?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableStringFieldUpdateOperationsInput | string | null
     purpose?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
@@ -11182,9 +13375,9 @@ export namespace Prisma {
   export type RequisitionUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     risNo?: StringFieldUpdateOperationsInput | string
-    responsibilityCenterCode?: NullableStringFieldUpdateOperationsInput | string | null
     requestDate?: DateTimeFieldUpdateOperationsInput | Date | string
     requestedById?: NullableIntFieldUpdateOperationsInput | number | null
+    requestedByPrintedName?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableStringFieldUpdateOperationsInput | string | null
     officeId?: NullableIntFieldUpdateOperationsInput | number | null
     purpose?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11198,10 +13391,12 @@ export namespace Prisma {
     quantity: number
     unit: string
     stockNumber?: string | null
+    isUnlisted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     requisition: RequisitionCreateNestedOneWithoutItemsInput
     inventoryItem?: InventoryItemCreateNestedOneWithoutRequisitionItemsInput
+    release?: RequisitionItemReleaseCreateNestedOneWithoutRequisitionItemInput
   }
 
   export type RequisitionItemUncheckedCreateInput = {
@@ -11212,8 +13407,10 @@ export namespace Prisma {
     quantity: number
     unit: string
     stockNumber?: string | null
+    isUnlisted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    release?: RequisitionItemReleaseUncheckedCreateNestedOneWithoutRequisitionItemInput
   }
 
   export type RequisitionItemUpdateInput = {
@@ -11221,10 +13418,12 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     unit?: StringFieldUpdateOperationsInput | string
     stockNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    isUnlisted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     requisition?: RequisitionUpdateOneRequiredWithoutItemsNestedInput
     inventoryItem?: InventoryItemUpdateOneWithoutRequisitionItemsNestedInput
+    release?: RequisitionItemReleaseUpdateOneWithoutRequisitionItemNestedInput
   }
 
   export type RequisitionItemUncheckedUpdateInput = {
@@ -11235,8 +13434,10 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     unit?: StringFieldUpdateOperationsInput | string
     stockNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    isUnlisted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    release?: RequisitionItemReleaseUncheckedUpdateOneWithoutRequisitionItemNestedInput
   }
 
   export type RequisitionItemCreateManyInput = {
@@ -11247,6 +13448,7 @@ export namespace Prisma {
     quantity: number
     unit: string
     stockNumber?: string | null
+    isUnlisted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -11256,6 +13458,7 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     unit?: StringFieldUpdateOperationsInput | string
     stockNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    isUnlisted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -11268,8 +13471,113 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     unit?: StringFieldUpdateOperationsInput | string
     stockNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    isUnlisted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RequisitionItemReleaseCreateInput = {
+    quantityReleased?: number
+    remarks?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    requisitionItem: RequisitionItemCreateNestedOneWithoutReleaseInput
+    sourceOffice?: OfficeCreateNestedOneWithoutRequisitionItemReleasesInput
+  }
+
+  export type RequisitionItemReleaseUncheckedCreateInput = {
+    id?: number
+    requisitionItemId: number
+    sourceOfficeId?: number | null
+    quantityReleased?: number
+    remarks?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RequisitionItemReleaseUpdateInput = {
+    quantityReleased?: IntFieldUpdateOperationsInput | number
+    remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    requisitionItem?: RequisitionItemUpdateOneRequiredWithoutReleaseNestedInput
+    sourceOffice?: OfficeUpdateOneWithoutRequisitionItemReleasesNestedInput
+  }
+
+  export type RequisitionItemReleaseUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    requisitionItemId?: IntFieldUpdateOperationsInput | number
+    sourceOfficeId?: NullableIntFieldUpdateOperationsInput | number | null
+    quantityReleased?: IntFieldUpdateOperationsInput | number
+    remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RequisitionItemReleaseCreateManyInput = {
+    id?: number
+    requisitionItemId: number
+    sourceOfficeId?: number | null
+    quantityReleased?: number
+    remarks?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RequisitionItemReleaseUpdateManyMutationInput = {
+    quantityReleased?: IntFieldUpdateOperationsInput | number
+    remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RequisitionItemReleaseUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    requisitionItemId?: IntFieldUpdateOperationsInput | number
+    sourceOfficeId?: NullableIntFieldUpdateOperationsInput | number | null
+    quantityReleased?: IntFieldUpdateOperationsInput | number
+    remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RisCounterCreateInput = {
+    yearMonth: string
+    counter?: number
+  }
+
+  export type RisCounterUncheckedCreateInput = {
+    id?: number
+    yearMonth: string
+    counter?: number
+  }
+
+  export type RisCounterUpdateInput = {
+    yearMonth?: StringFieldUpdateOperationsInput | string
+    counter?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type RisCounterUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    yearMonth?: StringFieldUpdateOperationsInput | string
+    counter?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type RisCounterCreateManyInput = {
+    id?: number
+    yearMonth: string
+    counter?: number
+  }
+
+  export type RisCounterUpdateManyMutationInput = {
+    yearMonth?: StringFieldUpdateOperationsInput | string
+    counter?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type RisCounterUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    yearMonth?: StringFieldUpdateOperationsInput | string
+    counter?: IntFieldUpdateOperationsInput | number
   }
 
   export type ActivityCreateInput = {
@@ -11413,6 +13721,12 @@ export namespace Prisma {
     none?: RequisitionWhereInput
   }
 
+  export type RequisitionItemReleaseListRelationFilter = {
+    every?: RequisitionItemReleaseWhereInput
+    some?: RequisitionItemReleaseWhereInput
+    none?: RequisitionItemReleaseWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -11431,6 +13745,10 @@ export namespace Prisma {
   }
 
   export type RequisitionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type RequisitionItemReleaseOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -11894,9 +14212,9 @@ export namespace Prisma {
   export type RequisitionCountOrderByAggregateInput = {
     id?: SortOrder
     risNo?: SortOrder
-    responsibilityCenterCode?: SortOrder
     requestDate?: SortOrder
     requestedById?: SortOrder
+    requestedByPrintedName?: SortOrder
     role?: SortOrder
     officeId?: SortOrder
     purpose?: SortOrder
@@ -11914,9 +14232,9 @@ export namespace Prisma {
   export type RequisitionMaxOrderByAggregateInput = {
     id?: SortOrder
     risNo?: SortOrder
-    responsibilityCenterCode?: SortOrder
     requestDate?: SortOrder
     requestedById?: SortOrder
+    requestedByPrintedName?: SortOrder
     role?: SortOrder
     officeId?: SortOrder
     purpose?: SortOrder
@@ -11928,9 +14246,9 @@ export namespace Prisma {
   export type RequisitionMinOrderByAggregateInput = {
     id?: SortOrder
     risNo?: SortOrder
-    responsibilityCenterCode?: SortOrder
     requestDate?: SortOrder
     requestedById?: SortOrder
+    requestedByPrintedName?: SortOrder
     role?: SortOrder
     officeId?: SortOrder
     purpose?: SortOrder
@@ -11955,6 +14273,11 @@ export namespace Prisma {
     isNot?: InventoryItemWhereInput | null
   }
 
+  export type RequisitionItemReleaseNullableRelationFilter = {
+    is?: RequisitionItemReleaseWhereInput | null
+    isNot?: RequisitionItemReleaseWhereInput | null
+  }
+
   export type RequisitionItemCountOrderByAggregateInput = {
     id?: SortOrder
     requisitionId?: SortOrder
@@ -11963,6 +14286,7 @@ export namespace Prisma {
     quantity?: SortOrder
     unit?: SortOrder
     stockNumber?: SortOrder
+    isUnlisted?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -11982,6 +14306,7 @@ export namespace Prisma {
     quantity?: SortOrder
     unit?: SortOrder
     stockNumber?: SortOrder
+    isUnlisted?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -11994,6 +14319,7 @@ export namespace Prisma {
     quantity?: SortOrder
     unit?: SortOrder
     stockNumber?: SortOrder
+    isUnlisted?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -12003,6 +14329,83 @@ export namespace Prisma {
     requisitionId?: SortOrder
     inventoryItemId?: SortOrder
     quantity?: SortOrder
+  }
+
+  export type RequisitionItemRelationFilter = {
+    is?: RequisitionItemWhereInput
+    isNot?: RequisitionItemWhereInput
+  }
+
+  export type RequisitionItemReleaseCountOrderByAggregateInput = {
+    id?: SortOrder
+    requisitionItemId?: SortOrder
+    sourceOfficeId?: SortOrder
+    quantityReleased?: SortOrder
+    remarks?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type RequisitionItemReleaseAvgOrderByAggregateInput = {
+    id?: SortOrder
+    requisitionItemId?: SortOrder
+    sourceOfficeId?: SortOrder
+    quantityReleased?: SortOrder
+  }
+
+  export type RequisitionItemReleaseMaxOrderByAggregateInput = {
+    id?: SortOrder
+    requisitionItemId?: SortOrder
+    sourceOfficeId?: SortOrder
+    quantityReleased?: SortOrder
+    remarks?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type RequisitionItemReleaseMinOrderByAggregateInput = {
+    id?: SortOrder
+    requisitionItemId?: SortOrder
+    sourceOfficeId?: SortOrder
+    quantityReleased?: SortOrder
+    remarks?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type RequisitionItemReleaseSumOrderByAggregateInput = {
+    id?: SortOrder
+    requisitionItemId?: SortOrder
+    sourceOfficeId?: SortOrder
+    quantityReleased?: SortOrder
+  }
+
+  export type RisCounterCountOrderByAggregateInput = {
+    id?: SortOrder
+    yearMonth?: SortOrder
+    counter?: SortOrder
+  }
+
+  export type RisCounterAvgOrderByAggregateInput = {
+    id?: SortOrder
+    counter?: SortOrder
+  }
+
+  export type RisCounterMaxOrderByAggregateInput = {
+    id?: SortOrder
+    yearMonth?: SortOrder
+    counter?: SortOrder
+  }
+
+  export type RisCounterMinOrderByAggregateInput = {
+    id?: SortOrder
+    yearMonth?: SortOrder
+    counter?: SortOrder
+  }
+
+  export type RisCounterSumOrderByAggregateInput = {
+    id?: SortOrder
+    counter?: SortOrder
   }
 
   export type ActivityCountOrderByAggregateInput = {
@@ -12071,6 +14474,13 @@ export namespace Prisma {
     connect?: RequisitionWhereUniqueInput | RequisitionWhereUniqueInput[]
   }
 
+  export type RequisitionItemReleaseCreateNestedManyWithoutSourceOfficeInput = {
+    create?: XOR<RequisitionItemReleaseCreateWithoutSourceOfficeInput, RequisitionItemReleaseUncheckedCreateWithoutSourceOfficeInput> | RequisitionItemReleaseCreateWithoutSourceOfficeInput[] | RequisitionItemReleaseUncheckedCreateWithoutSourceOfficeInput[]
+    connectOrCreate?: RequisitionItemReleaseCreateOrConnectWithoutSourceOfficeInput | RequisitionItemReleaseCreateOrConnectWithoutSourceOfficeInput[]
+    createMany?: RequisitionItemReleaseCreateManySourceOfficeInputEnvelope
+    connect?: RequisitionItemReleaseWhereUniqueInput | RequisitionItemReleaseWhereUniqueInput[]
+  }
+
   export type UserUncheckedCreateNestedManyWithoutOfficeInput = {
     create?: XOR<UserCreateWithoutOfficeInput, UserUncheckedCreateWithoutOfficeInput> | UserCreateWithoutOfficeInput[] | UserUncheckedCreateWithoutOfficeInput[]
     connectOrCreate?: UserCreateOrConnectWithoutOfficeInput | UserCreateOrConnectWithoutOfficeInput[]
@@ -12097,6 +14507,13 @@ export namespace Prisma {
     connectOrCreate?: RequisitionCreateOrConnectWithoutOfficeInput | RequisitionCreateOrConnectWithoutOfficeInput[]
     createMany?: RequisitionCreateManyOfficeInputEnvelope
     connect?: RequisitionWhereUniqueInput | RequisitionWhereUniqueInput[]
+  }
+
+  export type RequisitionItemReleaseUncheckedCreateNestedManyWithoutSourceOfficeInput = {
+    create?: XOR<RequisitionItemReleaseCreateWithoutSourceOfficeInput, RequisitionItemReleaseUncheckedCreateWithoutSourceOfficeInput> | RequisitionItemReleaseCreateWithoutSourceOfficeInput[] | RequisitionItemReleaseUncheckedCreateWithoutSourceOfficeInput[]
+    connectOrCreate?: RequisitionItemReleaseCreateOrConnectWithoutSourceOfficeInput | RequisitionItemReleaseCreateOrConnectWithoutSourceOfficeInput[]
+    createMany?: RequisitionItemReleaseCreateManySourceOfficeInputEnvelope
+    connect?: RequisitionItemReleaseWhereUniqueInput | RequisitionItemReleaseWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -12167,6 +14584,20 @@ export namespace Prisma {
     deleteMany?: RequisitionScalarWhereInput | RequisitionScalarWhereInput[]
   }
 
+  export type RequisitionItemReleaseUpdateManyWithoutSourceOfficeNestedInput = {
+    create?: XOR<RequisitionItemReleaseCreateWithoutSourceOfficeInput, RequisitionItemReleaseUncheckedCreateWithoutSourceOfficeInput> | RequisitionItemReleaseCreateWithoutSourceOfficeInput[] | RequisitionItemReleaseUncheckedCreateWithoutSourceOfficeInput[]
+    connectOrCreate?: RequisitionItemReleaseCreateOrConnectWithoutSourceOfficeInput | RequisitionItemReleaseCreateOrConnectWithoutSourceOfficeInput[]
+    upsert?: RequisitionItemReleaseUpsertWithWhereUniqueWithoutSourceOfficeInput | RequisitionItemReleaseUpsertWithWhereUniqueWithoutSourceOfficeInput[]
+    createMany?: RequisitionItemReleaseCreateManySourceOfficeInputEnvelope
+    set?: RequisitionItemReleaseWhereUniqueInput | RequisitionItemReleaseWhereUniqueInput[]
+    disconnect?: RequisitionItemReleaseWhereUniqueInput | RequisitionItemReleaseWhereUniqueInput[]
+    delete?: RequisitionItemReleaseWhereUniqueInput | RequisitionItemReleaseWhereUniqueInput[]
+    connect?: RequisitionItemReleaseWhereUniqueInput | RequisitionItemReleaseWhereUniqueInput[]
+    update?: RequisitionItemReleaseUpdateWithWhereUniqueWithoutSourceOfficeInput | RequisitionItemReleaseUpdateWithWhereUniqueWithoutSourceOfficeInput[]
+    updateMany?: RequisitionItemReleaseUpdateManyWithWhereWithoutSourceOfficeInput | RequisitionItemReleaseUpdateManyWithWhereWithoutSourceOfficeInput[]
+    deleteMany?: RequisitionItemReleaseScalarWhereInput | RequisitionItemReleaseScalarWhereInput[]
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -12229,6 +14660,20 @@ export namespace Prisma {
     update?: RequisitionUpdateWithWhereUniqueWithoutOfficeInput | RequisitionUpdateWithWhereUniqueWithoutOfficeInput[]
     updateMany?: RequisitionUpdateManyWithWhereWithoutOfficeInput | RequisitionUpdateManyWithWhereWithoutOfficeInput[]
     deleteMany?: RequisitionScalarWhereInput | RequisitionScalarWhereInput[]
+  }
+
+  export type RequisitionItemReleaseUncheckedUpdateManyWithoutSourceOfficeNestedInput = {
+    create?: XOR<RequisitionItemReleaseCreateWithoutSourceOfficeInput, RequisitionItemReleaseUncheckedCreateWithoutSourceOfficeInput> | RequisitionItemReleaseCreateWithoutSourceOfficeInput[] | RequisitionItemReleaseUncheckedCreateWithoutSourceOfficeInput[]
+    connectOrCreate?: RequisitionItemReleaseCreateOrConnectWithoutSourceOfficeInput | RequisitionItemReleaseCreateOrConnectWithoutSourceOfficeInput[]
+    upsert?: RequisitionItemReleaseUpsertWithWhereUniqueWithoutSourceOfficeInput | RequisitionItemReleaseUpsertWithWhereUniqueWithoutSourceOfficeInput[]
+    createMany?: RequisitionItemReleaseCreateManySourceOfficeInputEnvelope
+    set?: RequisitionItemReleaseWhereUniqueInput | RequisitionItemReleaseWhereUniqueInput[]
+    disconnect?: RequisitionItemReleaseWhereUniqueInput | RequisitionItemReleaseWhereUniqueInput[]
+    delete?: RequisitionItemReleaseWhereUniqueInput | RequisitionItemReleaseWhereUniqueInput[]
+    connect?: RequisitionItemReleaseWhereUniqueInput | RequisitionItemReleaseWhereUniqueInput[]
+    update?: RequisitionItemReleaseUpdateWithWhereUniqueWithoutSourceOfficeInput | RequisitionItemReleaseUpdateWithWhereUniqueWithoutSourceOfficeInput[]
+    updateMany?: RequisitionItemReleaseUpdateManyWithWhereWithoutSourceOfficeInput | RequisitionItemReleaseUpdateManyWithWhereWithoutSourceOfficeInput[]
+    deleteMany?: RequisitionItemReleaseScalarWhereInput | RequisitionItemReleaseScalarWhereInput[]
   }
 
   export type OfficeCreateNestedOneWithoutUsersInput = {
@@ -12643,6 +15088,18 @@ export namespace Prisma {
     connect?: InventoryItemWhereUniqueInput
   }
 
+  export type RequisitionItemReleaseCreateNestedOneWithoutRequisitionItemInput = {
+    create?: XOR<RequisitionItemReleaseCreateWithoutRequisitionItemInput, RequisitionItemReleaseUncheckedCreateWithoutRequisitionItemInput>
+    connectOrCreate?: RequisitionItemReleaseCreateOrConnectWithoutRequisitionItemInput
+    connect?: RequisitionItemReleaseWhereUniqueInput
+  }
+
+  export type RequisitionItemReleaseUncheckedCreateNestedOneWithoutRequisitionItemInput = {
+    create?: XOR<RequisitionItemReleaseCreateWithoutRequisitionItemInput, RequisitionItemReleaseUncheckedCreateWithoutRequisitionItemInput>
+    connectOrCreate?: RequisitionItemReleaseCreateOrConnectWithoutRequisitionItemInput
+    connect?: RequisitionItemReleaseWhereUniqueInput
+  }
+
   export type RequisitionUpdateOneRequiredWithoutItemsNestedInput = {
     create?: XOR<RequisitionCreateWithoutItemsInput, RequisitionUncheckedCreateWithoutItemsInput>
     connectOrCreate?: RequisitionCreateOrConnectWithoutItemsInput
@@ -12659,6 +15116,56 @@ export namespace Prisma {
     delete?: InventoryItemWhereInput | boolean
     connect?: InventoryItemWhereUniqueInput
     update?: XOR<XOR<InventoryItemUpdateToOneWithWhereWithoutRequisitionItemsInput, InventoryItemUpdateWithoutRequisitionItemsInput>, InventoryItemUncheckedUpdateWithoutRequisitionItemsInput>
+  }
+
+  export type RequisitionItemReleaseUpdateOneWithoutRequisitionItemNestedInput = {
+    create?: XOR<RequisitionItemReleaseCreateWithoutRequisitionItemInput, RequisitionItemReleaseUncheckedCreateWithoutRequisitionItemInput>
+    connectOrCreate?: RequisitionItemReleaseCreateOrConnectWithoutRequisitionItemInput
+    upsert?: RequisitionItemReleaseUpsertWithoutRequisitionItemInput
+    disconnect?: RequisitionItemReleaseWhereInput | boolean
+    delete?: RequisitionItemReleaseWhereInput | boolean
+    connect?: RequisitionItemReleaseWhereUniqueInput
+    update?: XOR<XOR<RequisitionItemReleaseUpdateToOneWithWhereWithoutRequisitionItemInput, RequisitionItemReleaseUpdateWithoutRequisitionItemInput>, RequisitionItemReleaseUncheckedUpdateWithoutRequisitionItemInput>
+  }
+
+  export type RequisitionItemReleaseUncheckedUpdateOneWithoutRequisitionItemNestedInput = {
+    create?: XOR<RequisitionItemReleaseCreateWithoutRequisitionItemInput, RequisitionItemReleaseUncheckedCreateWithoutRequisitionItemInput>
+    connectOrCreate?: RequisitionItemReleaseCreateOrConnectWithoutRequisitionItemInput
+    upsert?: RequisitionItemReleaseUpsertWithoutRequisitionItemInput
+    disconnect?: RequisitionItemReleaseWhereInput | boolean
+    delete?: RequisitionItemReleaseWhereInput | boolean
+    connect?: RequisitionItemReleaseWhereUniqueInput
+    update?: XOR<XOR<RequisitionItemReleaseUpdateToOneWithWhereWithoutRequisitionItemInput, RequisitionItemReleaseUpdateWithoutRequisitionItemInput>, RequisitionItemReleaseUncheckedUpdateWithoutRequisitionItemInput>
+  }
+
+  export type RequisitionItemCreateNestedOneWithoutReleaseInput = {
+    create?: XOR<RequisitionItemCreateWithoutReleaseInput, RequisitionItemUncheckedCreateWithoutReleaseInput>
+    connectOrCreate?: RequisitionItemCreateOrConnectWithoutReleaseInput
+    connect?: RequisitionItemWhereUniqueInput
+  }
+
+  export type OfficeCreateNestedOneWithoutRequisitionItemReleasesInput = {
+    create?: XOR<OfficeCreateWithoutRequisitionItemReleasesInput, OfficeUncheckedCreateWithoutRequisitionItemReleasesInput>
+    connectOrCreate?: OfficeCreateOrConnectWithoutRequisitionItemReleasesInput
+    connect?: OfficeWhereUniqueInput
+  }
+
+  export type RequisitionItemUpdateOneRequiredWithoutReleaseNestedInput = {
+    create?: XOR<RequisitionItemCreateWithoutReleaseInput, RequisitionItemUncheckedCreateWithoutReleaseInput>
+    connectOrCreate?: RequisitionItemCreateOrConnectWithoutReleaseInput
+    upsert?: RequisitionItemUpsertWithoutReleaseInput
+    connect?: RequisitionItemWhereUniqueInput
+    update?: XOR<XOR<RequisitionItemUpdateToOneWithWhereWithoutReleaseInput, RequisitionItemUpdateWithoutReleaseInput>, RequisitionItemUncheckedUpdateWithoutReleaseInput>
+  }
+
+  export type OfficeUpdateOneWithoutRequisitionItemReleasesNestedInput = {
+    create?: XOR<OfficeCreateWithoutRequisitionItemReleasesInput, OfficeUncheckedCreateWithoutRequisitionItemReleasesInput>
+    connectOrCreate?: OfficeCreateOrConnectWithoutRequisitionItemReleasesInput
+    upsert?: OfficeUpsertWithoutRequisitionItemReleasesInput
+    disconnect?: OfficeWhereInput | boolean
+    delete?: OfficeWhereInput | boolean
+    connect?: OfficeWhereUniqueInput
+    update?: XOR<XOR<OfficeUpdateToOneWithWhereWithoutRequisitionItemReleasesInput, OfficeUpdateWithoutRequisitionItemReleasesInput>, OfficeUncheckedUpdateWithoutRequisitionItemReleasesInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -13010,8 +15517,8 @@ export namespace Prisma {
 
   export type RequisitionCreateWithoutOfficeInput = {
     risNo: string
-    responsibilityCenterCode?: string | null
     requestDate?: Date | string
+    requestedByPrintedName?: string | null
     role?: string | null
     purpose?: string | null
     status?: string
@@ -13024,9 +15531,9 @@ export namespace Prisma {
   export type RequisitionUncheckedCreateWithoutOfficeInput = {
     id?: number
     risNo: string
-    responsibilityCenterCode?: string | null
     requestDate?: Date | string
     requestedById?: number | null
+    requestedByPrintedName?: string | null
     role?: string | null
     purpose?: string | null
     status?: string
@@ -13042,6 +15549,33 @@ export namespace Prisma {
 
   export type RequisitionCreateManyOfficeInputEnvelope = {
     data: RequisitionCreateManyOfficeInput | RequisitionCreateManyOfficeInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type RequisitionItemReleaseCreateWithoutSourceOfficeInput = {
+    quantityReleased?: number
+    remarks?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    requisitionItem: RequisitionItemCreateNestedOneWithoutReleaseInput
+  }
+
+  export type RequisitionItemReleaseUncheckedCreateWithoutSourceOfficeInput = {
+    id?: number
+    requisitionItemId: number
+    quantityReleased?: number
+    remarks?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RequisitionItemReleaseCreateOrConnectWithoutSourceOfficeInput = {
+    where: RequisitionItemReleaseWhereUniqueInput
+    create: XOR<RequisitionItemReleaseCreateWithoutSourceOfficeInput, RequisitionItemReleaseUncheckedCreateWithoutSourceOfficeInput>
+  }
+
+  export type RequisitionItemReleaseCreateManySourceOfficeInputEnvelope = {
+    data: RequisitionItemReleaseCreateManySourceOfficeInput | RequisitionItemReleaseCreateManySourceOfficeInput[]
     skipDuplicates?: boolean
   }
 
@@ -13171,15 +15705,44 @@ export namespace Prisma {
     NOT?: RequisitionScalarWhereInput | RequisitionScalarWhereInput[]
     id?: IntFilter<"Requisition"> | number
     risNo?: StringFilter<"Requisition"> | string
-    responsibilityCenterCode?: StringNullableFilter<"Requisition"> | string | null
     requestDate?: DateTimeFilter<"Requisition"> | Date | string
     requestedById?: IntNullableFilter<"Requisition"> | number | null
+    requestedByPrintedName?: StringNullableFilter<"Requisition"> | string | null
     role?: StringNullableFilter<"Requisition"> | string | null
     officeId?: IntNullableFilter<"Requisition"> | number | null
     purpose?: StringNullableFilter<"Requisition"> | string | null
     status?: StringFilter<"Requisition"> | string
     createdAt?: DateTimeFilter<"Requisition"> | Date | string
     updatedAt?: DateTimeFilter<"Requisition"> | Date | string
+  }
+
+  export type RequisitionItemReleaseUpsertWithWhereUniqueWithoutSourceOfficeInput = {
+    where: RequisitionItemReleaseWhereUniqueInput
+    update: XOR<RequisitionItemReleaseUpdateWithoutSourceOfficeInput, RequisitionItemReleaseUncheckedUpdateWithoutSourceOfficeInput>
+    create: XOR<RequisitionItemReleaseCreateWithoutSourceOfficeInput, RequisitionItemReleaseUncheckedCreateWithoutSourceOfficeInput>
+  }
+
+  export type RequisitionItemReleaseUpdateWithWhereUniqueWithoutSourceOfficeInput = {
+    where: RequisitionItemReleaseWhereUniqueInput
+    data: XOR<RequisitionItemReleaseUpdateWithoutSourceOfficeInput, RequisitionItemReleaseUncheckedUpdateWithoutSourceOfficeInput>
+  }
+
+  export type RequisitionItemReleaseUpdateManyWithWhereWithoutSourceOfficeInput = {
+    where: RequisitionItemReleaseScalarWhereInput
+    data: XOR<RequisitionItemReleaseUpdateManyMutationInput, RequisitionItemReleaseUncheckedUpdateManyWithoutSourceOfficeInput>
+  }
+
+  export type RequisitionItemReleaseScalarWhereInput = {
+    AND?: RequisitionItemReleaseScalarWhereInput | RequisitionItemReleaseScalarWhereInput[]
+    OR?: RequisitionItemReleaseScalarWhereInput[]
+    NOT?: RequisitionItemReleaseScalarWhereInput | RequisitionItemReleaseScalarWhereInput[]
+    id?: IntFilter<"RequisitionItemRelease"> | number
+    requisitionItemId?: IntFilter<"RequisitionItemRelease"> | number
+    sourceOfficeId?: IntNullableFilter<"RequisitionItemRelease"> | number | null
+    quantityReleased?: IntFilter<"RequisitionItemRelease"> | number
+    remarks?: StringNullableFilter<"RequisitionItemRelease"> | string | null
+    createdAt?: DateTimeFilter<"RequisitionItemRelease"> | Date | string
+    updatedAt?: DateTimeFilter<"RequisitionItemRelease"> | Date | string
   }
 
   export type OfficeCreateWithoutUsersInput = {
@@ -13190,6 +15753,7 @@ export namespace Prisma {
     inventoryBatches?: InventoryBatchCreateNestedManyWithoutOfficeInput
     inventoryTransactions?: InventoryTransactionCreateNestedManyWithoutOfficeInput
     requisitions?: RequisitionCreateNestedManyWithoutOfficeInput
+    requisitionItemReleases?: RequisitionItemReleaseCreateNestedManyWithoutSourceOfficeInput
   }
 
   export type OfficeUncheckedCreateWithoutUsersInput = {
@@ -13201,6 +15765,7 @@ export namespace Prisma {
     inventoryBatches?: InventoryBatchUncheckedCreateNestedManyWithoutOfficeInput
     inventoryTransactions?: InventoryTransactionUncheckedCreateNestedManyWithoutOfficeInput
     requisitions?: RequisitionUncheckedCreateNestedManyWithoutOfficeInput
+    requisitionItemReleases?: RequisitionItemReleaseUncheckedCreateNestedManyWithoutSourceOfficeInput
   }
 
   export type OfficeCreateOrConnectWithoutUsersInput = {
@@ -13210,8 +15775,8 @@ export namespace Prisma {
 
   export type RequisitionCreateWithoutRequestedByInput = {
     risNo: string
-    responsibilityCenterCode?: string | null
     requestDate?: Date | string
+    requestedByPrintedName?: string | null
     role?: string | null
     purpose?: string | null
     status?: string
@@ -13224,8 +15789,8 @@ export namespace Prisma {
   export type RequisitionUncheckedCreateWithoutRequestedByInput = {
     id?: number
     risNo: string
-    responsibilityCenterCode?: string | null
     requestDate?: Date | string
+    requestedByPrintedName?: string | null
     role?: string | null
     officeId?: number | null
     purpose?: string | null
@@ -13264,6 +15829,7 @@ export namespace Prisma {
     inventoryBatches?: InventoryBatchUpdateManyWithoutOfficeNestedInput
     inventoryTransactions?: InventoryTransactionUpdateManyWithoutOfficeNestedInput
     requisitions?: RequisitionUpdateManyWithoutOfficeNestedInput
+    requisitionItemReleases?: RequisitionItemReleaseUpdateManyWithoutSourceOfficeNestedInput
   }
 
   export type OfficeUncheckedUpdateWithoutUsersInput = {
@@ -13275,6 +15841,7 @@ export namespace Prisma {
     inventoryBatches?: InventoryBatchUncheckedUpdateManyWithoutOfficeNestedInput
     inventoryTransactions?: InventoryTransactionUncheckedUpdateManyWithoutOfficeNestedInput
     requisitions?: RequisitionUncheckedUpdateManyWithoutOfficeNestedInput
+    requisitionItemReleases?: RequisitionItemReleaseUncheckedUpdateManyWithoutSourceOfficeNestedInput
   }
 
   export type RequisitionUpsertWithWhereUniqueWithoutRequestedByInput = {
@@ -13384,9 +15951,11 @@ export namespace Prisma {
     quantity: number
     unit: string
     stockNumber?: string | null
+    isUnlisted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     requisition: RequisitionCreateNestedOneWithoutItemsInput
+    release?: RequisitionItemReleaseCreateNestedOneWithoutRequisitionItemInput
   }
 
   export type RequisitionItemUncheckedCreateWithoutInventoryItemInput = {
@@ -13396,8 +15965,10 @@ export namespace Prisma {
     quantity: number
     unit: string
     stockNumber?: string | null
+    isUnlisted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    release?: RequisitionItemReleaseUncheckedCreateNestedOneWithoutRequisitionItemInput
   }
 
   export type RequisitionItemCreateOrConnectWithoutInventoryItemInput = {
@@ -13469,6 +16040,7 @@ export namespace Prisma {
     quantity?: IntFilter<"RequisitionItem"> | number
     unit?: StringFilter<"RequisitionItem"> | string
     stockNumber?: StringNullableFilter<"RequisitionItem"> | string | null
+    isUnlisted?: BoolFilter<"RequisitionItem"> | boolean
     createdAt?: DateTimeFilter<"RequisitionItem"> | Date | string
     updatedAt?: DateTimeFilter<"RequisitionItem"> | Date | string
   }
@@ -13511,6 +16083,7 @@ export namespace Prisma {
     users?: UserCreateNestedManyWithoutOfficeInput
     inventoryTransactions?: InventoryTransactionCreateNestedManyWithoutOfficeInput
     requisitions?: RequisitionCreateNestedManyWithoutOfficeInput
+    requisitionItemReleases?: RequisitionItemReleaseCreateNestedManyWithoutSourceOfficeInput
   }
 
   export type OfficeUncheckedCreateWithoutInventoryBatchesInput = {
@@ -13522,6 +16095,7 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutOfficeInput
     inventoryTransactions?: InventoryTransactionUncheckedCreateNestedManyWithoutOfficeInput
     requisitions?: RequisitionUncheckedCreateNestedManyWithoutOfficeInput
+    requisitionItemReleases?: RequisitionItemReleaseUncheckedCreateNestedManyWithoutSourceOfficeInput
   }
 
   export type OfficeCreateOrConnectWithoutInventoryBatchesInput = {
@@ -13625,6 +16199,7 @@ export namespace Prisma {
     users?: UserUpdateManyWithoutOfficeNestedInput
     inventoryTransactions?: InventoryTransactionUpdateManyWithoutOfficeNestedInput
     requisitions?: RequisitionUpdateManyWithoutOfficeNestedInput
+    requisitionItemReleases?: RequisitionItemReleaseUpdateManyWithoutSourceOfficeNestedInput
   }
 
   export type OfficeUncheckedUpdateWithoutInventoryBatchesInput = {
@@ -13636,6 +16211,7 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutOfficeNestedInput
     inventoryTransactions?: InventoryTransactionUncheckedUpdateManyWithoutOfficeNestedInput
     requisitions?: RequisitionUncheckedUpdateManyWithoutOfficeNestedInput
+    requisitionItemReleases?: RequisitionItemReleaseUncheckedUpdateManyWithoutSourceOfficeNestedInput
   }
 
   export type InventoryTransactionUpsertWithWhereUniqueWithoutInventoryBatchInput = {
@@ -13732,6 +16308,7 @@ export namespace Prisma {
     users?: UserCreateNestedManyWithoutOfficeInput
     inventoryBatches?: InventoryBatchCreateNestedManyWithoutOfficeInput
     requisitions?: RequisitionCreateNestedManyWithoutOfficeInput
+    requisitionItemReleases?: RequisitionItemReleaseCreateNestedManyWithoutSourceOfficeInput
   }
 
   export type OfficeUncheckedCreateWithoutInventoryTransactionsInput = {
@@ -13743,6 +16320,7 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutOfficeInput
     inventoryBatches?: InventoryBatchUncheckedCreateNestedManyWithoutOfficeInput
     requisitions?: RequisitionUncheckedCreateNestedManyWithoutOfficeInput
+    requisitionItemReleases?: RequisitionItemReleaseUncheckedCreateNestedManyWithoutSourceOfficeInput
   }
 
   export type OfficeCreateOrConnectWithoutInventoryTransactionsInput = {
@@ -13851,6 +16429,7 @@ export namespace Prisma {
     users?: UserUpdateManyWithoutOfficeNestedInput
     inventoryBatches?: InventoryBatchUpdateManyWithoutOfficeNestedInput
     requisitions?: RequisitionUpdateManyWithoutOfficeNestedInput
+    requisitionItemReleases?: RequisitionItemReleaseUpdateManyWithoutSourceOfficeNestedInput
   }
 
   export type OfficeUncheckedUpdateWithoutInventoryTransactionsInput = {
@@ -13862,6 +16441,7 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutOfficeNestedInput
     inventoryBatches?: InventoryBatchUncheckedUpdateManyWithoutOfficeNestedInput
     requisitions?: RequisitionUncheckedUpdateManyWithoutOfficeNestedInput
+    requisitionItemReleases?: RequisitionItemReleaseUncheckedUpdateManyWithoutSourceOfficeNestedInput
   }
 
   export type UserCreateWithoutRequisitionsInput = {
@@ -13900,6 +16480,7 @@ export namespace Prisma {
     users?: UserCreateNestedManyWithoutOfficeInput
     inventoryBatches?: InventoryBatchCreateNestedManyWithoutOfficeInput
     inventoryTransactions?: InventoryTransactionCreateNestedManyWithoutOfficeInput
+    requisitionItemReleases?: RequisitionItemReleaseCreateNestedManyWithoutSourceOfficeInput
   }
 
   export type OfficeUncheckedCreateWithoutRequisitionsInput = {
@@ -13911,6 +16492,7 @@ export namespace Prisma {
     users?: UserUncheckedCreateNestedManyWithoutOfficeInput
     inventoryBatches?: InventoryBatchUncheckedCreateNestedManyWithoutOfficeInput
     inventoryTransactions?: InventoryTransactionUncheckedCreateNestedManyWithoutOfficeInput
+    requisitionItemReleases?: RequisitionItemReleaseUncheckedCreateNestedManyWithoutSourceOfficeInput
   }
 
   export type OfficeCreateOrConnectWithoutRequisitionsInput = {
@@ -13923,9 +16505,11 @@ export namespace Prisma {
     quantity: number
     unit: string
     stockNumber?: string | null
+    isUnlisted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     inventoryItem?: InventoryItemCreateNestedOneWithoutRequisitionItemsInput
+    release?: RequisitionItemReleaseCreateNestedOneWithoutRequisitionItemInput
   }
 
   export type RequisitionItemUncheckedCreateWithoutRequisitionInput = {
@@ -13935,8 +16519,10 @@ export namespace Prisma {
     quantity: number
     unit: string
     stockNumber?: string | null
+    isUnlisted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    release?: RequisitionItemReleaseUncheckedCreateNestedOneWithoutRequisitionItemInput
   }
 
   export type RequisitionItemCreateOrConnectWithoutRequisitionInput = {
@@ -14002,6 +16588,7 @@ export namespace Prisma {
     users?: UserUpdateManyWithoutOfficeNestedInput
     inventoryBatches?: InventoryBatchUpdateManyWithoutOfficeNestedInput
     inventoryTransactions?: InventoryTransactionUpdateManyWithoutOfficeNestedInput
+    requisitionItemReleases?: RequisitionItemReleaseUpdateManyWithoutSourceOfficeNestedInput
   }
 
   export type OfficeUncheckedUpdateWithoutRequisitionsInput = {
@@ -14013,6 +16600,7 @@ export namespace Prisma {
     users?: UserUncheckedUpdateManyWithoutOfficeNestedInput
     inventoryBatches?: InventoryBatchUncheckedUpdateManyWithoutOfficeNestedInput
     inventoryTransactions?: InventoryTransactionUncheckedUpdateManyWithoutOfficeNestedInput
+    requisitionItemReleases?: RequisitionItemReleaseUncheckedUpdateManyWithoutSourceOfficeNestedInput
   }
 
   export type RequisitionItemUpsertWithWhereUniqueWithoutRequisitionInput = {
@@ -14033,8 +16621,8 @@ export namespace Prisma {
 
   export type RequisitionCreateWithoutItemsInput = {
     risNo: string
-    responsibilityCenterCode?: string | null
     requestDate?: Date | string
+    requestedByPrintedName?: string | null
     role?: string | null
     purpose?: string | null
     status?: string
@@ -14047,9 +16635,9 @@ export namespace Prisma {
   export type RequisitionUncheckedCreateWithoutItemsInput = {
     id?: number
     risNo: string
-    responsibilityCenterCode?: string | null
     requestDate?: Date | string
     requestedById?: number | null
+    requestedByPrintedName?: string | null
     role?: string | null
     officeId?: number | null
     purpose?: string | null
@@ -14093,6 +16681,28 @@ export namespace Prisma {
     create: XOR<InventoryItemCreateWithoutRequisitionItemsInput, InventoryItemUncheckedCreateWithoutRequisitionItemsInput>
   }
 
+  export type RequisitionItemReleaseCreateWithoutRequisitionItemInput = {
+    quantityReleased?: number
+    remarks?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sourceOffice?: OfficeCreateNestedOneWithoutRequisitionItemReleasesInput
+  }
+
+  export type RequisitionItemReleaseUncheckedCreateWithoutRequisitionItemInput = {
+    id?: number
+    sourceOfficeId?: number | null
+    quantityReleased?: number
+    remarks?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RequisitionItemReleaseCreateOrConnectWithoutRequisitionItemInput = {
+    where: RequisitionItemReleaseWhereUniqueInput
+    create: XOR<RequisitionItemReleaseCreateWithoutRequisitionItemInput, RequisitionItemReleaseUncheckedCreateWithoutRequisitionItemInput>
+  }
+
   export type RequisitionUpsertWithoutItemsInput = {
     update: XOR<RequisitionUpdateWithoutItemsInput, RequisitionUncheckedUpdateWithoutItemsInput>
     create: XOR<RequisitionCreateWithoutItemsInput, RequisitionUncheckedCreateWithoutItemsInput>
@@ -14106,8 +16716,8 @@ export namespace Prisma {
 
   export type RequisitionUpdateWithoutItemsInput = {
     risNo?: StringFieldUpdateOperationsInput | string
-    responsibilityCenterCode?: NullableStringFieldUpdateOperationsInput | string | null
     requestDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    requestedByPrintedName?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableStringFieldUpdateOperationsInput | string | null
     purpose?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
@@ -14120,9 +16730,9 @@ export namespace Prisma {
   export type RequisitionUncheckedUpdateWithoutItemsInput = {
     id?: IntFieldUpdateOperationsInput | number
     risNo?: StringFieldUpdateOperationsInput | string
-    responsibilityCenterCode?: NullableStringFieldUpdateOperationsInput | string | null
     requestDate?: DateTimeFieldUpdateOperationsInput | Date | string
     requestedById?: NullableIntFieldUpdateOperationsInput | number | null
+    requestedByPrintedName?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableStringFieldUpdateOperationsInput | string | null
     officeId?: NullableIntFieldUpdateOperationsInput | number | null
     purpose?: NullableStringFieldUpdateOperationsInput | string | null
@@ -14165,6 +16775,162 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     batches?: InventoryBatchUncheckedUpdateManyWithoutInventoryItemNestedInput
     transactions?: InventoryTransactionUncheckedUpdateManyWithoutInventoryItemNestedInput
+  }
+
+  export type RequisitionItemReleaseUpsertWithoutRequisitionItemInput = {
+    update: XOR<RequisitionItemReleaseUpdateWithoutRequisitionItemInput, RequisitionItemReleaseUncheckedUpdateWithoutRequisitionItemInput>
+    create: XOR<RequisitionItemReleaseCreateWithoutRequisitionItemInput, RequisitionItemReleaseUncheckedCreateWithoutRequisitionItemInput>
+    where?: RequisitionItemReleaseWhereInput
+  }
+
+  export type RequisitionItemReleaseUpdateToOneWithWhereWithoutRequisitionItemInput = {
+    where?: RequisitionItemReleaseWhereInput
+    data: XOR<RequisitionItemReleaseUpdateWithoutRequisitionItemInput, RequisitionItemReleaseUncheckedUpdateWithoutRequisitionItemInput>
+  }
+
+  export type RequisitionItemReleaseUpdateWithoutRequisitionItemInput = {
+    quantityReleased?: IntFieldUpdateOperationsInput | number
+    remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sourceOffice?: OfficeUpdateOneWithoutRequisitionItemReleasesNestedInput
+  }
+
+  export type RequisitionItemReleaseUncheckedUpdateWithoutRequisitionItemInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    sourceOfficeId?: NullableIntFieldUpdateOperationsInput | number | null
+    quantityReleased?: IntFieldUpdateOperationsInput | number
+    remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RequisitionItemCreateWithoutReleaseInput = {
+    itemName: string
+    quantity: number
+    unit: string
+    stockNumber?: string | null
+    isUnlisted?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    requisition: RequisitionCreateNestedOneWithoutItemsInput
+    inventoryItem?: InventoryItemCreateNestedOneWithoutRequisitionItemsInput
+  }
+
+  export type RequisitionItemUncheckedCreateWithoutReleaseInput = {
+    id?: number
+    requisitionId: number
+    inventoryItemId?: number | null
+    itemName: string
+    quantity: number
+    unit: string
+    stockNumber?: string | null
+    isUnlisted?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RequisitionItemCreateOrConnectWithoutReleaseInput = {
+    where: RequisitionItemWhereUniqueInput
+    create: XOR<RequisitionItemCreateWithoutReleaseInput, RequisitionItemUncheckedCreateWithoutReleaseInput>
+  }
+
+  export type OfficeCreateWithoutRequisitionItemReleasesInput = {
+    name: string
+    description?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: UserCreateNestedManyWithoutOfficeInput
+    inventoryBatches?: InventoryBatchCreateNestedManyWithoutOfficeInput
+    inventoryTransactions?: InventoryTransactionCreateNestedManyWithoutOfficeInput
+    requisitions?: RequisitionCreateNestedManyWithoutOfficeInput
+  }
+
+  export type OfficeUncheckedCreateWithoutRequisitionItemReleasesInput = {
+    id?: number
+    name: string
+    description?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    users?: UserUncheckedCreateNestedManyWithoutOfficeInput
+    inventoryBatches?: InventoryBatchUncheckedCreateNestedManyWithoutOfficeInput
+    inventoryTransactions?: InventoryTransactionUncheckedCreateNestedManyWithoutOfficeInput
+    requisitions?: RequisitionUncheckedCreateNestedManyWithoutOfficeInput
+  }
+
+  export type OfficeCreateOrConnectWithoutRequisitionItemReleasesInput = {
+    where: OfficeWhereUniqueInput
+    create: XOR<OfficeCreateWithoutRequisitionItemReleasesInput, OfficeUncheckedCreateWithoutRequisitionItemReleasesInput>
+  }
+
+  export type RequisitionItemUpsertWithoutReleaseInput = {
+    update: XOR<RequisitionItemUpdateWithoutReleaseInput, RequisitionItemUncheckedUpdateWithoutReleaseInput>
+    create: XOR<RequisitionItemCreateWithoutReleaseInput, RequisitionItemUncheckedCreateWithoutReleaseInput>
+    where?: RequisitionItemWhereInput
+  }
+
+  export type RequisitionItemUpdateToOneWithWhereWithoutReleaseInput = {
+    where?: RequisitionItemWhereInput
+    data: XOR<RequisitionItemUpdateWithoutReleaseInput, RequisitionItemUncheckedUpdateWithoutReleaseInput>
+  }
+
+  export type RequisitionItemUpdateWithoutReleaseInput = {
+    itemName?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    unit?: StringFieldUpdateOperationsInput | string
+    stockNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    isUnlisted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    requisition?: RequisitionUpdateOneRequiredWithoutItemsNestedInput
+    inventoryItem?: InventoryItemUpdateOneWithoutRequisitionItemsNestedInput
+  }
+
+  export type RequisitionItemUncheckedUpdateWithoutReleaseInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    requisitionId?: IntFieldUpdateOperationsInput | number
+    inventoryItemId?: NullableIntFieldUpdateOperationsInput | number | null
+    itemName?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    unit?: StringFieldUpdateOperationsInput | string
+    stockNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    isUnlisted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OfficeUpsertWithoutRequisitionItemReleasesInput = {
+    update: XOR<OfficeUpdateWithoutRequisitionItemReleasesInput, OfficeUncheckedUpdateWithoutRequisitionItemReleasesInput>
+    create: XOR<OfficeCreateWithoutRequisitionItemReleasesInput, OfficeUncheckedCreateWithoutRequisitionItemReleasesInput>
+    where?: OfficeWhereInput
+  }
+
+  export type OfficeUpdateToOneWithWhereWithoutRequisitionItemReleasesInput = {
+    where?: OfficeWhereInput
+    data: XOR<OfficeUpdateWithoutRequisitionItemReleasesInput, OfficeUncheckedUpdateWithoutRequisitionItemReleasesInput>
+  }
+
+  export type OfficeUpdateWithoutRequisitionItemReleasesInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUpdateManyWithoutOfficeNestedInput
+    inventoryBatches?: InventoryBatchUpdateManyWithoutOfficeNestedInput
+    inventoryTransactions?: InventoryTransactionUpdateManyWithoutOfficeNestedInput
+    requisitions?: RequisitionUpdateManyWithoutOfficeNestedInput
+  }
+
+  export type OfficeUncheckedUpdateWithoutRequisitionItemReleasesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    users?: UserUncheckedUpdateManyWithoutOfficeNestedInput
+    inventoryBatches?: InventoryBatchUncheckedUpdateManyWithoutOfficeNestedInput
+    inventoryTransactions?: InventoryTransactionUncheckedUpdateManyWithoutOfficeNestedInput
+    requisitions?: RequisitionUncheckedUpdateManyWithoutOfficeNestedInput
   }
 
   export type UserCreateManyOfficeInput = {
@@ -14214,12 +16980,21 @@ export namespace Prisma {
   export type RequisitionCreateManyOfficeInput = {
     id?: number
     risNo: string
-    responsibilityCenterCode?: string | null
     requestDate?: Date | string
     requestedById?: number | null
+    requestedByPrintedName?: string | null
     role?: string | null
     purpose?: string | null
     status?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RequisitionItemReleaseCreateManySourceOfficeInput = {
+    id?: number
+    requisitionItemId: number
+    quantityReleased?: number
+    remarks?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -14359,8 +17134,8 @@ export namespace Prisma {
 
   export type RequisitionUpdateWithoutOfficeInput = {
     risNo?: StringFieldUpdateOperationsInput | string
-    responsibilityCenterCode?: NullableStringFieldUpdateOperationsInput | string | null
     requestDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    requestedByPrintedName?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableStringFieldUpdateOperationsInput | string | null
     purpose?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
@@ -14373,9 +17148,9 @@ export namespace Prisma {
   export type RequisitionUncheckedUpdateWithoutOfficeInput = {
     id?: IntFieldUpdateOperationsInput | number
     risNo?: StringFieldUpdateOperationsInput | string
-    responsibilityCenterCode?: NullableStringFieldUpdateOperationsInput | string | null
     requestDate?: DateTimeFieldUpdateOperationsInput | Date | string
     requestedById?: NullableIntFieldUpdateOperationsInput | number | null
+    requestedByPrintedName?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableStringFieldUpdateOperationsInput | string | null
     purpose?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
@@ -14387,9 +17162,9 @@ export namespace Prisma {
   export type RequisitionUncheckedUpdateManyWithoutOfficeInput = {
     id?: IntFieldUpdateOperationsInput | number
     risNo?: StringFieldUpdateOperationsInput | string
-    responsibilityCenterCode?: NullableStringFieldUpdateOperationsInput | string | null
     requestDate?: DateTimeFieldUpdateOperationsInput | Date | string
     requestedById?: NullableIntFieldUpdateOperationsInput | number | null
+    requestedByPrintedName?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableStringFieldUpdateOperationsInput | string | null
     purpose?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
@@ -14397,11 +17172,37 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type RequisitionItemReleaseUpdateWithoutSourceOfficeInput = {
+    quantityReleased?: IntFieldUpdateOperationsInput | number
+    remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    requisitionItem?: RequisitionItemUpdateOneRequiredWithoutReleaseNestedInput
+  }
+
+  export type RequisitionItemReleaseUncheckedUpdateWithoutSourceOfficeInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    requisitionItemId?: IntFieldUpdateOperationsInput | number
+    quantityReleased?: IntFieldUpdateOperationsInput | number
+    remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RequisitionItemReleaseUncheckedUpdateManyWithoutSourceOfficeInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    requisitionItemId?: IntFieldUpdateOperationsInput | number
+    quantityReleased?: IntFieldUpdateOperationsInput | number
+    remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type RequisitionCreateManyRequestedByInput = {
     id?: number
     risNo: string
-    responsibilityCenterCode?: string | null
     requestDate?: Date | string
+    requestedByPrintedName?: string | null
     role?: string | null
     officeId?: number | null
     purpose?: string | null
@@ -14412,8 +17213,8 @@ export namespace Prisma {
 
   export type RequisitionUpdateWithoutRequestedByInput = {
     risNo?: StringFieldUpdateOperationsInput | string
-    responsibilityCenterCode?: NullableStringFieldUpdateOperationsInput | string | null
     requestDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    requestedByPrintedName?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableStringFieldUpdateOperationsInput | string | null
     purpose?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
@@ -14426,8 +17227,8 @@ export namespace Prisma {
   export type RequisitionUncheckedUpdateWithoutRequestedByInput = {
     id?: IntFieldUpdateOperationsInput | number
     risNo?: StringFieldUpdateOperationsInput | string
-    responsibilityCenterCode?: NullableStringFieldUpdateOperationsInput | string | null
     requestDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    requestedByPrintedName?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableStringFieldUpdateOperationsInput | string | null
     officeId?: NullableIntFieldUpdateOperationsInput | number | null
     purpose?: NullableStringFieldUpdateOperationsInput | string | null
@@ -14440,8 +17241,8 @@ export namespace Prisma {
   export type RequisitionUncheckedUpdateManyWithoutRequestedByInput = {
     id?: IntFieldUpdateOperationsInput | number
     risNo?: StringFieldUpdateOperationsInput | string
-    responsibilityCenterCode?: NullableStringFieldUpdateOperationsInput | string | null
     requestDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    requestedByPrintedName?: NullableStringFieldUpdateOperationsInput | string | null
     role?: NullableStringFieldUpdateOperationsInput | string | null
     officeId?: NullableIntFieldUpdateOperationsInput | number | null
     purpose?: NullableStringFieldUpdateOperationsInput | string | null
@@ -14490,6 +17291,7 @@ export namespace Prisma {
     quantity: number
     unit: string
     stockNumber?: string | null
+    isUnlisted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -14598,9 +17400,11 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     unit?: StringFieldUpdateOperationsInput | string
     stockNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    isUnlisted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     requisition?: RequisitionUpdateOneRequiredWithoutItemsNestedInput
+    release?: RequisitionItemReleaseUpdateOneWithoutRequisitionItemNestedInput
   }
 
   export type RequisitionItemUncheckedUpdateWithoutInventoryItemInput = {
@@ -14610,8 +17414,10 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     unit?: StringFieldUpdateOperationsInput | string
     stockNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    isUnlisted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    release?: RequisitionItemReleaseUncheckedUpdateOneWithoutRequisitionItemNestedInput
   }
 
   export type RequisitionItemUncheckedUpdateManyWithoutInventoryItemInput = {
@@ -14621,6 +17427,7 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     unit?: StringFieldUpdateOperationsInput | string
     stockNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    isUnlisted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -14695,6 +17502,7 @@ export namespace Prisma {
     quantity: number
     unit: string
     stockNumber?: string | null
+    isUnlisted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -14704,9 +17512,11 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     unit?: StringFieldUpdateOperationsInput | string
     stockNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    isUnlisted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     inventoryItem?: InventoryItemUpdateOneWithoutRequisitionItemsNestedInput
+    release?: RequisitionItemReleaseUpdateOneWithoutRequisitionItemNestedInput
   }
 
   export type RequisitionItemUncheckedUpdateWithoutRequisitionInput = {
@@ -14716,8 +17526,10 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     unit?: StringFieldUpdateOperationsInput | string
     stockNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    isUnlisted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    release?: RequisitionItemReleaseUncheckedUpdateOneWithoutRequisitionItemNestedInput
   }
 
   export type RequisitionItemUncheckedUpdateManyWithoutRequisitionInput = {
@@ -14727,6 +17539,7 @@ export namespace Prisma {
     quantity?: IntFieldUpdateOperationsInput | number
     unit?: StringFieldUpdateOperationsInput | string
     stockNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    isUnlisted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -14784,6 +17597,14 @@ export namespace Prisma {
      * @deprecated Use RequisitionItemDefaultArgs instead
      */
     export type RequisitionItemArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = RequisitionItemDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use RequisitionItemReleaseDefaultArgs instead
+     */
+    export type RequisitionItemReleaseArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = RequisitionItemReleaseDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use RisCounterDefaultArgs instead
+     */
+    export type RisCounterArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = RisCounterDefaultArgs<ExtArgs>
     /**
      * @deprecated Use ActivityDefaultArgs instead
      */

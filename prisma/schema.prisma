@@ -19,6 +19,7 @@ model Office {
   inventoryBatches       InventoryBatch[]
   inventoryTransactions  InventoryTransaction[]
   requisitions           Requisition[]
+  requisitionItemReleases RequisitionItemRelease[]
 
   @@map("offices")
 }
@@ -109,17 +110,17 @@ model InventoryTransaction {
 }
 
 model Requisition {
-  id            Int      @id @default(autoincrement())
-  risNo         String   @unique @db.VarChar(100) @map("ris_no")
-  responsibilityCenterCode String? @db.VarChar(100) @map("responsibility_center_code")
-  requestDate   DateTime @default(now()) @map("request_date")
-  requestedById Int?     @map("requested_by_id")
-  role          String?  @db.VarChar(50)
-  officeId      Int?     @map("office_id")
-  purpose       String?  @db.Text
-  status        String   @default("Pending") @db.VarChar(20)
-  createdAt     DateTime @default(now()) @map("created_at")
-  updatedAt     DateTime @default(now()) @updatedAt @map("updated_at")
+  id                    Int      @id @default(autoincrement())
+  risNo                 String   @unique @db.VarChar(100) @map("ris_no")
+  requestDate           DateTime @default(now()) @map("request_date")
+  requestedById         Int?     @map("requested_by_id")
+  requestedByPrintedName String? @db.VarChar(255) @map("requested_by_printed_name")
+  role                  String?  @db.VarChar(50)
+  officeId              Int?     @map("office_id")
+  purpose               String?  @db.Text
+  status                String   @default("Pending") @db.VarChar(20)
+  createdAt             DateTime @default(now()) @map("created_at")
+  updatedAt             DateTime @default(now()) @updatedAt @map("updated_at")
 
   requestedBy User?             @relation(fields: [requestedById], references: [id])
   office      Office?           @relation(fields: [officeId], references: [id])
@@ -137,14 +138,39 @@ model RequisitionItem {
   quantity        Int
   unit            String   @db.VarChar(50)
   stockNumber     String?  @db.VarChar(100) @map("stock_number")
+  isUnlisted      Boolean  @default(false) @map("is_unlisted")
   createdAt       DateTime @default(now()) @map("created_at")
   updatedAt       DateTime @default(now()) @updatedAt @map("updated_at")
 
-  requisition   Requisition    @relation(fields: [requisitionId], references: [id], onDelete: Cascade)
-  inventoryItem InventoryItem? @relation(fields: [inventoryItemId], references: [id])
+  requisition   Requisition            @relation(fields: [requisitionId], references: [id], onDelete: Cascade)
+  inventoryItem InventoryItem?         @relation(fields: [inventoryItemId], references: [id])
+  release       RequisitionItemRelease?
 
   @@index([requisitionId])
   @@map("requisition_items")
+}
+
+model RequisitionItemRelease {
+  id                Int      @id @default(autoincrement())
+  requisitionItemId Int      @unique @map("requisition_item_id")
+  sourceOfficeId    Int?     @map("source_office_id")
+  quantityReleased  Int      @default(0) @map("quantity_released")
+  remarks           String?  @db.Text
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @default(now()) @updatedAt @map("updated_at")
+
+  requisitionItem RequisitionItem @relation(fields: [requisitionItemId], references: [id], onDelete: Cascade)
+  sourceOffice    Office?         @relation(fields: [sourceOfficeId], references: [id])
+
+  @@map("requisition_item_releases")
+}
+
+model RisCounter {
+  id        Int    @id @default(autoincrement())
+  yearMonth String @unique @db.VarChar(10)
+  counter   Int    @default(0)
+
+  @@map("ris_counters")
 }
 
 model Activity {

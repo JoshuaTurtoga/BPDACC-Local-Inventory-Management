@@ -21,9 +21,6 @@ export async function POST(req) {
           throw new Error('Invalid email or password');
         }
         
-        // We will support both bcrypt hashes and raw passwords (for the initial seeded admin)
-        // However, we should encourage encrypting all passwords. If it's the old 'admin' plain text, 
-        // we'll allow it for now, but newly created accounts use bcrypt.
         const isMatch = user.password.startsWith('$2a$') || user.password.startsWith('$2b$') 
           ? await bcrypt.compare(password, user.password)
           : user.password === password;
@@ -50,7 +47,6 @@ export async function POST(req) {
           include: { office: true },
           orderBy: { name: 'asc' }
         });
-        // Remove passwords before sending to client
         result = users.map(u => {
           const { password, ...userWithoutPassword } = u;
           return {
@@ -64,7 +60,6 @@ export async function POST(req) {
       case 'addUser': {
         const [userData] = args;
         
-        // Check if email already exists
         const existingUser = await prisma.user.findUnique({
           where: { email: userData.email }
         });
@@ -72,7 +67,6 @@ export async function POST(req) {
           throw new Error('A user with this email already exists');
         }
 
-        // Hash the password
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(userData.password, salt);
 
@@ -135,7 +129,6 @@ export async function POST(req) {
       case 'deleteUser': {
         const [userId] = args;
         
-        // Ensure user is not an admin
         const user = await prisma.user.findUnique({ where: { id: userId } });
         if (user && user.isAdmin) {
           throw new Error('Cannot delete super admin account');
@@ -153,7 +146,6 @@ export async function POST(req) {
         let batchCondition = undefined;
         let txCondition = undefined;
         
-        // If user is not admin, filter to show only items with batches in their office
         if (!isAdmin && userOfficeId) {
           officeCondition = { batches: { some: { officeId: userOfficeId } } };
           batchCondition = { where: { officeId: userOfficeId }, orderBy: { id: 'asc' }, include: { office: true } };
@@ -169,12 +161,9 @@ export async function POST(req) {
              txCondition = { where: { office: { name: office } }, orderBy: { id: 'asc' }, include: { office: true } };
           }
         } else {
-           // No office condition - show everything!
            batchCondition = { orderBy: { id: 'asc' }, include: { office: true } };
            txCondition = { orderBy: { id: 'asc' }, include: { office: true } };
         }
-
-        console.log('[API getItems] Query params:', { where: officeCondition, include: { batches: batchCondition, transactions: txCondition } });
 
         const items = await prisma.inventoryItem.findMany({
           where: officeCondition,
@@ -185,9 +174,6 @@ export async function POST(req) {
           orderBy: { id: 'asc' }
         });
 
-        console.log('[API getItems] Found items count:', items.length, 'items:', items);
-
-        // The frontend expects `batch.office` and `tx.office` to be strings.
         result = items.map(item => ({
            ...item,
            batches: item.batches.map(b => ({ ...b, office: b.office ? b.office.name : 'Unallocated' })),
@@ -201,7 +187,6 @@ export async function POST(req) {
         const allOffices = await prisma.office.findMany();
         const officeMap = allOffices.reduce((map, o) => { map[o.name] = o.id; return map; }, {});
         
-        // Prisma transaction to insert item, batches, and transactions
         result = await prisma.$transaction(async (tx) => {
           const item = await tx.inventoryItem.create({
             data: {
@@ -251,7 +236,6 @@ export async function POST(req) {
         const officeMap = allOffices.reduce((map, o) => { map[o.name] = o.id; return map; }, {});
 
         result = await prisma.$transaction(async (tx) => {
-          // Update the main item
           const updatedItem = await tx.inventoryItem.update({
             where: { id: itemData.id },
             data: {
@@ -262,22 +246,18 @@ export async function POST(req) {
             }
           });
 
-          // Update batches if they exist in the payload
           if (itemData.batches) {
-            // Find existing batches for the item
             const existingBatches = await tx.inventoryBatch.findMany({
               where: { inventoryItemId: itemData.id }
             });
             
             const newBatchIds = itemData.batches.filter(b => b.id).map(b => b.id);
             
-            // Delete batches that were removed
             const batchesToDelete = existingBatches.filter(b => !newBatchIds.includes(b.id));
             for (const b of batchesToDelete) {
               await tx.inventoryBatch.delete({ where: { id: b.id } });
             }
 
-            // Update or create batches
             for (const b of itemData.batches) {
               if (b.id) {
                 await tx.inventoryBatch.update({
@@ -336,7 +316,6 @@ export async function POST(req) {
 
       case 'getActivities': {
         const [role, office] = args;
-        // In the future we might filter activities by role/office
         result = await prisma.activity.findMany({ orderBy: { id: 'desc' } });
         break;
       }
@@ -348,16 +327,53 @@ export async function POST(req) {
 
       case 'getRequisitions': {
         result = await prisma.requisition.findMany({
-          include: { items: true, requestedBy: true, office: true },
+          include: {
+            items: {
+              include: {
+                release: {
+                  include: { sourceOffice: true }
+                }
+              }
+            },
+            requestedBy: true,
+            office: true
+          },
           orderBy: { id: 'desc' }
         });
+        break;
+      }
+
+      // Auto-generate RIS No. in format RIS-YYMM-XXXX
+      // Counter is based on total requisitions submitted this month (shared across all users)
+      case 'generateRisNo': {
+        const now = new Date();
+        const yy = String(now.getFullYear()).slice(-2);
+        const mm = String(now.getMonth() + 1).padStart(2, '0');
+        const yearMonth = `${yy}${mm}`;
+
+        // Count all requisitions created this calendar month to determine next number
+        const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+        const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+
+        const countThisMonth = await prisma.requisition.count({
+          where: {
+            createdAt: {
+              gte: monthStart,
+              lt: monthEnd
+            }
+          }
+        });
+
+        // Next number = count of existing this month + 1
+        const nextNumber = countThisMonth + 1;
+
+        result = { risNo: `RIS-${yearMonth}-${String(nextNumber).padStart(4, '0')}` };
         break;
       }
 
       case 'addRequisition': {
         const [requisitionData] = args;
         
-        // Validate unique RIS No.
         const existing = await prisma.requisition.findUnique({
           where: { risNo: requisitionData.risNo }
         });
@@ -369,7 +385,7 @@ export async function POST(req) {
           const req = await tx.requisition.create({
             data: {
               risNo: requisitionData.risNo,
-              responsibilityCenterCode: requisitionData.responsibilityCenterCode,
+              requestedByPrintedName: requisitionData.requestedByPrintedName || null,
               purpose: requisitionData.purpose,
               requestedById: requisitionData.requestedById,
               officeId: requisitionData.officeId,
@@ -379,8 +395,9 @@ export async function POST(req) {
                   inventoryItemId: item.inventoryItemId || null,
                   itemName: item.itemName,
                   quantity: item.quantity,
-                  unit: item.unit,
-                  stockNumber: item.stockNumber || null
+                  unit: item.unit || '',
+                  stockNumber: item.stockNumber || null,
+                  isUnlisted: item.isUnlisted || false
                 }))
               }
             },
@@ -392,10 +409,65 @@ export async function POST(req) {
         break;
       }
 
-      case 'updateRequisitionStatus': {
-        const [requisitionId, newStatus] = args;
+      // Non-admin edits a pending requisition
+      case 'updateRequisition': {
+        const [requisitionId, updateData] = args;
 
-        // Update requisition and, if approved, record issuance transactions
+        const req = await prisma.requisition.findUnique({ where: { id: requisitionId } });
+        if (!req) throw new Error('Requisition not found');
+        if (req.status !== 'Pending') throw new Error('Only pending requisitions can be edited');
+
+        result = await prisma.$transaction(async (tx) => {
+          // Delete existing items and recreate
+          await tx.requisitionItem.deleteMany({ where: { requisitionId } });
+
+          const updated = await tx.requisition.update({
+            where: { id: requisitionId },
+            data: {
+              requestedByPrintedName: updateData.requestedByPrintedName || null,
+              purpose: updateData.purpose,
+              items: {
+                create: updateData.items.map(item => ({
+                  inventoryItemId: item.inventoryItemId || null,
+                  itemName: item.itemName,
+                  quantity: item.quantity,
+                  unit: item.unit || '',
+                  stockNumber: item.stockNumber || null,
+                  isUnlisted: item.isUnlisted || false
+                }))
+              }
+            },
+            include: { items: true }
+          });
+
+          return updated;
+        });
+        break;
+      }
+
+      // Non-admin cancels a pending requisition
+      case 'cancelRequisition': {
+        const [requisitionId] = args;
+
+        const req = await prisma.requisition.findUnique({ where: { id: requisitionId } });
+        if (!req) throw new Error('Requisition not found');
+        if (req.status !== 'Pending') throw new Error('Only pending requisitions can be cancelled');
+
+        result = await prisma.requisition.update({
+          where: { id: requisitionId },
+          data: { status: 'Cancelled' }
+        });
+        break;
+      }
+
+      // Admin approves (only) with releasing data per item
+      case 'updateRequisitionStatus': {
+        const [requisitionId, newStatus, releaseData] = args;
+
+        if (newStatus !== 'Approved') {
+          throw new Error('Only Approved status is allowed');
+        }
+
         result = await prisma.$transaction(async (tx) => {
           const requisition = await tx.requisition.update({
             where: { id: requisitionId },
@@ -403,19 +475,37 @@ export async function POST(req) {
             include: { items: true, requestedBy: true, office: true }
           });
 
-          if (newStatus === 'Approved') {
-            const officeId = requisition.officeId || null;
+          // Process each item's release data
+          for (const reqItem of requisition.items) {
+            const releaseInfo = releaseData?.find(r => r.requisitionItemId === reqItem.id);
+            const inventoryItemId = reqItem.inventoryItemId;
+            const issuanceQty = releaseInfo?.quantityReleased ?? Number(reqItem.quantity) ?? 0;
+            const sourceOfficeId = releaseInfo?.sourceOfficeId || requisition.officeId || null;
+            const releaseRemarks = releaseInfo?.remarks || null;
 
-            for (const reqItem of requisition.items) {
-              const inventoryItemId = reqItem.inventoryItemId;
-              const issuanceQty = Number(reqItem.quantity) || 0;
-              if (!inventoryItemId || issuanceQty <= 0) continue;
+            // Create the RequisitionItemRelease record
+            await tx.requisitionItemRelease.create({
+              data: {
+                requisitionItemId: reqItem.id,
+                sourceOfficeId: sourceOfficeId,
+                quantityReleased: issuanceQty,
+                remarks: releaseRemarks
+              }
+            });
 
-              // Try to find the batch by stock number first, otherwise pick the first batch
+            // Only deduct from inventory for listed (non-unlisted) items
+            if (!reqItem.isUnlisted && inventoryItemId && issuanceQty > 0) {
+              // Try to find batch for the source office
               let batch = null;
               if (reqItem.stockNumber) {
                 batch = await tx.inventoryBatch.findFirst({
                   where: { inventoryItemId, stockNumber: reqItem.stockNumber }
+                });
+              }
+              if (!batch) {
+                batch = await tx.inventoryBatch.findFirst({
+                  where: { inventoryItemId, ...(sourceOfficeId ? { officeId: sourceOfficeId } : {}) },
+                  orderBy: { id: 'asc' }
                 });
               }
               if (!batch) {
@@ -425,7 +515,6 @@ export async function POST(req) {
                 });
               }
 
-              // Determine last known balance for the item
               const lastTx = await tx.inventoryTransaction.findFirst({
                 where: { inventoryItemId },
                 orderBy: { id: 'desc' }
@@ -435,7 +524,6 @@ export async function POST(req) {
 
               const costPerUnit = batch && batch.costPerUnit ? Number(batch.costPerUnit) : null;
 
-              // Create issuance transaction (stock card row)
               await tx.inventoryTransaction.create({
                 data: {
                   inventoryItemId,
@@ -445,14 +533,13 @@ export async function POST(req) {
                   receiptQty: 0,
                   issuanceQty: issuanceQty,
                   balance: newBalance,
-                  officeId: officeId,
+                  officeId: sourceOfficeId,
                   ptr: requisition.risNo,
                   costPerUnit: costPerUnit,
-                  remarks: `BPDACC - ${requisition.office?.name || ''}`
+                  remarks: releaseRemarks || `BPDACC - ${requisition.office?.name || ''}`
                 }
               });
 
-              // Update batch stock and increment transaction count when a batch exists
               if (batch) {
                 await tx.inventoryBatch.update({
                   where: { id: batch.id },
@@ -470,6 +557,20 @@ export async function POST(req) {
 
         break;
       }
+
+      // Get available stock for a specific item in a specific office
+      case 'getItemStockForOffice': {
+        const [inventoryItemId, officeId] = args;
+        const batches = await prisma.inventoryBatch.findMany({
+          where: {
+            inventoryItemId,
+            officeId: officeId || null
+          }
+        });
+        const totalStock = batches.reduce((sum, b) => sum + Number(b.stock), 0);
+        result = { stock: totalStock };
+        break;
+      }
       
       case 'deleteItem': {
         const [itemId] = args;
@@ -481,7 +582,6 @@ export async function POST(req) {
         const [itemId, data] = args;
         const allOffices = await prisma.office.findMany();
         const officeMap = allOffices.reduce((map, o) => { map[o.name] = o.id; return map; }, {});
-        // In original Supabase we stored them in a relational table too (or json array)
         result = await prisma.inventoryTransaction.create({
           data: {
             inventoryItemId: itemId,
@@ -554,7 +654,6 @@ export async function POST(req) {
             data: { balance }
           });
         }
-        // Also update the batch stock. For simplicity we update the first batch if single batch
         const batches = await prisma.inventoryBatch.findMany({
           where: { inventoryItemId: itemId },
           orderBy: { id: 'asc' }
